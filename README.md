@@ -5,6 +5,7 @@ A full-stack inventory and sales management system designed for businesses.
 Supports multi-user access, product categories, suppliers, customers, brands, expense tracking, sales and returns, and enforces data integrity to prevent accidental deletion of inter-related data.
 
 ---
+##current-in developement-process-soon-to-be-finished
 
 ## Features
 
