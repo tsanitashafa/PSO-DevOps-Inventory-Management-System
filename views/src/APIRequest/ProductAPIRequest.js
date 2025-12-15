@@ -1,11 +1,15 @@
 import store from "../redux/store/store";
 import { HideLoader, ShowLoader } from "../redux/state-slice/settings-slice";
 import axios from "axios";
-import { ErrorToast } from "../helper/FormHelper";
+import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 
 import {
   SetProductListTotal,
   SetProductList,
+  ResetProductFormValue,
+  OnChangeProductInput,
+  SetProductCategoryDropDown,
+  SetProductBrandDropDown,
 } from "../redux/state-slice/product-slice";
 import { BaseURL } from "../helper/config";
 import { getToken } from "../helper/SessionHelper";
@@ -36,6 +40,148 @@ export async function ProductListRequest(pageNo, perPage, searchKey) {
     }
   } catch (e) {
     ErrorToast("Something Went Wrong!");
+    store.dispatch(HideLoader());
+    return false;
+  }
+}
+
+//---------------------- Create Product  API Request ------------------//
+export async function ProductSaveRequest(PostBody, ObjectID) {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = `${BaseURL}CreateProduct`;
+
+    if (ObjectID !== 0) {
+      URL = `${BaseURL}UpdateProduct/${ObjectID}`;
+    }
+
+    const result = await axios.post(URL, PostBody, AxiosHeaders);
+
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "success") {
+      SuccessToast("Request Successful");
+      store.dispatch(ResetProductFormValue());
+      return true;
+    } else {
+      ErrorToast("Request Fail ! Try Again");
+      return false;
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong!");
+    store.dispatch(HideLoader());
+    return false;
+  }
+}
+
+//---------------------- Get Expense Detail  API Request ------------------//
+export async function GetProductDetailRequest(ObjectID) {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = `${BaseURL}ProductDetailsByID/${ObjectID}`;
+
+    const result = await axios.get(URL, AxiosHeaders);
+
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "success") {
+      let FormValue = result.data["data"][0];
+      store.dispatch(
+        OnChangeProductInput({
+          Name: "CategoryID",
+          Value: FormValue["CategoryID"],
+        })
+      );
+      store.dispatch(
+        OnChangeProductInput({ Name: "BrandID", Value: FormValue["BrandID"] })
+      );
+      store.dispatch(
+        OnChangeProductInput({ Name: "Name", Value: FormValue["Name"] })
+      );
+      store.dispatch(
+        OnChangeProductInput({ Name: "Unit", Value: FormValue["Unit"] })
+      );
+      store.dispatch(
+        OnChangeProductInput({ Name: "Details", Value: FormValue["Details"] })
+      );
+      return true;
+    } else {
+      ErrorToast("Request Fail ! Try Again");
+      return false;
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong!" + e.message);
+    store.dispatch(HideLoader());
+    return false;
+  }
+}
+
+// ---------------------- Product Category DropDown  API Request ------------------//
+export async function ProductCategoryDropDownRequest() {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = BaseURL + "/CategoryDropDown";
+    const result = await axios.get(URL, AxiosHeaders);
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "success") {
+      if (result.data["data"].length > 0) {
+        store.dispatch(SetProductCategoryDropDown(result.data["data"]));
+      } else {
+        store.dispatch(SetProductCategoryDropDown([]));
+        ErrorToast("No Product Category Found");
+      }
+    } else {
+      ErrorToast("Something Went Wrong");
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong");
+    store.dispatch(HideLoader());
+  }
+}
+
+// ---------------------- Product Brand DropDown  API Request ------------------//
+export async function ProductBrandDropDownRequest() {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = BaseURL + "/BrandDropDown";
+    const result = await axios.get(URL, AxiosHeaders);
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "success") {
+      if (result.data["data"].length > 0) {
+        store.dispatch(SetProductBrandDropDown(result.data["data"]));
+      } else {
+        store.dispatch(SetProductBrandDropDown([]));
+        ErrorToast("No Product Brand Found");
+      }
+    } else {
+      ErrorToast("Something Went Wrong");
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong");
+    store.dispatch(HideLoader());
+  }
+}
+
+//---------------------- Delete Expense API Request ------------------//
+export async function DeleteProductRequest(ObjectID) {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = `${BaseURL}DeleteProduct/${ObjectID}`;
+
+    const result = await axios.get(URL, AxiosHeaders);
+
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "associate") {
+      ErrorToast(result.data["data"]);
+      return false;
+    }
+    if (result.status === 200 && result.data["status"] === "success") {
+      SuccessToast("Product deleted successfully");
+      return true;
+    } else {
+      ErrorToast("Request Fail ! Try Again");
+      return false;
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong!" + e.message);
     store.dispatch(HideLoader());
     return false;
   }

@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  // DeleteProductRequest,
+  DeleteProductRequest,
   ProductListRequest,
 } from "../../APIRequest/ProductAPIRequest";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-// import { DeleteAlert } from "../../helper/DeleteAlert";
+import { DeleteAlert } from "../../helper/DeleteAlert";
 import ReactPaginate from "react-paginate";
 
 const ProductList = () => {
@@ -50,15 +50,15 @@ const ProductList = () => {
     });
   };
 
-  // const DeleteItem = async (id) => {
-  //   let Result = await DeleteAlert();
-  //   if (Result.isConfirmed) {
-  //     let DeleteResult = await DeleteProductRequest(id);
-  //     if (DeleteResult) {
-  //       await ProductListRequest(1, perPage, searchKeyword);
-  //     }
-  //   }
-  // };
+  const DeleteItem = async (id) => {
+    let Result = await DeleteAlert();
+    if (Result.isConfirmed) {
+      let DeleteResult = await DeleteProductRequest(id);
+      if (DeleteResult) {
+        await ProductListRequest(1, perPage, searchKeyword);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -176,7 +176,7 @@ const ProductList = () => {
                                     <AiOutlineEdit size={15} />
                                   </Link>
                                   <button
-                                    // onClick={DeleteItem.bind(this, item._id)}
+                                    onClick={DeleteItem.bind(this, item._id)}
                                     className="btn btn-outline-light text-danger p-2 mb-0 btn-sm ms-2">
                                     <AiOutlineDelete size={15} />
                                   </button>

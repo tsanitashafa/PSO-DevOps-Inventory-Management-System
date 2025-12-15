@@ -4,35 +4,35 @@ import axios from "axios";
 import { ErrorToast, SuccessToast } from "../helper/FormHelper";
 
 import {
-  SetExpenseTypeListTotal,
-  SetExpenseTypeList,
-  ResetExpenseTypeFormValue,
-  OnChangeExpenseTypeInput,
-} from "../redux/state-slice/expensetype-slice";
+  SetExpenseListTotal,
+  SetExpenseList,
+  OnChangeExpenseInput,
+  ResetExpenseFormValue,
+  SetExpenseTypeDropDown,
+} from "../redux/state-slice/expense-slice";
 import { BaseURL } from "../helper/config";
 import { getToken } from "../helper/SessionHelper";
-import { SetExpenseTypeDropDown } from "../redux/state-slice/expense-slice";
 
 const AxiosHeaders = { headers: { token: getToken() } };
 
-//---------------------- ExpenseType List API Request ------------------//
-export async function ExpenseTypeListRequest(pageNo, perPage, searchKey) {
+//---------------------- Expense List API Request ------------------//
+export async function ExpenseListRequest(pageNo, perPage, searchKey) {
   try {
     store.dispatch(ShowLoader());
-    const URL = `${BaseURL}ExpenseTypeList/${pageNo}/${perPage}/${searchKey}`;
+    const URL = `${BaseURL}ExpenseList/${pageNo}/${perPage}/${searchKey}`;
     const result = await axios.get(URL, AxiosHeaders);
 
     store.dispatch(HideLoader());
     if (result.status === 200 && result.data["status"] === "success") {
       if (result.data["data"]["Rows"].length > 0) {
-        store.dispatch(SetExpenseTypeList(result.data["data"]["Rows"]));
+        store.dispatch(SetExpenseList(result.data["data"]["Rows"]));
         store.dispatch(
-          SetExpenseTypeListTotal(result.data["data"]["Total"][0]["count"])
+          SetExpenseListTotal(result.data["data"]["Total"][0]["count"])
         );
       } else {
-        store.dispatch(SetExpenseTypeList([]));
-        store.dispatch(SetExpenseTypeListTotal(0));
-        ErrorToast("No ExpenseType Found!");
+        store.dispatch(SetExpenseList([]));
+        store.dispatch(SetExpenseListTotal(0));
+        ErrorToast("No Expense Found!");
       }
     } else {
       ErrorToast("Failed to fetch data!");
@@ -44,14 +44,14 @@ export async function ExpenseTypeListRequest(pageNo, perPage, searchKey) {
   }
 }
 
-//---------------------- Create Expense Type  API Request ------------------//
-export async function ExpenseTypeSaveRequest(PostBody, ObjectID) {
+//---------------------- Create Expense  API Request ------------------//
+export async function ExpenseSaveRequest(PostBody, ObjectID) {
   try {
     store.dispatch(ShowLoader());
-    let URL = `${BaseURL}CreateExpenseType`;
+    let URL = `${BaseURL}CreateExpenseList`;
 
     if (ObjectID !== 0) {
-      URL = `${BaseURL}UpdateExpenseType/${ObjectID}`;
+      URL = `${BaseURL}UpdateExpenseList/${ObjectID}`;
     }
 
     const result = await axios.post(URL, PostBody, AxiosHeaders);
@@ -59,11 +59,11 @@ export async function ExpenseTypeSaveRequest(PostBody, ObjectID) {
     store.dispatch(HideLoader());
     if (result.status === 200 && result.data["status"] === "success") {
       SuccessToast("Request Successful");
-      store.dispatch(ResetExpenseTypeFormValue());
+      store.dispatch(ResetExpenseFormValue());
       return true;
     } else if (result.status === 200 && result.data["status"] === "fail") {
-      if (result.data["data"]["keyPattern"]["Name"] === 1) {
-        ErrorToast("Expense Type Name Already Exist");
+      if (result.data["data"].includes("E11000")) {
+        ErrorToast("Expense Name Already Exist");
         return false;
       }
     } else {
@@ -100,23 +100,31 @@ export async function ExpenseTypeDropDownRequest() {
 }
 
 //---------------------- Get Expense Detail  API Request ------------------//
-export async function GetExpenseTypeDetailRequest(ObjectID) {
+export async function GetExpenseDetailRequest(ObjectID) {
   try {
     store.dispatch(ShowLoader());
-    let URL = `${BaseURL}ExpenseTypeDetailsByID/${ObjectID}`;
+    let URL = `${BaseURL}ExpenseListDetailsByID/${ObjectID}`;
 
     const result = await axios.get(URL, AxiosHeaders);
 
     store.dispatch(HideLoader());
     if (result.status === 200 && result.data["status"] === "success") {
-      let FormValue = result.data["data"][0];
-      store.dispatch(
-        OnChangeExpenseTypeInput({ Name: "Name", Value: FormValue["Name"] })
-      );
-      return true;
-    } else {
-      ErrorToast("Request Fail ! Try Again");
-      return false;
+      if (result.status === 200 && result.data["status"] === "success") {
+        let FormValue = result.data["data"][0];
+        store.dispatch(
+          OnChangeExpenseInput({ Name: "TypeID", Value: FormValue["TypeID"] })
+        );
+        store.dispatch(
+          OnChangeExpenseInput({ Name: "Amount", Value: FormValue["Amount"] })
+        );
+        store.dispatch(
+          OnChangeExpenseInput({ Name: "Note", Value: FormValue["Note"] })
+        );
+        return true;
+      } else {
+        ErrorToast("Request Fail ! Try Again");
+        return false;
+      }
     }
   } catch (e) {
     ErrorToast("Something Went Wrong!" + e.message);
@@ -126,20 +134,20 @@ export async function GetExpenseTypeDetailRequest(ObjectID) {
 }
 
 //---------------------- Delete Expense API Request ------------------//
-export async function DeleteExpenseTypeRequest(ObjectID) {
+export async function DeleteExpenseRequest(ObjectID) {
   try {
     store.dispatch(ShowLoader());
-    let URL = `${BaseURL}DeleteExpenseType/${ObjectID}`;
+    let URL = `${BaseURL}DeleteExpenseList/${ObjectID}`;
 
     const result = await axios.get(URL, AxiosHeaders);
-
+    console.log(result);
     store.dispatch(HideLoader());
     if (result.status === 200 && result.data["status"] === "associate") {
       ErrorToast(result.data["data"]);
       return false;
     }
     if (result.status === 200 && result.data["status"] === "success") {
-      SuccessToast("Expense Type deleted successfully");
+      SuccessToast("Category deleted successfully");
       return true;
     } else {
       ErrorToast("Request Fail ! Try Again");
@@ -151,4 +159,3 @@ export async function DeleteExpenseTypeRequest(ObjectID) {
     return false;
   }
 }
- 

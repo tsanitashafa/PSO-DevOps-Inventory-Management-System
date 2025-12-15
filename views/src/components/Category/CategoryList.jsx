@@ -1,11 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { CategoryListRequest } from "../../APIRequest/CategoryAPIRequest";
+import {
+  CategoryListRequest,
+  DeleteCategoryRequest,
+} from "../../APIRequest/CategoryAPIRequest";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import ReactPaginate from "react-paginate";
 import moment from "moment/moment";
-// import { DeleteAlert } from "../../helper/DeleteAlert";
+import { DeleteAlert } from "../../helper/DeleteAlert";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 const CategoryList = () => {
@@ -46,15 +49,15 @@ const CategoryList = () => {
     });
   };
 
-  // const DeleteItem = async (id) => {
-  //   let Result = await DeleteAlert();
-  //   if (Result.isConfirmed) {
-  //     let DeleteResult = await DeleteCategoryRequest(id);
-  //     if (DeleteResult) {
-  //       await CategoryListRequest(1, perPage, searchKeyword);
-  //     }
-  //   }
-  // };
+  const DeleteItem = async (id) => {
+    let Result = await DeleteAlert();
+    if (Result.isConfirmed) {
+      let DeleteResult = await DeleteCategoryRequest(id);
+      if (DeleteResult) {
+        await CategoryListRequest(1, perPage, searchKeyword);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -152,7 +155,7 @@ const CategoryList = () => {
                                     <AiOutlineEdit size={15} />
                                   </Link>
                                   <button
-                                    // onClick={DeleteItem.bind(this, item._id)}
+                                    onClick={DeleteItem.bind(this, item._id)}
                                     className="btn btn-outline-light text-danger p-2 mb-0 btn-sm ms-2">
                                     <AiOutlineDelete size={15} />
                                   </button>

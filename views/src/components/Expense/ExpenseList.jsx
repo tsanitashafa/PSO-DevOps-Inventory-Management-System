@@ -1,18 +1,14 @@
 import React, { Fragment, useEffect, useState } from "react";
 import {
-  // DeleteExpenseRequest,
+  DeleteExpenseRequest,
   ExpenseListRequest,
-} from "../../APIRequest/ExpenseListAPIRequest";
+} from "../../APIRequest/ExpenseAPIRequest";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import ReactPaginate from "react-paginate";
 import CurrencyFormat from "@sajjadgrw1/react-currency-format";
-// import { DeleteAlert } from "../../helper/DeleteAlert";
-// import {
-//   BrandListRequest,
-//   DeleteBrandRequest,
-// } from "../../APIRequest/BrandAPIRequest";
+import { DeleteAlert } from "../../helper/DeleteAlert";
 
 const ExpenseList = () => {
   let [searchKeyword, setSearchKeyword] = useState("0");
@@ -54,15 +50,15 @@ const ExpenseList = () => {
     });
   };
 
-  // const DeleteItem = async (id) => {
-  //   let Result = await DeleteAlert();
-  //   if (Result.isConfirmed) {
-  //     let DeleteResult = await DeleteExpenseRequest(id);
-  //     if (DeleteResult) {
-  //       await ExpenseListRequest(1, perPage, searchKeyword);
-  //     }
-  //   }
-  // };
+  const DeleteItem = async (id) => {
+    let Result = await DeleteAlert();
+    if (Result.isConfirmed) {
+      let DeleteResult = await DeleteExpenseRequest(id);
+      if (DeleteResult) {
+        await ExpenseListRequest(1, perPage, searchKeyword);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -171,7 +167,7 @@ const ExpenseList = () => {
                                     <AiOutlineEdit size={15} />
                                   </Link>
                                   <button
-                                    // onClick={DeleteItem.bind(this, item._id)}
+                                    onClick={DeleteItem.bind(this, item._id)}
                                     className="btn btn-outline-light text-danger p-2 mb-0 btn-sm ms-2">
                                     <AiOutlineDelete size={15} />
                                   </button>
