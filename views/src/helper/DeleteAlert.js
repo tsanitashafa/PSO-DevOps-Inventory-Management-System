@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
-import { DeleteRequest } from "../APIRequest/APIRequest";
 
-export const DeleteToDo = (id) => {
+export const DeleteAlert = async (id) => {
   return Swal.fire({
     title: "Are you sure?",
     text: "You won't be able to revert this!",
@@ -10,12 +9,5 @@ export const DeleteToDo = (id) => {
     confirmButtonColor: "#3085d6",
     cancelButtonColor: "#d33",
     confirmButtonText: "Yes, delete it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      DeleteRequest(id).then((result) => {
-        console.log(result);
-        return result;
-      });
-    }
   });
 };

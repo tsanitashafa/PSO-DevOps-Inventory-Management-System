@@ -1,17 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  value: [],
-};
-export const demoSlice = createSlice({
-  name: "demo",
-  initialState,
+export const returnSlice = createSlice({
+  name: "return",
+  initialState: {
+    List: [],
+    ListTotal: 0,
+  },
   reducers: {
-    setDemo: (state, action) => {
-      state.value = action.payload;
+    SetReturnList: (state, action) => {
+      state.List = action.payload;
+    },
+    SetReturnListTotal: (state, action) => {
+      state.ListTotal = action.payload;
     },
   },
 });
 
-export const { setDemo } = demoSlice.actions;
-export default demoSlice.reducer;
+export const { SetReturnList, SetReturnListTotal } = returnSlice.actions;
+export default returnSlice.reducer;

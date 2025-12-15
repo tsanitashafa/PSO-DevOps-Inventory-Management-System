@@ -1,29 +1,29 @@
-.icon-nav {
+.icon-nav{
   padding: 6px;
   transition: 0.3s;
   color: #606060;
 }
-.icon-nav:hover {
+.icon-nav:hover{
   transition: 0.3s;
-  color: #363b64;
+  color: #363B64;
 }
-.icon-nav:active {
+.icon-nav:active{
   border-radius: 50%;
   padding: 8px;
   transition: 0.3s;
-  color: #363b64;
-  background: rgba(0, 0, 0, 0.16);
+  color: #363B64;
+  background:  rgba(0, 0, 0, 0.16);
 }
-.icon-nav-img {
+.icon-nav-img{
   border-radius: 50%;
-  width: 45px;
-  height: 45px;
+  width: 45px ;
+  height: 45px ;
   object-fit: cover;
 }
-.icon-nav-img-lg {
+.icon-nav-img-lg{
   border-radius: 50%;
-  width: 85px;
-  height: 85px;
+  width: 85px ;
+  height: 85px ;
   object-fit: cover;
 }
 
@@ -33,7 +33,7 @@
 }
 .accordion-button {
   direction: ltr;
-  padding: 0;
+  padding: 16px 0 !important;
 }
 .accordion-button:not(.collapsed)::after {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
@@ -44,7 +44,8 @@
   margin-left: -30px;
 }
 .accordion-body {
-  padding: 0;
+  padding: 16px 0 !important;
+ 
 }
 .side-nav-open {
   direction: rtl;
@@ -58,8 +59,9 @@
   background-color: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.075);
   scrollbar-color: #cccccc #f5f5f5 !important;
-  scrollbar-width: thin !important;
+  scrollbar-width: thin!important;
   z-index: 1030;
+ 
 }
 .side-nav-close {
   direction: rtl;
@@ -73,7 +75,7 @@
   background-color: #ffffff;
   border-right: 1px solid rgba(0, 0, 0, 0.075);
   scrollbar-color: #cccccc #f5f5f5;
-  scrollbar-width: thin !important;
+  scrollbar-width: thin!important;
   z-index: 1030;
 }
 .side-nav-open::-webkit-scrollbar {
@@ -103,12 +105,13 @@
 .content {
   transition: 0.3s;
   margin-top: 80px;
-  margin-left: 220px;
+  margin-left: 230px;
 }
 .content-expand {
+  margin-left: 10px;
   margin-top: 80px;
   transition: 0.3s;
-  margin-left: 0;
+  
 }
 .top-nav-open {
   margin-left: 220px;
@@ -126,9 +129,12 @@
   flex-direction: row;
   align-items: center;
   cursor: pointer !important;
+ text-decoration: none;
+  
 }
 .side-bar-item:hover {
   border-left: 4px solid var(--bs-green);
+  border-right: 4px solid var(--bs-green);
   transition: 0.2s;
   background-color: var(--bs-light-green);
 }
@@ -143,6 +149,7 @@
 }
 .side-bar-item-active {
   border-left: 4px solid var(--bs-green);
+  border-right: 4px solid var(--bs-green);
   background-color: var(--bs-light-green);
   color: var(--bs-green);
 }
@@ -161,18 +168,20 @@
   color: #444;
 }
 .side-bar-item-caption {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 13px;
   margin-left: 5px;
   font-weight: 500;
   color: #444;
+
 }
 .side-bar-subitem-caption {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 12px;
   margin-left: 5px;
   font-weight: 500;
   color: #444;
+  text-decoration: none;
 }
 .side-bar-item-active .side-bar-item-caption,
 .side-bar-item-active .side-bar-item-icon {
@@ -188,6 +197,7 @@
   align-items: center;
 }
 .side-bar-subitem:hover {
+  border-left: 4px solid var(--bs-green);
   border-right: 4px solid var(--bs-green);
   transition: 0.2s;
   background-color: var(--bs-light-green);
@@ -199,6 +209,7 @@
   color: var(--bs-green);
 }
 .side-bar-subitem-active {
+   border-left: 4px solid var(--bs-green);
   border-right: 4px solid var(--bs-green);
   background-color: var(--bs-light-green);
   color: var(--bs-green);
@@ -340,7 +351,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 991.98px) {
+@media (min-width: 768px)and (max-width: 1600px)   {
   .side-nav-open {
     width: 0;
     position: fixed;
@@ -349,7 +360,7 @@
     overflow-x: hidden;
   }
   .side-nav-close {
-    width: 200px;
+    width: 250px;
     position: fixed;
     top: 0;
     left: 0;
@@ -361,18 +372,13 @@
   }
   .content-expand {
     width: 100%;
-    margin-left: 200px;
+    margin-left: 250px;
   }
   .top-nav-open {
     margin-left: 0;
   }
   .top-nav-close {
-    margin-left: 200px;
+    margin-left: 250px;
   }
 }
 
-@media (min-width: 992px) and (max-width: 1199.98px) {
-}
-
-@media (min-width: 1200px) {
-}

@@ -4,25 +4,11 @@
 @import 'progress.css';
 @import 'modal.css';
 @import 'dropdownmenu.css';
-
-
-
-:root{
-  --color-text-primary: #1f2936;
-  --color-text-placeholder: #798eae;
-  --color-bg-primary: #f9fafb;
-  --color-bg-secondary: #ececfd;
-  --color-bg-sidebar: #ffffff;
-  --color-border-hr: #e2e8f0;
-  --color-hover-primary: #695cfe;
-  --color-hover-secondary: #e2e2fb;
-  --color-shadow: rgba(0, 0, 0, 0.05);
-}
-
 body {
   background: var(--bs-gray-100);
   font-size: 14px;
   font-family: 'Poppins', sans-serif !important;
+
 }
 h1, h2, h3, h4, h5, h6,p,b,i ,label,button, input, textarea,span {
   font-family: 'Poppins', sans-serif !important;
@@ -31,7 +17,10 @@ h1, h2, h3, h4, h5, h6,p,b,i ,label,button, input, textarea,span {
 a {
   font-family: 'Poppins', sans-serif !important;
   cursor: pointer !important;
+   text-decoration: none !important;
+  
 }
+
 .border-radius-0 {
   border-radius: 0 !important;
 }

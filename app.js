@@ -19,7 +19,7 @@ const mongoSanitize = require("express-mongo-sanitize");
 const xss = require("xss-clean");
 const hpp = require("hpp");
 const cors = require("cors");
-// const path = require("path");
+const path = require("path");
 // Routes
 const router = require("./src/routes/api");
 
@@ -98,15 +98,13 @@ app.use((req, res) => {
   });
 });
 
+// Scaffolding with client-side
+app.use(express.static(path.join(__dirname, "/views/dist")));
 
-
-// // Scaffolding with client-side
-// app.use(express.static(path.join(__dirname, "/views/dist")));
-
-// // Add React Front End Routing
-// app.get("*", function (req, res) {
-//   res.sendFile(path.resolve(__dirname, "views", "dist", "index.html"));
-// });
+// Add React Front End Routing
+app.get("*", function (req, res) {
+  res.sendFile(path.resolve(__dirname, "views", "dist", "index.html"));
+});
 
 
 /* -------------------------------------------------------------------------- */

@@ -1,7 +1,7 @@
 import React from "react";
 
-function SaleCreateUpdate() {
+function SalesCreateUpdate() {
   return <div>SaleCreateUpdate</div>;
 }
 
-export default SaleCreateUpdate;
+export default SalesCreateUpdate;

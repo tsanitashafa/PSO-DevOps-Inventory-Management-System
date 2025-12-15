@@ -18,7 +18,7 @@ import { AiOutlineMenu, AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { Accordion, Container, Navbar } from "react-bootstrap";
 import { getUserData, removeUserData } from "../../helper/SessionHelper";
 import { RiDashboardLine } from "react-icons/ri";
-import logo from "../../assets/images/Logo.svg";
+import logo from "../../assets/images/android-chrome-512x512.png";
 
 const MasterLayout = (props) => {
   const sideNavRef = useRef(null);
@@ -252,12 +252,17 @@ const MasterLayout = (props) => {
   const onLogout = () => {
     removeUserData();
   };
+
   return (
     <Fragment>
-      <Navbar className="fixed-top px-0 ">
+      <Navbar className="fixed-top px-0">
         <Container fluid={true}>
           <Navbar.Brand>
-            <div ref={topNavRef} className="top-nav-open">
+            <div
+              ref={(div) => {
+                topNavRef.current = div;
+              }}
+              className="top-nav-open">
               <h4 className="text-white m-0 p-0">
                 <a onClick={MenuBarClickHandler}>
                   <AiOutlineMenu />
@@ -270,17 +275,17 @@ const MasterLayout = (props) => {
             <div className="user-dropdown">
               <img
                 className="icon-nav-img icon-nav"
-                src={getUserData?.photo}
-                alt=""
+                src={getUserData()["photo"]}
+                alt="user-img"
               />
               <div className="user-dropdown-content ">
                 <div className="mt-4 text-center">
                   <img
                     className="icon-nav-img"
-                    src={getUserData?.photo}
+                    src={getUserData()["photo"]}
                     alt=""
                   />
-                  <h6>{getUserData?.firstName}</h6>
+                  <h6>{getUserData()["firstName"]}</h6>
                   <hr className="user-dropdown-divider  p-0" />
                 </div>
                 <NavLink to="/Profile" className="side-bar-item">
@@ -297,11 +302,15 @@ const MasterLayout = (props) => {
         </Container>
       </Navbar>
 
-      <div ref={sideNavRef} className="side-nav-open border-radius-0 card">
+      <div
+        ref={(div) => {
+          sideNavRef.current = div;
+        }}
+        className="side-nav-open border-radius-0">
         <NavLink
           to="/"
           end
-          className="d-flex justify-content-center sticky-top bg-white">
+          className="d-flex justify-content-center sticky-top bg-white ">
           <img src={logo} className="logo" />
         </NavLink>
 
@@ -324,13 +333,13 @@ const MasterLayout = (props) => {
                       key={index.toString()}
                       className={(navData) =>
                         navData.isActive
-                          ? "side-bar-subitem-active side-bar-subitem "
+                          ? "side-bar-subitem-active side-bar-subitem"
                           : "side-bar-subitem"
                       }
                       to={subItem?.url}
                       end>
                       {subItem?.icon}
-                      <span className="side-bar-subitem-caption">
+                      <span className=" side-bar-subitem-caption ">
                         {subItem?.title}
                       </span>
                     </NavLink>
@@ -353,7 +362,8 @@ const MasterLayout = (props) => {
           })}
         </Accordion>
       </div>
-      <div ref={contentRef} className="content">
+
+      <div ref={(div) => (contentRef.current = div)} className="content ">
         {props.children}
       </div>
     </Fragment>

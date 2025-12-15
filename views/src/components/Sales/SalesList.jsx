@@ -1,43 +1,40 @@
 import React, { Fragment, useEffect, useState } from "react";
-import {
-  // DeleteExpenseTypeRequest,
-  ExpenseTypeListRequest,
-} from "../../APIRequest/ExpenseTypeAPIRequest";
+import { SaleListRequest } from "../../APIRequest/SaleAPIRequest";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineEye } from "react-icons/ai";
 import ReactPaginate from "react-paginate";
+import CurrencyFormat from "@sajjadgrw1/react-currency-format";
 import moment from "moment/moment";
-// import { DeleteAlert } from "../../helper/DeleteAlert";
 
-const ExpenseTypeList = () => {
+const SalesList = () => {
   let [searchKeyword, setSearchKeyword] = useState("0");
   let [perPage, setPerPage] = useState(20);
 
   useEffect(() => {
     (async () => {
-      await ExpenseTypeListRequest(1, perPage, searchKeyword);
+      await SaleListRequest(1, perPage, searchKeyword);
     })();
   }, []);
 
-  let DataList = useSelector((state) => state.expensetype.List);
-  let Total = useSelector((state) => state.expensetype.ListTotal);
+  let DataList = useSelector((state) => state.sale.List);
+  let Total = useSelector((state) => state.sale.ListTotal);
 
   const handlePageClick = async (event) => {
-    await ExpenseTypeListRequest(event.selected + 1, perPage, searchKeyword);
+    await SaleListRequest(event.selected + 1, perPage, searchKeyword);
   };
   const searchData = async () => {
-    await ExpenseTypeListRequest(1, perPage, searchKeyword);
+    await SaleListRequest(1, perPage, searchKeyword);
   };
   const perPageOnChange = async (e) => {
     setPerPage(parseInt(e.target.value));
-    await ExpenseTypeListRequest(1, e.target.value, searchKeyword);
+    await SaleListRequest(1, e.target.value, searchKeyword);
   };
   const searchKeywordOnChange = async (e) => {
     setSearchKeyword(e.target.value);
     if (e.target.value.length === 0) {
       setSearchKeyword("0");
-      await ExpenseTypeListRequest(1, perPage, "0");
+      await SaleListRequest(1, perPage, "0");
     }
   };
 
@@ -47,17 +44,7 @@ const ExpenseTypeList = () => {
       row.style.display = row.innerText.includes(e.target.value) ? "" : "none";
     });
   };
-
-  // const DeleteItem = async (id) => {
-  //   let Result = await DeleteAlert();
-  //   if (Result.isConfirmed) {
-  //     let DeleteResult = await DeleteExpenseTypeRequest(id);
-  //     if (DeleteResult) {
-  //       await ExpenseTypeListRequest(1, perPage, searchKeyword);
-  //     }
-  //   }
-  // };
-
+  const DetailsPopUp = (item) => {};
   return (
     <Fragment>
       <div className="container-fluid my-5">
@@ -68,7 +55,7 @@ const ExpenseTypeList = () => {
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-4">
-                      <h5>Expense Type List</h5>
+                      <h5>Sales List</h5>
                     </div>
 
                     <div className="col-2">
@@ -112,17 +99,29 @@ const ExpenseTypeList = () => {
                   <div className="row">
                     <div className="col-12">
                       <div className="table-responsive table-section">
-                        <table className="table">
+                        <table className="table ">
                           <thead className="sticky-top bg-white">
                             <tr>
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                #No
+                                Customer
                               </td>
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                Name
+                                Grand Total
                               </td>
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                Created
+                                Shipping Cost
+                              </td>
+                              <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Vat/Tax
+                              </td>
+                              <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Other Cost
+                              </td>
+                              <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Discount
+                              </td>
+                              <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                Date
                               </td>
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Action
@@ -133,13 +132,66 @@ const ExpenseTypeList = () => {
                             {DataList.map((item, i) => (
                               <tr>
                                 <td>
-                                  <p className="text-xs text-start">{i + 1}</p>
-                                </td>
-                                <td>
                                   <p className="text-xs text-start">
-                                    {item.Name}
+                                    {item.customers[0]["CustomerName"]}
                                   </p>
                                 </td>
+
+                                <td>
+                                  <p className="text-xs text-start">
+                                    <CurrencyFormat
+                                      value={item.GrandTotal}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"$"}
+                                    />
+                                  </p>
+                                </td>
+
+                                <td>
+                                  <p className="text-xs text-start">
+                                    <CurrencyFormat
+                                      value={item.ShippingCost}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"$"}
+                                    />
+                                  </p>
+                                </td>
+
+                                <td>
+                                  <p className="text-xs text-start">
+                                    <CurrencyFormat
+                                      value={item.VatTax}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"$"}
+                                    />
+                                  </p>
+                                </td>
+
+                                <td>
+                                  <p className="text-xs text-start">
+                                    <CurrencyFormat
+                                      value={item.OtherCost}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"$"}
+                                    />
+                                  </p>
+                                </td>
+
+                                <td>
+                                  <p className="text-xs text-start">
+                                    <CurrencyFormat
+                                      value={item.Discount}
+                                      displayType={"text"}
+                                      thousandSeparator={true}
+                                      prefix={"$"}
+                                    />
+                                  </p>
+                                </td>
+
                                 <td>
                                   <p className="text-xs text-start">
                                     {moment(item.CreatedDate).format(
@@ -147,16 +199,12 @@ const ExpenseTypeList = () => {
                                     )}
                                   </p>
                                 </td>
+
                                 <td>
-                                  <Link
-                                    to={`/ExpenseTypeCreateUpdatePage?id=${item._id}`}
-                                    className="btn text-info btn-outline-light p-2 mb-0 btn-sm">
-                                    <AiOutlineEdit size={15} />
-                                  </Link>
                                   <button
-                                    // onClick={DeleteItem.bind(this, item._id)}
-                                    className="btn btn-outline-light text-danger p-2 mb-0 btn-sm ms-2">
-                                    <AiOutlineDelete size={15} />
+                                    onClick={DetailsPopUp.bind(this, item)}
+                                    className="btn btn-outline-light text-success p-2 mb-0 btn-sm ms-2">
+                                    <AiOutlineEye size={15} />
                                   </button>
                                 </td>
                               </tr>
@@ -199,4 +247,4 @@ const ExpenseTypeList = () => {
   );
 };
 
-export default ExpenseTypeList;
+export default SalesList;

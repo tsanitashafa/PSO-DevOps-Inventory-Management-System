@@ -9,50 +9,50 @@ const MobileRegx = /^(?:\+88|0088)?01[3-9]\d{8}$/; // Bangladesh mobile format
 
 class FormHelper {
   // Check if a value is empty or null
-  static isEmpty(value) {
+  static IsEmpty(value) {
     return typeof value !== "string" || value.trim().length === 0;
   }
 
   // Validate Bangladeshi mobile number
-  static isMobile(value) {
-    if (this.isEmpty(value)) return false;
+  static IsMobile(value) {
+    if (IsEmpty(value)) return false;
     return MobileRegx.test(value.trim());
   }
 
   // Validate image file extension
-  static isImageValid(fileName = "") {
-    if (this.isEmpty(fileName)) return false;
+  static IsImageValid(fileName = "") {
+    if (IsEmpty(fileName)) return false;
     const extension = fileName.split(".").pop().toLowerCase();
     return validFileExtensions.includes(extension);
   }
 
   // Validate if only numeric input
-  static isNumber(value) {
-    if (this.isEmpty(value)) return false;
+  static IsNumber(value) {
+    if (IsEmpty(value)) return false;
     return OnlyNumberRegx.test(value.trim());
   }
 
   // Validate email format
-  static isEmail(value) {
-    if (this.isEmpty(value)) return false;
-    return EmailRegx.test(value.trim());
+  static IsEmail(value) {
+    if (IsEmpty(value)) return false;
+    return !EmailRegx.test(value.trim());
   }
 
   // Toast for error
-  static errorToast(msg) {
+  static ErrorToast(msg) {
     if (!msg) return;
 
     toast.error(msg, { position: "bottom-center" });
   }
 
   // Toast for success
-  static successToast(msg) {
+  static SuccessToast(msg) {
     if (!msg) return;
     toast.success(msg, { position: "bottom-center" });
   }
 
   // Convert file to base64
-  static toBase64(file) {
+  static ToBase64(file) {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -63,7 +63,7 @@ class FormHelper {
 
   // ********** NEW METHOD **********
   // Validate real image file + extension + MIME
-  static isValidImageFile(file) {
+  static IsValidImageFile(file) {
     if (!file) return false;
 
     const fileName = file.name || "";
@@ -83,4 +83,14 @@ class FormHelper {
   }
 }
 
-export default FormHelper;
+export const {
+  IsEmpty,
+  IsMobile,
+  IsEmail,
+  IsNumber,
+  IsImageValid,
+  ToBase64,
+  ErrorToast,
+  SuccessToast,
+  IsValidImageFile,
+} = FormHelper;

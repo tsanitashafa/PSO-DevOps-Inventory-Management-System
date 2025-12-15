@@ -14,6 +14,7 @@
     "animate.css": "^4.1.1",
     "axios": "^1.13.2",
     "bootstrap": "^5.3.8",
+    "inventory-management-system-full-stack": "file:..",
     "moment": "^2.30.1",
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",

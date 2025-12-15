@@ -1,33 +1,33 @@
 class SessionHelper {
-  setToken(token) {
+  static setToken(token) {
     localStorage.setItem("token", token);
   }
-  getToken() {
+  static getToken() {
     return localStorage.getItem("token");
   }
-  removeToken() {
+  static removeToken() {
     localStorage.removeItem("token");
   }
-  setUserData(userData) {
+  static setUserData(userData) {
     localStorage.setItem("userData", JSON.stringify(userData));
   }
-  getUserData() {
+  static getUserData() {
     return JSON.parse(localStorage.getItem("userData"));
   }
-  removeUserData() {
+  static removeUserData() {
     localStorage.clear();
     window.location.href = "/login";
   }
-  setEmail(email) {
+  static setEmail(email) {
     localStorage.setItem("email", email);
   }
-  getEmail() {
+  static getEmail() {
     return localStorage.getItem("email");
   }
-  setOTP(OTP) {
+  static setOTP(OTP) {
     localStorage.setItem("OTP", OTP);
   }
-  getOTP() {
+  static getOTP() {
     return localStorage.getItem("OTP");
   }
 }
@@ -42,5 +42,4 @@ export const {
   setOTP,
   getOTP,
   removeToken,
-} = new SessionHelper();
-export default SessionHelper;
+} = SessionHelper;

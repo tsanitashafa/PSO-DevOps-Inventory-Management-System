@@ -1,7 +1,12 @@
-import React from "react";
-
-function SendOTPPage() {
-  return <div>SendOTPPage</div>;
-}
+import React, {lazy, Suspense} from 'react';
+import LazyLoader from "../../components/MasterLayout/LazyLoader";
+const SendOTP =lazy(() => import('../../components/Users/SendOTP'));
+const SendOTPPage = () => {
+    return (
+        <Suspense fallback={<LazyLoader/>}>
+            <SendOTP/>
+        </Suspense>
+    );
+};
 
 export default SendOTPPage;

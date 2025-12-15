@@ -1,18 +1,18 @@
 import React, {Fragment, Suspense} from 'react';
 import MasterLayout from "../../components/MasterLayout/MasterLayout";
 import LazyLoader from "../../components/MasterLayout/LazyLoader";
-import SupplierCreateUpdate from "../../components/Supplier/SupplierCreateUpdate";
+import SalesCreateUpdate from "../../components/Sales/SalesCreateUpdate";
 
-const SupplierCreateUpdatePage = () => {
+const SalesCreateUpdatePage = () => {
     return (
         <Fragment>
             <MasterLayout>
                 <Suspense fallback={<LazyLoader/>}>
-                    <SupplierCreateUpdate/>
+                    <SalesCreateUpdate/>
                 </Suspense>
             </MasterLayout>
         </Fragment>
     );
 };
 
-export default SupplierCreateUpdatePage;
+export default SalesCreateUpdatePage;
