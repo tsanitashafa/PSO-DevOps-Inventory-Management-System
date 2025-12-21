@@ -1,6 +1,7 @@
 /* -------------------------------------------------------------------------- */
 /*                 Details By ID Service Module                            */
 /* -------------------------------------------------------------------------- */
+
 const mongoose = require("mongoose");
 
 // Create Service Function
@@ -11,7 +12,7 @@ const DetailsByIDService = async (Request, DataModel) => {
     // Validate DetailsID as a valid MongoDB ObjectId
     const ObjectID = mongoose.Types.ObjectId;
     let QueryObject = {};
-    QueryObject["_id"] = ObjectID(DetailsID);
+    QueryObject["_id"] = new ObjectID(DetailsID);
     QueryObject["UserEmail"] = UserEmail;
     // Fetching Data from Collection
     const data = await DataModel.aggregate([{ $match: QueryObject }]);

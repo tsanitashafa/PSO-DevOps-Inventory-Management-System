@@ -12,6 +12,7 @@ const ListService = require("../../services/common/ListService");
 const DropDownService = require("../../services/common/DropDownService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 
 /* ------------------------------------------------------------------------ */
 // Create Brand Controller
@@ -43,6 +44,11 @@ exports.BrandDropDown = async (Request, Response) => {
   Response.status(200).json(Result);
 };
 
+// Brand Details By ID Controller
+exports.BrandDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
+  Response.status(200).json(Result);
+};
 // Delete Brand Controller
 exports.DeleteBrand = async (Request, Response) => {
   // Getting ID from Request Params

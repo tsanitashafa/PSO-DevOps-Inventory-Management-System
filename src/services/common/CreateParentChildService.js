@@ -40,7 +40,7 @@ const CreateParentChildrenService = async (
 // * Committing the transaction
     await session.commitTransaction();
     session.endSession();
-return {status: "Success", Parent: ParentCreation, Childs: ChildrenCreation};
+return { status: "success", Parent: ParentCreation, Childs: ChildrenCreation };
   } catch (error) {
    //* Aborting the transaction in case of error
     await session.abortTransaction();

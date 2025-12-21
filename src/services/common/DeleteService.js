@@ -17,7 +17,7 @@ const DeleteService = async (Request, DataModel) => {
     // Deleting Data from Collection
     const Delete = await DataModel.deleteMany(QueryObject);
     // Return Success with Data
-    return { status: "success", data: Delete };
+    return { status: "success", data: Delete, DeleteID: DeleteID };
   } catch (error) {
     // Return Error
     return { status: "fail", data: error.toString() };
