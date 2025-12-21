@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npm install --prefix ./views && npm run build --prefix ./views && npm install",
+    "dev": "npm run dev --prefix ./views",
     "start": "nodemon index.js"
   },
   "keywords": [],

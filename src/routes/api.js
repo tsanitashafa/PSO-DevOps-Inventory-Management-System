@@ -78,6 +78,13 @@ router.get(
   AuthVerifyMiddleware,
   BrandsController.BrandList
 );
+
+// Brand Details By ID
+router.get(
+  "/BrandDetailsByID/:id",
+  AuthVerifyMiddleware,
+  BrandsController.BrandDetailsByID
+);
 // Brand Dropdown
 router.get(
   "/BrandDropDown",
@@ -97,31 +104,37 @@ router.get(
 
 //Create Categories
 router.post(
-  "/CreateCategories",
+  "/CreateCategory",
   AuthVerifyMiddleware,
   CategoriesController.CreateCategories
 );
 // Update Categories
 router.post(
-  "/UpdateCategories/:id",
+  "/UpdateCategory/:id",
   AuthVerifyMiddleware,
   CategoriesController.UpdateCategories
 );
 // Categories List
 router.get(
-  "/CategoriesList/:pageNo/:perPage/:searchKeyword",
+  "/CategoryList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   CategoriesController.CategoriesList
 );
+// Categories Details By ID
+router.get(
+  "/CategoryDetailsByID/:id",
+  AuthVerifyMiddleware,
+  CategoriesController.CategoriesDetailsByID
+);
 // Categories Dropdown
 router.get(
-  "/CategoriesDropDown",
+  "/CategoryDropDown",
   AuthVerifyMiddleware,
   CategoriesController.CategoriesDropDown
 );
 // Delete Categories
 router.get(
-  "/DeleteCategories/:id",
+  "/DeleteCategory/:id",
   AuthVerifyMiddleware,
   CategoriesController.DeleteCategories
 );
@@ -132,25 +145,31 @@ router.get(
 
 //Create Customers
 router.post(
-  "/CreateCustomers",
+  "/CreateCustomer",
   AuthVerifyMiddleware,
   CustomersController.CreateCustomers
 );
 // Update Customers
 router.post(
-  "/UpdateCustomers/:id",
+  "/UpdateCustomer/:id",
   AuthVerifyMiddleware,
   CustomersController.UpdateCustomers
 );
 // Customers List
 router.get(
-  "/CustomersList/:pageNo/:perPage/:searchKeyword",
+  "/CustomerList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   CustomersController.CustomersList
 );
+// Customers Details By ID
+router.get(
+  "/CustomerDetailsByID/:id", AuthVerifyMiddleware,
+  CustomersController.CustomersDetailsByID
+);
+
 //  Customers Dropdown
 router.get(
-  "/CustomersDropDown",
+  "/CustomerDropDown",
   AuthVerifyMiddleware,
   CustomersController.CustomersDropDown
 );
@@ -168,25 +187,32 @@ router.get(
 
 //Create Suppliers
 router.post(
-  "/CreateSuppliers",
+  "/CreateSupplier",
   AuthVerifyMiddleware,
   SuppliersController.CreateSuppliers
 );
 // Update Suppliers
 router.post(
-  "/UpdateSuppliers/:id",
+  "/UpdateSupplier/:id",
   AuthVerifyMiddleware,
   SuppliersController.UpdateSuppliers
 );
 // Suppliers List
 router.get(
-  "/SuppliersList/:pageNo/:perPage/:searchKeyword",
+  "/SupplierList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   SuppliersController.SuppliersList
 );
+// Suppliers Details By ID
+router.get(
+  "/SupplierDetailsByID/:id",
+  AuthVerifyMiddleware,
+  SuppliersController.SuppliersDetailsByID
+);
+
 // Suppliers Dropdown
 router.get(
-  "/SuppliersDropDown",
+  "/SupplierDropDown",
   AuthVerifyMiddleware,
   SuppliersController.SuppliersDropDown
 );
@@ -203,26 +229,32 @@ router.get(
 
 //Create ExpenseTypes
 router.post(
-  "/CreateExpenseTypes",
+  "/CreateExpenseType",
   AuthVerifyMiddleware,
   ExpenseTypesController.CreateExpenseTypes
 );
 // Update ExpenseTypes
 router.post(
-  "/UpdateExpenseTypes/:id",
+  "/UpdateExpenseType/:id",
   AuthVerifyMiddleware,
   ExpenseTypesController.UpdateExpenseTypes
 );
 
 // ExpenseTypes List
 router.get(
-  "/ExpenseTypesList/:pageNo/:perPage/:searchKeyword",
+  "/ExpenseTypeList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   ExpenseTypesController.ExpenseTypesList
 );
+// ExpenseTypes Details By ID
+router.get(
+  "/ExpenseTypeDetailsByID/:id",
+  AuthVerifyMiddleware,
+  ExpenseTypesController.ExpenseTypesDetailsByID
+);
 // ExpenseTypes Dropdown
 router.get(
-  "/ExpenseTypesDropDown",
+  "/ExpenseTypeDropDown",
   AuthVerifyMiddleware,
   ExpenseTypesController.ExpenseTypesDropDown
 );
@@ -238,26 +270,32 @@ router.get(
 /* -------------------------------------------------------------------------- */
 // Create Expenses
 router.post(
-  "/CreateExpenses",
+  "/CreateExpenseList",
   AuthVerifyMiddleware,
   ExpensesController.CreateExpenses
 );
 // Update Expenses
 router.post(
-  "/UpdateExpenses/:id",
+  "/UpdateExpenseList/:id",
   AuthVerifyMiddleware,
   ExpensesController.UpdateExpenses
 );
 
 //Get Expenses List
 router.get(
-  "/ExpensesList/:pageNo/:perPage/:searchKeyword",
+  "/ExpenseList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   ExpensesController.ExpensesList
 );
+// Get Expenses Details By ID
+router.get(
+  "/ExpenseListDetailsByID/:id",
+  AuthVerifyMiddleware,
+  ExpensesController.ExpensesDetailsByID
+);
 // Delete Expense
 router.get(
-  "/DeleteExpense/:id",
+  "/DeleteExpenseList/:id",
   AuthVerifyMiddleware,
   ExpensesController.DeleteExpense
 );
@@ -267,24 +305,37 @@ router.get(
 /* -------------------------------------------------------------------------- */
 // Create Products
 router.post(
-  "/CreateProducts",
+  "/CreateProduct",
   AuthVerifyMiddleware,
   ProductsController.CreateProducts
 );
 // Update Products
 router.post(
-  "/UpdateProducts/:id",
+  "/UpdateProduct/:id",
   AuthVerifyMiddleware,
   ProductsController.UpdateProducts
 );
+// Products Details By ID
 router.get(
-  "/ProductsList/:pageNo/:perPage/:searchKeyword",
+  "/ProductDetailsByID/:id",
+  AuthVerifyMiddleware,
+  ProductsController.ProductsDetailsByID
+);
+
+// Products List
+router.get(
+  "/ProductList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   ProductsController.ProductsList
 );
+
+// Products Dropdown
+router.get("/ProductDropDown",AuthVerifyMiddleware,ProductsController.ProductsDropDown
+);
+
 // Delete Products
 router.get(
-  "/DeleteProducts/:id",
+  "/DeleteProduct/:id",
   AuthVerifyMiddleware,
   ProductsController.DeleteProduct
 );
@@ -293,13 +344,13 @@ router.get(
 /* -------------------------------------------------------------------------- */
 // Create Purchases
 router.post(
-  "/CreatePurchases",
+  "/CreatePurchase",
   AuthVerifyMiddleware,
   PurchasesController.CreatePurchases
 );
 // Purchases List
 router.get(
-  "/PurchasesList/:pageNo/:perPage/:searchKeyword",
+  "/PurchaseList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   PurchasesController.PurchasesList
 );
@@ -314,33 +365,28 @@ router.get(
 /*                             Sales Route                                    */
 /* -------------------------------------------------------------------------- */
 // Create Sales
-router.post("/CreateSales", AuthVerifyMiddleware, SalesController.CreateSales);
+router.post("/CreateSale", AuthVerifyMiddleware, SalesController.CreateSales);
 // Sales List
 router.get(
-  "/SalesList/:pageNo/:perPage/:searchKeyword",
+  "/SaleList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   SalesController.SalesList
 );
 // Sale Delete
-router.get(
-  "/DeleteSale/:id",
-  AuthVerifyMiddleware,
-  SalesController.SaleDelete
-);
-
+router.get("/DeleteSale/:id", AuthVerifyMiddleware, SalesController.SaleDelete);
 
 /* -------------------------------------------------------------------------- */
 /*                             Returns Route                                  */
 /* -------------------------------------------------------------------------- */
 // Create Returns
 router.post(
-  "/CreateReturns",
+  "/CreateReturn",
   AuthVerifyMiddleware,
   ReturnsController.CreateReturns
 );
 // Returns List
 router.get(
-  "/ReturnsList/:pageNo/:perPage/:searchKeyword",
+  "/ReturnList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   ReturnsController.ReturnsList
 );
@@ -412,12 +458,6 @@ router.get(
   AuthVerifyMiddleware,
   SalesController.GetSalesSummery
 );
-
-
-
-
-
-
 
 /* -------------------------------------------------------------------------- */
 /*                              Exporting Router                              */

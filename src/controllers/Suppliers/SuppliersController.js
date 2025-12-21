@@ -13,6 +13,7 @@ const ListService = require("../../services/common/ListService");
 const DropDownService = require("../../services/common/DropDownService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 /* ------------------------------------------------------------------------ */
 // Create Suppliers Controller
 exports.CreateSuppliers = async (Request, Response) => {
@@ -44,7 +45,11 @@ exports.SuppliersList = async (Request, Response) => {
   // Returning Response
   Response.status(200).json(Result);
 };
-
+// Suppliers Details By ID Controller
+exports.SuppliersDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
+  Response.status(200).json(Result);
+};
 // Suppliers Dropdown Controller
 exports.SuppliersDropDown = async (Request, Response) => {
   const Result = await DropDownService(Request, DataModel, { _id: 1, Name: 1 });
