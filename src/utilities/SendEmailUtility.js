@@ -9,8 +9,8 @@ const SendEmailUtility = async (EmailTo, EmailText, EmailSubject) => {
     host: "smtp.gmail.com",
     port: 587,
     auth: {
-      user: "*******************",
-      pass: "*******************",
+      user: "dev.alrasels@gmail.com",
+      pass: "mibnafqlfreqannh",
     },
   });
 

@@ -12,6 +12,7 @@ const ListService = require("../../services/common/ListService");
 const DropDownService = require("../../services/common/DropDownService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 /* ------------------------------------------------------------------------ */
 // Create ExpenseType Controller
 exports.CreateExpenseTypes = async (Request, Response) => {
@@ -39,6 +40,11 @@ exports.ExpenseTypesList = async (Request, Response) => {
 // ExpenseTypes Dropdown Controller
 exports.ExpenseTypesDropDown = async (Request, Response) => {
   const Result = await DropDownService(Request, DataModel, { _id: 1, Name: 1 });
+  Response.status(200).json(Result);
+};
+// ExpenseTypes Details By ID Controller
+exports.ExpenseTypesDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
   Response.status(200).json(Result);
 };
 
