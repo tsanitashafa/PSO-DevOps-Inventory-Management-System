@@ -63,6 +63,7 @@ function BrandList() {
     }
   };
   // JSX return
+
   return (
     <>
       <div className="container-fluid my-5">
@@ -184,7 +185,11 @@ function BrandList() {
                           breakLabel="..."
                           breakClassName="page-item"
                           breakLinkClassName="page-link"
-                          pageCount={(Total / perPage).toFixed(0)}
+                          pageCount={
+                            Math.ceil(Total / perPage) === 0
+                              ? "0"
+                              : Math.ceil(Total / perPage)
+                          }
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={handlePageClick}

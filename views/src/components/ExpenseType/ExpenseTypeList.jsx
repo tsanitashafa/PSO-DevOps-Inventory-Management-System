@@ -12,8 +12,8 @@ import {
 } from "../../APIRequest/ExpenseTypeAPIRequest";
 
 const ExpenseTypeList = () => {
-  let [searchKeyword, setSearchKeyword] = useState("0");
-  let [perPage, setPerPage] = useState(20);
+  const [searchKeyword, setSearchKeyword] = useState("0");
+  const [perPage, setPerPage] = useState(20);
 
   useEffect(() => {
     (async () => {
@@ -21,8 +21,8 @@ const ExpenseTypeList = () => {
     })();
   }, []);
 
-  let DataList = useSelector((state) => state.expensetype.List);
-  let Total = useSelector((state) => state.expensetype.ListTotal);
+  const DataList = useSelector((state) => state.expensetype.List);
+  const Total = useSelector((state) => state.expensetype.ListTotal);
 
   const handlePageClick = async (event) => {
     await ExpenseTypeListRequest(event.selected + 1, perPage, searchKeyword);
@@ -50,9 +50,9 @@ const ExpenseTypeList = () => {
   };
 
   const DeleteItem = async (id) => {
-    let Result = await DeleteAlert();
+    const Result = await DeleteAlert();
     if (Result.isConfirmed) {
-      let DeleteResult = await DeleteExpenseTypeRequest(id);
+      const DeleteResult = await DeleteExpenseTypeRequest(id);
       if (DeleteResult) {
         await ExpenseTypeListRequest(1, perPage, searchKeyword);
       }

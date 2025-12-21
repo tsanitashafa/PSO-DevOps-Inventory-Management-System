@@ -7,8 +7,8 @@ import moment from "moment";
 import CurrencyFormat from "@sajjadgrw1/react-currency-format";
 
 const PurchaseList = () => {
-  let [searchKeyword, setSearchKeyword] = useState("0");
-  let [perPage, setPerPage] = useState(20);
+  const [searchKeyword, setSearchKeyword] = useState("0");
+  const [perPage, setPerPage] = useState(20);
 
   useEffect(() => {
     (async () => {
@@ -16,8 +16,8 @@ const PurchaseList = () => {
     })();
   }, []);
 
-  let DataList = useSelector((state) => state.purchase.List);
-  let Total = useSelector((state) => state.purchase.ListTotal);
+  const DataList = useSelector((state) => state.purchase.List);
+  const Total = useSelector((state) => state.purchase.ListTotal);
 
   const handlePageClick = async (event) => {
     await PurchaseListRequest(event.selected + 1, perPage, searchKeyword);

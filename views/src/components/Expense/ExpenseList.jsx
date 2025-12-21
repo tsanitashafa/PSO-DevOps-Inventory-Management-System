@@ -11,54 +11,54 @@ import CurrencyFormat from "@sajjadgrw1/react-currency-format";
 import { DeleteAlert } from "../../helper/DeleteAlert";
 
 const ExpenseList = () => {
-  let [searchKeyword, setSearchKeyword] = useState("0");
-  let [perPage, setPerPage] = useState(20);
+   const [searchKeyword, setSearchKeyword] = useState("0");
+   const [perPage, setPerPage] = useState(20);
 
-  useEffect(() => {
-    (async () => {
-      await ExpenseListRequest(1, perPage, searchKeyword);
-    })();
-  }, []);
+   useEffect(() => {
+     (async () => {
+       await ExpenseListRequest(1, perPage, searchKeyword);
+     })();
+   }, []);
 
-  let DataList = useSelector((state) => state.expense.List);
-  let Total = useSelector((state) => state.expense.ListTotal);
+   const DataList = useSelector((state) => state.expense.List);
+   const Total = useSelector((state) => state.expense.ListTotal);
 
-  const handlePageClick = async (event) => {
-    await ExpenseListRequest(event.selected + 1, perPage, searchKeyword);
-  };
+   const handlePageClick = async (event) => {
+     await ExpenseListRequest(event.selected + 1, perPage, searchKeyword);
+   };
 
-  const searchData = async () => {
-    await ExpenseListRequest(1, perPage, searchKeyword);
-  };
-  const perPageOnChange = async (e) => {
-    setPerPage(parseInt(e.target.value));
-    await ExpenseListRequest(1, e.target.value, searchKeyword);
-  };
+   const searchData = async () => {
+     await ExpenseListRequest(1, perPage, searchKeyword);
+   };
+   const perPageOnChange = async (e) => {
+     setPerPage(parseInt(e.target.value));
+     await ExpenseListRequest(1, e.target.value, searchKeyword);
+   };
 
-  const searchKeywordOnChange = async (e) => {
-    setSearchKeyword(e.target.value);
-    if (e.target.value.length === 0) {
-      setSearchKeyword("0");
-      await ExpenseListRequest(1, perPage, "0");
-    }
-  };
+   const searchKeywordOnChange = async (e) => {
+     setSearchKeyword(e.target.value);
+     if (e.target.value.length === 0) {
+       setSearchKeyword("0");
+       await ExpenseListRequest(1, perPage, "0");
+     }
+   };
 
-  const TextSearch = (e) => {
-    const rows = document.querySelectorAll("tbody tr");
-    rows.forEach((row) => {
-      row.style.display = row.innerText.includes(e.target.value) ? "" : "none";
-    });
-  };
+   const TextSearch = (e) => {
+     const rows = document.querySelectorAll("tbody tr");
+     rows.forEach((row) => {
+       row.style.display = row.innerText.includes(e.target.value) ? "" : "none";
+     });
+   };
 
-  const DeleteItem = async (id) => {
-    let Result = await DeleteAlert();
-    if (Result.isConfirmed) {
-      let DeleteResult = await DeleteExpenseRequest(id);
-      if (DeleteResult) {
-        await ExpenseListRequest(1, perPage, searchKeyword);
-      }
-    }
-  };
+   const DeleteItem = async (id) => {
+     const Result = await DeleteAlert();
+     if (Result.isConfirmed) {
+       const DeleteResult = await DeleteExpenseRequest(id);
+       if (DeleteResult) {
+         await ExpenseListRequest(1, perPage, searchKeyword);
+       }
+     }
+   };
 
   return (
     <Fragment>

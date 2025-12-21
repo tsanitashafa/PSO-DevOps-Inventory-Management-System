@@ -11,13 +11,13 @@ import {
 } from "../../APIRequest/ExpenseTypeAPIRequest";
 
 const ExpenseTypeCreateUpdate = () => {
-  let FormValue = useSelector((state) => state.expensetype.FormValue);
-  let navigate = useNavigate();
-  let [ObjectID, SetObjectID] = useState(0);
+  const FormValue = useSelector((state) => state.expensetype.FormValue);
+  const navigate = useNavigate();
+  const [ObjectID, SetObjectID] = useState(0);
 
   useEffect(() => {
-    let params = new URLSearchParams(window.location.search);
-    let id = params.get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     if (id !== null) {
       (async () => {
         SetObjectID(id);

@@ -15,6 +15,7 @@ const ListTwoJoinService = require("../../services/common/ListTwoJoinService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
 const DetailsByIDService = require("../../services/common/DetailsByIDService");
+const DropDownService = require("../../services/common/DropDownService");
 /* ------------------------------------------------------------------------ */
 
 // Create Products Controller
@@ -118,4 +119,10 @@ exports.DeleteProduct = async (Request, Response) => {
     const Result = await DeleteService(Request, DataModel);
     Response.status(200).json(Result);
   }
+};
+
+// Products DropDown Controller
+exports.ProductsDropDown = async (req, res) => {
+  let Result = await DropDownService(req, DataModel, { _id: 1, Name: 1 });
+  res.status(200).json(Result);
 };

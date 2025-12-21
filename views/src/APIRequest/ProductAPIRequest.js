@@ -13,6 +13,7 @@ import {
 } from "../redux/state-slice/product-slice";
 import { BaseURL } from "../helper/config";
 import { getToken } from "../helper/SessionHelper";
+import { SetProductDropDown } from "../redux/state-slice/purchase-slice";
 
 const AxiosHeaders = { headers: { token: getToken() } };
 
@@ -73,7 +74,9 @@ export async function ProductSaveRequest(PostBody, ObjectID) {
   }
 }
 
-//---------------------- Get Expense Detail  API Request ------------------//
+
+
+//---------------------- Get Product Detail  API Request ------------------//
 export async function GetProductDetailRequest(ObjectID) {
   try {
     store.dispatch(ShowLoader());
@@ -114,6 +117,29 @@ export async function GetProductDetailRequest(ObjectID) {
   }
 }
 
+// ---------------------- Product DropDown  API Request ------------------//
+export async function ProductDropDownRequest() {
+  try {
+    store.dispatch(ShowLoader());
+    let URL = BaseURL + "/ProductDropDown";
+    const result = await axios.get(URL, AxiosHeaders);
+  
+    store.dispatch(HideLoader());
+    if (result.status === 200 && result.data["status"] === "success") {
+      if (result.data["data"].length > 0) {
+        store.dispatch(SetProductDropDown(result.data["data"]));
+      } else {
+        store.dispatch(SetProductDropDown([]));
+        ErrorToast("No Product Found");
+      }
+    } else {
+      ErrorToast("Something Went Wrong");
+    }
+  } catch (e) {
+    ErrorToast("Something Went Wrong");
+    store.dispatch(HideLoader());
+  }
+}
 // ---------------------- Product Category DropDown  API Request ------------------//
 export async function ProductCategoryDropDownRequest() {
   try {
@@ -160,7 +186,7 @@ export async function ProductBrandDropDownRequest() {
   }
 }
 
-//---------------------- Delete Expense API Request ------------------//
+//---------------------- Delete Product API Request ------------------//
 export async function DeleteProductRequest(ObjectID) {
   try {
     store.dispatch(ShowLoader());

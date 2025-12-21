@@ -3,11 +3,12 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import ReactPaginate from "react-paginate";
+
+import { DeleteAlert } from "../../helper/DeleteAlert";
 import {
-  // DeleteSupplierRequest,
+  DeleteSupplierRequest,
   SupplierListRequest,
 } from "../../APIRequest/SupplierAPIRequest";
-// import { DeleteAlert } from "../../helper/DeleteAlert";
 
 const SupplierList = () => {
   let [searchKeyword, setSearchKeyword] = useState("0");
@@ -50,15 +51,15 @@ const SupplierList = () => {
     });
   };
 
-  // const DeleteItem = async (id) => {
-  //   let Result = await DeleteAlert();
-  //   if (Result.isConfirmed) {
-  //     let DeleteResult = await DeleteSupplierRequest(id);
-  //     if (DeleteResult) {
-  //       await SupplierListRequest(1, perPage, searchKeyword);
-  //     }
-  //   }
-  // };
+  const DeleteItem = async (id) => {
+    let Result = await DeleteAlert();
+    if (Result.isConfirmed) {
+      let DeleteResult = await DeleteSupplierRequest(id);
+      if (DeleteResult) {
+        await SupplierListRequest(1, perPage, searchKeyword);
+      }
+    }
+  };
 
   return (
     <Fragment>
@@ -152,7 +153,7 @@ const SupplierList = () => {
                                 </td>
                                 <td>
                                   <p className="text-xs text-start">
-                                    {item.Email}
+                                    {item.UserEmail}
                                   </p>
                                 </td>
                                 <td>
@@ -162,7 +163,7 @@ const SupplierList = () => {
                                     <AiOutlineEdit size={15} />
                                   </Link>
                                   <button
-                                    // onClick={DeleteItem.bind(this, item._id)}
+                                    onClick={DeleteItem.bind(this, item._id)}
                                     className="btn btn-outline-light text-danger p-2 mb-0 btn-sm ms-2">
                                     <AiOutlineDelete size={15} />
                                   </button>

@@ -44,6 +44,7 @@ export async function ExpenseTypeListRequest(pageNo, perPage, searchKey) {
   }
 }
 
+
 //---------------------- Create Expense Type  API Request ------------------//
 export async function ExpenseTypeSaveRequest(PostBody, ObjectID) {
   try {
@@ -62,10 +63,10 @@ export async function ExpenseTypeSaveRequest(PostBody, ObjectID) {
       store.dispatch(ResetExpenseTypeFormValue());
       return true;
     } else if (result.status === 200 && result.data["status"] === "fail") {
-      if (result.data["data"]["keyPattern"]["Name"] === 1) {
-        ErrorToast("Expense Type Name Already Exist");
-        return false;
-      }
+       if (result.data["data"].includes("E11000")) {
+         ErrorToast("Expense  Already Exist");
+         return false;
+       }
     } else {
       ErrorToast("Request Fail ! Try Again");
       return false;

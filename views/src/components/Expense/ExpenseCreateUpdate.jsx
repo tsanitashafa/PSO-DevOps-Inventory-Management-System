@@ -9,17 +9,17 @@ import { GetExpenseDetailRequest } from "../../APIRequest/ExpenseAPIRequest";
 import { ExpenseSaveRequest } from "../../APIRequest/ExpenseAPIRequest";
 
 const ExpenseCreateUpdate = () => {
-  let FormValue = useSelector((state) => state.expense.FormValue);
-  let navigate = useNavigate();
-  let [ObjectID, SetObjectID] = useState(0);
+  const FormValue = useSelector((state) => state.expense.FormValue);
+  const navigate = useNavigate();
+  const [ObjectID, SetObjectID] = useState(0);
 
   useEffect(() => {
     (async () => {
       await ExpenseTypeDropDownRequest();
     })();
 
-    let params = new URLSearchParams(window.location.search);
-    let id = params.get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     if (id !== null) {
       (async () => {
         SetObjectID(id);
@@ -28,7 +28,7 @@ const ExpenseCreateUpdate = () => {
     }
   }, []);
 
-  let ExpenseTypeDropDown = useSelector(
+  const ExpenseTypeDropDown = useSelector(
     (state) => state.expense.ExpenseTypeDropDown
   );
 

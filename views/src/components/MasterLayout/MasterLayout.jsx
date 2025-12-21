@@ -255,7 +255,7 @@ const MasterLayout = (props) => {
 
   return (
     <Fragment>
-      <Navbar className="fixed-top px-0">
+      <Navbar className="fixed-top  px-0">
         <Container fluid={true}>
           <Navbar.Brand>
             <div
@@ -274,7 +274,7 @@ const MasterLayout = (props) => {
           <div className="float-right h-auto d-flex align-items-center">
             <div className="user-dropdown">
               <img
-                className="icon-nav-img icon-nav"
+                className="icon-nav-img icon-nav-md"
                 src={getUserData()["photo"]}
                 alt="user-img"
               />
@@ -336,11 +336,11 @@ const MasterLayout = (props) => {
                           ? "side-bar-subitem-active side-bar-subitem"
                           : "side-bar-subitem"
                       }
-                      to={subItem?.url}
+                      to={subItem.url}
                       end>
-                      {subItem?.icon}
+                      {subItem.icon}
                       <span className=" side-bar-subitem-caption ">
-                        {subItem?.title}
+                        {subItem.title}
                       </span>
                     </NavLink>
                   ))}
@@ -354,6 +354,7 @@ const MasterLayout = (props) => {
                     : "side-bar-item mt-2"
                 }
                 to={"/"}
+                key={index.toString()}
                 end>
                 {item.icon}
                 <span className="side-bar-item-caption">{item.title}</span>
@@ -363,7 +364,7 @@ const MasterLayout = (props) => {
         </Accordion>
       </div>
 
-      <div ref={(div) => (contentRef.current = div)} className="content ">
+      <div ref={(div) => (contentRef.current = div)} className="content">
         {props.children}
       </div>
     </Fragment>

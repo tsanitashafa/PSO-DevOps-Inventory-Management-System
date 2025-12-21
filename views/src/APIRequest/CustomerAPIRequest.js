@@ -11,6 +11,7 @@ import {
 } from "../redux/state-slice/customer-slice";
 import { BaseURL } from "../helper/config";
 import { getToken } from "../helper/SessionHelper";
+import { SetCustomerDropDown } from "../redux/state-slice/return-slice";
 
 const AxiosHeaders = { headers: { token: getToken() } };
 
@@ -42,6 +43,7 @@ export async function CustomerListRequest(pageNo, perPage, searchKey) {
     return false;
   }
 }
+
 //---------------------- Create Customer  API Request ------------------//
 export async function CustomerSaveRequest(PostBody, ObjectID) {
   try {
@@ -70,6 +72,8 @@ export async function CustomerSaveRequest(PostBody, ObjectID) {
     return false;
   }
 }
+
+
 //---------------------- Get Customer  API Request ------------------//
 export async function GetCustomerRequest(ObjectID) {
   try {

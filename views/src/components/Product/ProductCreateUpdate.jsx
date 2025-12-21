@@ -13,9 +13,9 @@ import {
 } from "../../APIRequest/ProductAPIRequest";
 
 const ProductCreateUpdate = () => {
-  let FormValue = useSelector((state) => state.product.FormValue);
-  let navigate = useNavigate();
-  let [ObjectID, SetObjectID] = useState(0);
+  const FormValue = useSelector((state) => state.product.FormValue);
+  const navigate = useNavigate();
+  const [ObjectID, SetObjectID] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -23,8 +23,8 @@ const ProductCreateUpdate = () => {
       await ProductCategoryDropDownRequest();
     })();
 
-    let params = new URLSearchParams(window.location.search);
-    let id = params.get("id");
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
     if (id !== null) {
       (async () => {
         SetObjectID(id);
@@ -33,10 +33,10 @@ const ProductCreateUpdate = () => {
     }
   }, []);
 
-  let ProductBrandDropDown = useSelector(
+  const ProductBrandDropDown = useSelector(
     (state) => state.product.ProductBrandDropDown
   );
-  let ProductCategoryDropDown = useSelector(
+  const ProductCategoryDropDown = useSelector(
     (state) => state.product.ProductCategoryDropDown
   );
 

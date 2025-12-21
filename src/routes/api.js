@@ -321,11 +321,16 @@ router.get(
   AuthVerifyMiddleware,
   ProductsController.ProductsDetailsByID
 );
+
 // Products List
 router.get(
   "/ProductList/:pageNo/:perPage/:searchKeyword",
   AuthVerifyMiddleware,
   ProductsController.ProductsList
+);
+
+// Products Dropdown
+router.get("/ProductDropDown",AuthVerifyMiddleware,ProductsController.ProductsDropDown
 );
 
 // Delete Products
