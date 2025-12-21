@@ -10,7 +10,7 @@ const ListOneJoinService = require("../../services/common/ListOneJoinService");
 const DeleteService = require("../../services/common/DeleteService");
 const ExpenseReportService = require("../../services/report/ExpenseReportService");
 const ExpenseSummeryService = require("../../services/summery/ExpenseSummeryService");
-
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 /* ------------------------------------------------------------------------ */
 
 // Create Expenses Controller
@@ -23,6 +23,7 @@ exports.UpdateExpenses = async (Request, Response) => {
   const Result = await UpdateService(Request, DataModel);
   Response.status(200).json(Result);
 };
+// Expenses List Controller
 
 exports.ExpensesList = async (Request, Response) => {
   const SearchRgx = { $regex: Request.params.searchKeyword, $options: "i" };
@@ -46,6 +47,12 @@ exports.ExpensesList = async (Request, Response) => {
     SearchArray,
     JoinStage
   );
+  Response.status(200).json(Result);
+};
+
+// Expenses Details By ID Controller
+exports.ExpensesDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
   Response.status(200).json(Result);
 };
 // Delete Expenses Controller

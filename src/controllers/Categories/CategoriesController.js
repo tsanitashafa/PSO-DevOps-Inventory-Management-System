@@ -12,6 +12,7 @@ const ListService = require("../../services/common/ListService");
 const DropDownService = require("../../services/common/DropDownService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 /* ------------------------------------------------------------------------ */
 
 // Create Categories Controller
@@ -34,6 +35,11 @@ exports.CategoriesList = async (Request, Response) => {
   // Calling List Service
   const Result = await ListService(Request, DataModel, SearchArray);
   // Returning Response
+  Response.status(200).json(Result);
+};
+// Categories Details By ID Controller
+exports.CategoriesDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
   Response.status(200).json(Result);
 };
 

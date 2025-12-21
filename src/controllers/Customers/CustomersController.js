@@ -12,6 +12,7 @@ const ListService = require("../../services/common/ListService");
 const DropDownService = require("../../services/common/DropDownService");
 const CheckAssociateService = require("../../services/common/CheckAssociateService");
 const DeleteService = require("../../services/common/DeleteService");
+const DetailsByIDService = require("../../services/common/DetailsByIDService");
 /* ------------------------------------------------------------------------ */
 // Create Customers Controller
 exports.CreateCustomers = async (Request, Response) => {
@@ -43,7 +44,11 @@ exports.CustomersList = async (Request, Response) => {
   // Returning Response
   Response.status(200).json(Result);
 };
-
+// Customers Details By ID Controller
+exports.CustomersDetailsByID = async (Request, Response) => {
+  const Result = await DetailsByIDService(Request, DataModel);
+  Response.status(200).json(Result);
+};
 // Customers Dropdown Controller
 exports.CustomersDropDown = async (Request, Response) => {
   const Result = await DropDownService(Request, DataModel, {
