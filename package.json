@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install  && cd views/ && npm i && npm run build",
+    "build": " npm run build",
     "dev": "npm run dev --prefix ./views",
     "start": "nodemon index.js"
   },
@@ -35,3 +35,4 @@
     "globals": "^16.4.0"
   }
 }
+

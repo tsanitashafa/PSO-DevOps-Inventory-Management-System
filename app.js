@@ -106,7 +106,7 @@ app.use(express.static(path.join(__dirname, "./views/dist/")));
 
 // Add React Front End Routing
 app.get("*", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "views", "dist", "index.html"));
 });
 
 /* -------------------------------------------------------------------------- */
