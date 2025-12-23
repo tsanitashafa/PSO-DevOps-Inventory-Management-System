@@ -43,7 +43,7 @@ const ExpenseReportService = async (Request) => {
       },
     ]);
     // Returning the Aggregated Data with Status
-    return { status: "Success", data: data,  };
+    return { status: "success", data: data };
   } catch (error) {
     // Handling Errors and Returning Failure Status
     return { status: "fail", error: error.toString() };
