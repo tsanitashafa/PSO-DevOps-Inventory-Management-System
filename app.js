@@ -90,13 +90,6 @@ mongoose
 /* -------------------------------------------------------------------------- */
 app.use("/api/v1", router); // Mount API routes at /api/v1
 
-// Fallback route (404 handler)
-app.use((req, res) => {
-  res.status(404).json({
-    status: "fail",
-    message: "Not Found",
-  });
-});
 
 /* -------------------------------------------------------------------------- */
 /*                                  Scaffolding Process                       */
@@ -108,6 +101,7 @@ app.use(express.static(path.join(__dirname, "./views/dist/")));
 app.get("*", function (req, res) {
   res.sendFile(path.resolve(__dirname, "views", "dist", "index.html"));
 });
+
 
 /* -------------------------------------------------------------------------- */
 /*                                  Exports                                   */
