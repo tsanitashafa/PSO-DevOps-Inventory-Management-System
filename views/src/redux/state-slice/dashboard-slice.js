@@ -22,9 +22,31 @@ export const dashboardSlice = createSlice({
     SetPurchaseChart: (state, action) => {
       state.PurchaseChart = action.payload;
     },
+    SetReturnChart: (state, action) => {
+      state.ReturnChart = action.payload;
+    },
+    SetExpenseTotal: (state, action) => {
+      state.ExpenseTotal = action.payload;
+    },
+    SetSaleTotal: (state, action) => {
+      state.SaleTotal = action.payload;
+    },
+    SetPurchaseTotal: (state, action) => {
+      state.PurchaseTotal = action.payload;
+    },
+    SetReturnTotal: (state, action) => {
+      state.ReturnTotal = action.payload;
+    },
   },
 });
 
-export const { SetExpenseChart, SetPurchaseChart, SetSaleChart } =
-  dashboardSlice.actions;
+export const {
+  SetSaleChart,
+  SetPurchaseChart,
+  SetReturnChart,
+  SetExpenseChart,
+  SetExpenseTotal,
+  SetSaleTotal,
+  SetPurchaseTotal,
+} = dashboardSlice.actions;
 export default dashboardSlice.reducer;

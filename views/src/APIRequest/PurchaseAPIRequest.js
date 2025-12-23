@@ -72,7 +72,7 @@ export async function PurchaseSaveRequest(ParentBody, ChildsBody) {
     let PostBody = { Parent: ParentBody, Childs: ChildsBody };
     let URL = BaseURL + "/CreatePurchase";
     const result = await axios.post(URL, PostBody, AxiosHeaders);
-    console.log(result.data["status"]);
+
     store.dispatch(HideLoader());
     if (result.status === 200 && result.data["status"] === "success") {
       SuccessToast("Request Successful");
