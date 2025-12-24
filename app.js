@@ -95,11 +95,11 @@ app.use("/api/v1", router); // Mount API routes at /api/v1
 /*                                  Scaffolding Process                       */
 /* -------------------------------------------------------------------------- */
 // Scaffolding with client-side
-app.use(express.static(path.join(__dirname, "./views/dist/")));
+app.use(express.static(path.join(__dirname, "./client/dist/")));
 
 // Add React Front End Routing
 app.get("*", function (req, res) {
-  res.sendFile(path.resolve(__dirname, "views", "dist", "index.html"));
+  res.sendFile(path.resolve(__dirname, "client", "dist", "index.html"));
 });
 
 
