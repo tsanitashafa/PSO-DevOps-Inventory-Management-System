@@ -9,7 +9,7 @@ import {
 import { RegistrationRequest } from "../../APIRequest/UsersAPIRequest";
 
 const Registration = () => {
-  // let emailRef,firstNameRef,lastNameRef,mobileRef,passwordRef=useRef();
+
   const emailRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
