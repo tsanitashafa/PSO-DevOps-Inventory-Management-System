@@ -22,7 +22,7 @@ function CustomerCreateUpdate() {
     if (IsEmpty(FormValue.CustomerName)) {
       ErrorToast("Customer Name Required");
       return;
-    } else if (IsMobile(FormValue.Phone)) {
+    } else if (!IsMobile(FormValue.Phone)) {
       ErrorToast("Mobile No Required");
       return;
     } else if (IsEmail(FormValue.Email)) {
