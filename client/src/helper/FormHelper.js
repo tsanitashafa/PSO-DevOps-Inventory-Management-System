@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 const EmailRegx = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const OnlyNumberRegx = /^\d+$/;
 const validFileExtensions = ["jpg", "jpeg", "png"];
-const MobileRegx = /^(?:\+88|0088)?01[3-9]\d{8}$/; // Bangladesh mobile format
+const MobileRegx = /^(?:\+62|62|0)[0-9]{8,12}$/;
 
 class FormHelper {
   // Check if a value is empty or null
