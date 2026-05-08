@@ -50,7 +50,7 @@ const Dashboard = () => {
                   value={ExpenseTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"Rp"}
                 />
               </span>
               <p>Total Expense</p>
@@ -65,7 +65,7 @@ const Dashboard = () => {
                   value={SaleTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"Rp"}
                 />
               </span>
               <p>Total Sale</p>
@@ -80,7 +80,7 @@ const Dashboard = () => {
                   value={PurchaseTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"Rp"}
                 />
               </span>
               <p>Total Purchase</p>
@@ -95,7 +95,7 @@ const Dashboard = () => {
                   value={ReturnTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"$"}
+                  prefix={"Rp"}
                 />
               </span>
               <p>Total Return</p>
