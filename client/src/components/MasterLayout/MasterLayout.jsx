@@ -275,14 +275,14 @@ const MasterLayout = (props) => {
             <div className="user-dropdown">
               <img
                 className="icon-nav-img icon-nav-md"
-                src={getUserData()["photo"]}
+                src={getUserData()?.photo || logo}
                 alt="user-img"
               />
               <div className="user-dropdown-content ">
                 <div className="mt-4 text-center">
                   <img
                     className="icon-nav-img"
-                    src={getUserData()["photo"]}
+                    src={getUserData()?.photo || logo}
                     alt=""
                   />
                   <h6>{getUserData()["firstName"]}</h6>
