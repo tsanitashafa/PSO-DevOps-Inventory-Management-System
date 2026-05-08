@@ -34,9 +34,10 @@ const Profile = () => {
   let navigate = useNavigate();
 
   const PreviewImage = () => {
-    let ImgFile = userImgRef.files[0];
+    let ImgFile = userImgRef.current.files[0];
+  
     ToBase64(ImgFile).then((base64Img) => {
-      userImgView.src = base64Img;
+      userImgView.current.src = base64Img;
     });
   };
 
