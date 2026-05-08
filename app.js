@@ -71,8 +71,7 @@ app.use(
 /*                             Database Connection                            */
 /* -------------------------------------------------------------------------- */
 
-const MONGO_URI =
-  "mongodb+srv://<username>:<password>@cluster0.vidqntm.mongodb.net/inventory_management_system?retryWrites=true&w=majority";
+const MONGO_URI = process.env.MONGO_URI;
 
 const MONGO_OPTIONS = {
   user: "rmshanto786",
