@@ -26,10 +26,6 @@ const router = require("./src/routes/api");
 // Initialize Express
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Inventory Management API is running");
-});
-
 /* -------------------------------------------------------------------------- */
 /*                          Security & Middleware Setup                       */
 /* -------------------------------------------------------------------------- */
