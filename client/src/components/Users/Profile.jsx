@@ -95,7 +95,7 @@ const Profile = () => {
                 <img
                   ref={userImgView}
                   className="icon-nav-img-lg"
-                  src={ProfileData["photo"]}
+                  src={ProfileData?.photo || getUserData()?.photo}
                   alt=""
                 />
                 <hr />
