@@ -275,15 +275,17 @@ const MasterLayout = (props) => {
             <div className="user-dropdown">
               <img
                 className="icon-nav-img icon-nav-md"
-                src={getUserData()?.photo || logo}
+                src={getUserData()?.photo}
                 alt="user-img"
+                key={getUserData()?.photo}
               />
               <div className="user-dropdown-content ">
                 <div className="mt-4 text-center">
                   <img
                     className="icon-nav-img"
-                    src={getUserData()?.photo || logo}
+                    src={getUserData()?.photo}
                     alt=""
+                    key={getUserData()?.photo}
                   />
                   <h6>{getUserData()["firstName"]}</h6>
                   <hr className="user-dropdown-divider  p-0" />
