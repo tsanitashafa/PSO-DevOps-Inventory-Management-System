@@ -26,6 +26,8 @@ const router = require("./src/routes/api");
 // Initialize Express
 const app = express();
 
+app.set("trust proxy", 1);
+
 /* -------------------------------------------------------------------------- */
 /*                          Security & Middleware Setup                       */
 /* -------------------------------------------------------------------------- */
@@ -74,8 +76,6 @@ app.use(
 const MONGO_URI = process.env.MONGO_URI;
 
 const MONGO_OPTIONS = {
-  user: "rmshanto786",
-  pass: "shanto786",
   autoIndex: true,
 };
 
