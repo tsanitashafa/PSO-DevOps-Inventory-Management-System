@@ -3,6 +3,7 @@ import {
   GetProfileDetails,
   ProfileUpdateRequest,
 } from "../../APIRequest/UsersAPIRequest";
+import { getUserData, setUserData } from "../../helper/SessionHelper";
 import { useSelector } from "react-redux";
 import {
   ErrorToast,
@@ -67,7 +68,18 @@ const Profile = () => {
         photo
       );
       if (result === true) {
+        let user = getUserData();
+      
+        user.email = email;
+        user.firstName = fastName;
+        user.lastName = lastName;
+        user.mobile = mobile;
+        user.photo = photo;
+      
+        setUserData(user);
+      
         navigate("/");
+        window.location.reload();
       }
     }
   };
