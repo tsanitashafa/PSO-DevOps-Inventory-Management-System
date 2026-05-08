@@ -253,6 +253,10 @@ const MasterLayout = (props) => {
     removeUserData();
   };
 
+  const user = getUserData();
+  const userPhoto =
+    user?.photo && user.photo !== "none" ? user.photo : logo;
+
   return (
     <Fragment>
       <Navbar className="fixed-top  px-0">
@@ -275,7 +279,7 @@ const MasterLayout = (props) => {
             <div className="user-dropdown">
               <img
                 className="icon-nav-img icon-nav-md"
-                src={getUserData()?.photo}
+                src={userPhoto}
                 alt="user-img"
                 key={getUserData()?.photo}
               />
@@ -283,11 +287,11 @@ const MasterLayout = (props) => {
                 <div className="mt-4 text-center">
                   <img
                     className="icon-nav-img"
-                    src={getUserData()?.photo}
+                    src={userPhoto}
                     alt=""
                     key={getUserData()?.photo}
                   />
-                  <h6>{getUserData()["firstName"]}</h6>
+                  <h6>{user?.firstName}</h6>
                   <hr className="user-dropdown-divider  p-0" />
                 </div>
                 <NavLink to="/Profile" className="side-bar-item">
