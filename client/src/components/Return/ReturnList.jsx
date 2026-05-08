@@ -144,7 +144,7 @@ const ReturnList = () => {
                                       value={item.GrandTotal}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"$"}
+                                      prefix={"Rp"}
                                     />
                                   </p>
                                 </td>
@@ -155,7 +155,7 @@ const ReturnList = () => {
                                       value={item.ShippingCost}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"$"}
+                                      prefix={"Rp"}
                                     />
                                   </p>
                                 </td>
@@ -166,7 +166,7 @@ const ReturnList = () => {
                                       value={item.VatTax}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"$"}
+                                      prefix={"Rp"}
                                     />
                                   </p>
                                 </td>
@@ -177,7 +177,7 @@ const ReturnList = () => {
                                       value={item.OtherCost}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"$"}
+                                      prefix={"Rp"}
                                     />
                                   </p>
                                 </td>
@@ -188,7 +188,7 @@ const ReturnList = () => {
                                       value={item.Discount}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"$"}
+                                      prefix={"Rp"}
                                     />
                                   </p>
                                 </td>
