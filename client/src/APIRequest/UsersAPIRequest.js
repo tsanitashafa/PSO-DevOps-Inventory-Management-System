@@ -32,7 +32,7 @@ export async function LoginRequest(email, password) {
           headers: { token: res.data["token"] },
         });
         
-        setUserData(profileRes.data["data"][0]);
+        setUserData(res.data["data"]);
         store.dispatch(HideLoader());
         return true;
       }
