@@ -57,11 +57,18 @@ const Profile = () => {
     let lastName = lastNameRef.current.value;
     let mobile = mobileRef.current.value;
     let password = passwordRef.current.value;
-    let photo =
-      photoPreview && photoPreview.startsWith("data:image")
-        ? photoPreview
-        : getUserData()?.photo;
-
+  
+    // 🔹 Taruh currentPhoto di sini
+    let currentPhoto = "";
+    if (photoPreview && photoPreview.startsWith("data:image")) {
+      currentPhoto = photoPreview; // user pilih foto baru
+    } else if (ProfileData?.photo && ProfileData.photo.startsWith("data:image")) {
+      currentPhoto = ProfileData.photo; // backend terakhir
+    } else {
+      currentPhoto = getUserData()?.photo; // fallback localStorage
+    }
+  
+    // validasi form
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required !");
     } else if (IsEmpty(fastName)) {
@@ -73,25 +80,25 @@ const Profile = () => {
     } else if (IsEmpty(password)) {
       ErrorToast("Password Required !");
     } else {
+      // kirim request update
       let result = await ProfileUpdateRequest(
         email,
         fastName,
         lastName,
         mobile,
         password,
-        photo
+        currentPhoto
       );
+  
       if (result === true) {
-        let user = getUserData();
-      
+        let user = getUserData() || {};
         user.email = email;
         user.firstName = fastName;
         user.lastName = lastName;
         user.mobile = mobile;
-        user.photo = photo;
-      
+        user.photo = currentPhoto;
         setUserData(user);
-      
+  
         navigate("/");
         window.location.reload();
       }
