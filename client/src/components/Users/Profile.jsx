@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GetProfileDetails,
   ProfileUpdateRequest,
@@ -22,6 +22,9 @@ const Profile = () => {
   const passwordRef = useRef();
   const userImgRef = useRef();
   const userImgView = useRef();
+  const [photoPreview, setPhotoPreview] = useState(
+    getUserData()?.photo || ""
+  );
 
   useEffect(() => {
     (async () => {
@@ -31,13 +34,19 @@ const Profile = () => {
 
   const ProfileData = useSelector((state) => state.profile.value);
 
+  useEffect(() => {
+    if (ProfileData?.photo) {
+      setPhotoPreview(ProfileData.photo);
+    }
+  }, [ProfileData]);
+
   let navigate = useNavigate();
 
   const PreviewImage = () => {
     let ImgFile = userImgRef.current.files[0];
   
     ToBase64(ImgFile).then((base64Img) => {
-      userImgView.current.src = base64Img;
+      setPhotoPreview(base64Img);
     });
   };
 
@@ -47,7 +56,7 @@ const Profile = () => {
     let lastName = lastNameRef.current.value;
     let mobile = mobileRef.current.value;
     let password = passwordRef.current.value;
-    let photo = userImgView.current.src;
+    let photo = photoPreview;
 
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required !");
@@ -95,7 +104,7 @@ const Profile = () => {
                 <img
                   ref={userImgView}
                   className="icon-nav-img-lg"
-                  src={ProfileData?.photo || getUserData()?.photo}
+                  src={photoPreview || ProfileData?.photo || getUserData()?.photo}
                   alt=""
                 />
                 <hr />
