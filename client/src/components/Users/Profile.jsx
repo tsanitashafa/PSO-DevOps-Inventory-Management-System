@@ -122,7 +122,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Email Address</label>
                     <input
-                      defaultValue={ProfileData?.email || ""}
+                      defaultValue={ProfileData?.email || getUserData()?.email || ""}
                       readOnly={true}
                       ref={emailRef}
                       placeholder="User Email"
@@ -133,7 +133,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>First Name</label>
                     <input
-                      defaultValue={ProfileData?.firstName || ""}
+                      defaultValue={ProfileData?.firstName || getUserData()?.firstName || ""}
                       ref={firstNameRef}
                       placeholder="First Name"
                       className="form-control animated fadeInUp"
@@ -143,7 +143,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Last Name</label>
                     <input
-                      defaultValue={ProfileData?.lastName || ""}
+                      defaultValue={ProfileData?.lastName || getUserData()?.lastName || ""}
                       ref={lastNameRef}
                       placeholder="Last Name"
                       className="form-control animated fadeInUp"
@@ -153,7 +153,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Mobile</label>
                     <input
-                      defaultValue={ProfileData?.mobile || ""}
+                      defaultValue={ProfileData?.mobile || getUserData()?.mobile || ""}
                       ref={mobileRef}
                       placeholder="Mobile"
                       className="form-control animated fadeInUp"
@@ -163,7 +163,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Password</label>
                     <input
-                      defaultValue={ProfileData?.password || ""}
+                      defaultValue={ProfileData?.password || getUserData()?.password || ""}
                       ref={passwordRef}
                       placeholder="User Password"
                       className="form-control animated fadeInUp"
