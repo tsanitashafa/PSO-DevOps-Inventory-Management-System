@@ -57,7 +57,10 @@ const Profile = () => {
     let lastName = lastNameRef.current.value;
     let mobile = mobileRef.current.value;
     let password = passwordRef.current.value;
-    let photo = photoPreview;
+    let photo =
+      photoPreview && photoPreview.startsWith("data:image")
+        ? photoPreview
+        : getUserData()?.photo;
 
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required !");
