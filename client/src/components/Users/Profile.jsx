@@ -13,6 +13,7 @@ import {
   IsMobile,
 } from "../../helper/FormHelper";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/android-chrome-512x512.png";
 
 const Profile = () => {
   const emailRef = useRef();
@@ -104,7 +105,11 @@ const Profile = () => {
                 <img
                   ref={userImgView}
                   className="icon-nav-img-lg"
-                  src={photoPreview || ProfileData?.photo || getUserData()?.photo || ""}
+                  src={
+                    photoPreview && photoPreview !== "none"
+                      ? photoPreview
+                      : logo
+                  }
                   alt=""
                 />
                 <hr />
