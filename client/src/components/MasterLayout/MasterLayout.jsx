@@ -254,8 +254,13 @@ const MasterLayout = (props) => {
   };
 
   const user = getUserData();
+  
   const userPhoto =
-    user?.photo && user.photo !== "none" ? user.photo : logo;
+    user?.photo &&
+    user.photo !== "none" &&
+    user.photo.startsWith("data:image")
+      ? user.photo
+      : logo;
 
   return (
     <Fragment>
