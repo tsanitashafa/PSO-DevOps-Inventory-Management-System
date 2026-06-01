@@ -264,7 +264,7 @@ const MasterLayout = (props) => {
 
   return (
     <Fragment>
-      <Navbar className="fixed-top  px-0">
+      <Navbar className="glass-navbar">
         <Container fluid={true}>
           <Navbar.Brand>
             <div
