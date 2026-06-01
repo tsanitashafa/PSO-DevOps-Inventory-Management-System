@@ -106,10 +106,15 @@ td div {
     0 0 0 0.2rem rgba(16,185,129,0.15) !important;
 }
 .glass-navbar{
-  background:#ffffff !important;
-  backdrop-filter:blur(20px);
-  border-bottom:1px solid #e5e7eb;
-  box-shadow:0 4px 15px rgba(0,0,0,.05);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #ffffff !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 15px rgba(0,0,0,.05);
+  z-index: 2400;
 }
 .dropdown-menu{
   border:none;

@@ -1,4 +1,4 @@
-import { Fragment, useRef } from "react";
+import { Fragment, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 // Icons
@@ -21,29 +21,11 @@ import { RiDashboardLine } from "react-icons/ri";
 import logo from "../../assets/images/android-chrome-512x512.png";
 
 const MasterLayout = (props) => {
-  const sideNavRef = useRef(null);
-  const contentRef = useRef(null);
-  const topNavRef = useRef(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
   const MenuBarClickHandler = () => {
-    let sideNav = sideNavRef.current;
-    let content = contentRef.current;
-    let topNav = topNavRef.current;
-    if (sideNav.classList.contains("side-nav-open")) {
-      sideNav.classList.add("side-nav-close");
-      sideNav.classList.remove("side-nav-open");
-      content.classList.add("content-expand");
-      content.classList.remove("content");
-      topNav.classList.remove("top-nav-open");
-      topNav.classList.add("top-nav-close");
-    } else {
-      sideNav.classList.remove("side-nav-close");
-      sideNav.classList.add("side-nav-open");
-      content.classList.remove("content-expand");
-      content.classList.add("content");
-      topNav.classList.add("top-nav-open");
-      topNav.classList.remove("top-nav-close");
-    }
-  };
+    setSidebarOpen((prev) => !prev);
+};
 
   const isSidebarAccordionActive = () => {
     let urlList = [];
@@ -267,17 +249,13 @@ const MasterLayout = (props) => {
       <Navbar className="glass-navbar">
         <Container fluid={true}>
           <Navbar.Brand>
-            <div
-              ref={(div) => {
-                topNavRef.current = div;
-              }}
-              className="top-nav-open">
-              <h4 className="text-success m-0 p-0">
-                <a onClick={MenuBarClickHandler}>
-                  <AiOutlineMenu />
-                </a>
-              </h4>
-            </div>
+            <button
+              type="button"
+              onClick={MenuBarClickHandler}
+              className={`menu-toggle ${sidebarOpen ? "menu-toggle-open" : "menu-toggle-close"}`}
+            >
+              <AiOutlineMenu />
+            </button>
           </Navbar.Brand>
 
           <div className="float-right h-auto d-flex align-items-center">
@@ -321,11 +299,7 @@ const MasterLayout = (props) => {
         </Container>
       </Navbar>
 
-      <div
-        ref={(div) => {
-          sideNavRef.current = div;
-        }}
-        className="side-nav-open border-radius-0">
+      <div className={`${sidebarOpen ? "side-nav-open" : "side-nav-close"} border-radius-0`}>
         <NavLink
           to="/"
           end
@@ -383,7 +357,7 @@ const MasterLayout = (props) => {
         </Accordion>
       </div>
 
-      <div ref={(div) => (contentRef.current = div)} className="content">
+      <div className={sidebarOpen ? "content" : "content-expand"}>
         {props.children}
       </div>
     </Fragment>
