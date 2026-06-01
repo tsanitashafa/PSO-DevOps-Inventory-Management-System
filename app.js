@@ -8,6 +8,7 @@
  * - Mount API routes
  * - Handle 404 (Not Found) responses
  */
+require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -79,10 +80,20 @@ const MONGO_OPTIONS = {
   autoIndex: true,
 };
 
+const dns = require("dns");
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
 mongoose
   .connect(MONGO_URI, MONGO_OPTIONS)
   .then(() => console.log("MongoDB Connected Successfully"))
-  .catch((err) => console.error("MongoDB Connection Error:", err));
+  .catch((err) => {
+  console.error("MongoDB Connection Error:");
+  console.error("message:", err.message);
+  console.error("name:", err.name);
+  console.error("code:", err.code);
+  console.error(err);
+  });
+
 
 /* -------------------------------------------------------------------------- */
 /*                              Mount API Route                                   */
