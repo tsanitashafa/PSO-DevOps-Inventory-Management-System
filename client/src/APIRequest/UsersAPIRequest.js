@@ -27,6 +27,11 @@ export async function LoginRequest(email, password) {
         return false;
       } else {
         setToken(res.data["token"]);
+
+        const profileRes = await axios.get(BaseURL + "/ProfileDetails", {
+          headers: { token: res.data["token"] },
+        });
+        
         setUserData(res.data["data"]);
         store.dispatch(HideLoader());
         return true;

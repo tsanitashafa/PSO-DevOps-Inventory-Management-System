@@ -12,7 +12,11 @@ class SessionHelper {
     localStorage.setItem("userData", JSON.stringify(userData));
   }
   static getUserData() {
-    return JSON.parse(localStorage.getItem("userData"));
+    const data = localStorage.getItem("userData");
+  
+    return data && data !== "undefined"
+      ? JSON.parse(data)
+      : {};
   }
   static removeUserData() {
     localStorage.clear();
