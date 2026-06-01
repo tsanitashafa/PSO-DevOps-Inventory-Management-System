@@ -90,18 +90,20 @@
 .side-nav-open {
   direction: ltr;
   height: 100%;
-  width: 260px;
+  width: 260px !important;
+  min-width: 260px !important;
+  max-width: 260px !important;
   position: fixed;
   top: 0;
   left: 0;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   overflow-y: auto;
   padding: 0 12px 24px;
   background: linear-gradient(
     180deg,
-    #064e3b 0%,
-    #047857 50%,
-    #10b981 100%
+    #08634a 0%,
+    #10b981 50%,
+    #f9b3ea 100%
   );
   backdrop-filter: blur(20px);
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.15);
@@ -177,9 +179,12 @@
   transform: none;
 }
 .side-bar-item-active {
-  background: #ffffff;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  background: #ffffff !important;
+  border-radius: 14px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+  border: none !important;
+  outline: none !important;
+  transform: none !important;
 }
 .side-bar-item-icon {
   font-size: 18px;
@@ -337,11 +342,11 @@
     width: 0;
   }
   .content {
-    min-height: calc(100vh - 70px);
+    min-height: calc(100vh - var(--topbar-height));
     transition: 0.3s ease;
-    margin-top: 70px;
-    margin-left: 280px;
-    padding: 20px 24px 24px;
+    margin-top: var(--topbar-height) !important;
+    margin-left: calc(var(--sidebar-width) + 20px) !important;
+    padding: 0 24px 24px !important;
     background: linear-gradient(
       135deg,
       #ecfffb 0%,
@@ -351,11 +356,11 @@
     );
   }
   .content-expand {
-      min-height: 100vh;
+      min-height: calc(100vh - var(--topbar-height));
       transition: 0.3s ease;
-      margin-top: 70px;
-      margin-left: 0;
-      padding: 70px 24px 24px;
+      margin-top: var(--topbar-height) !important;
+      margin-left: 0 !important;
+      padding: 0 24px 24px !important;
       background: linear-gradient(
         135deg,
         #f0fdf4 0%,
@@ -401,23 +406,24 @@
   box-shadow: none !important;
   transform: none !important;
 }
-
 .user-dropdown-content .side-bar-item:hover,
 .user-dropdown-content .side-bar-item-active:hover {
   background: #ecfdf5 !important;
   color: #047857 !important;
 }
-
 .user-dropdown-content .side-bar-item-icon,
 .user-dropdown-content .side-bar-item-caption {
   color: #1f2937 !important;
 }
-
-.user-dropdown-content .side-bar-item:hover .side-bar-item-icon,
-.user-dropdown-content .side-bar-item:hover .side-bar-item-caption,
-.user-dropdown-content .side-bar-item-active .side-bar-item-icon,
-.user-dropdown-content .side-bar-item-active .side-bar-item-caption {
+.side-bar-item:hover .side-bar-item-icon,
+.side-bar-item:hover .side-bar-item-caption {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+.side-bar-item-active .side-bar-item-caption,
+.side-bar-item-active .side-bar-item-icon {
   color: #047857 !important;
+  font-weight: 700;
 }
 
 
