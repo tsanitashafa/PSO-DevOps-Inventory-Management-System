@@ -272,7 +272,7 @@ const MasterLayout = (props) => {
                 topNavRef.current = div;
               }}
               className="top-nav-open">
-              <h4 className="text-white m-0 p-0">
+              <h4 className="text-success m-0 p-0">
                 <a onClick={MenuBarClickHandler}>
                   <AiOutlineMenu />
                 </a>

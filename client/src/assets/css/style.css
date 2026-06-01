@@ -106,14 +106,22 @@ td div {
     0 0 0 0.2rem rgba(16,185,129,0.15) !important;
 }
 .glass-navbar{
-  background:
-      rgba(255,255,255,.90)!important;
-  backdrop-filter:
-      blur(20px);
-  border-bottom:
-      1px solid rgba(255,255,255,.4);
-  box-shadow:
-      0 5px 20px rgba(0,0,0,.05);
+  background:#ffffff !important;
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid #e5e7eb;
+  box-shadow:0 4px 15px rgba(0,0,0,.05);
+}
+.dropdown-menu{
+  border:none;
+  border-radius:14px;
+  box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+.dropdown-item{
+  color:#1f2937 !important;
+}
+.dropdown-item:hover{
+  background:#ecfdf5;
+  color:#047857 !important;
 }
 .table tbody tr{
   transition:.2s;
@@ -176,30 +184,30 @@ td div {
 }
 .expense-gradient{
   background:linear-gradient(
-      135deg,
-      #ef4444,
-      #f97316
+    135deg,
+    #047857,
+    #10b981
   );
 }
 .sales-gradient{
   background:linear-gradient(
-      135deg,
-      #10b981,
-      #06b6d4
+    135deg,
+    #059669,
+    #14b8a6
   );
 }
 .purchase-gradient{
   background:linear-gradient(
-      135deg,
-      #3b82f6,
-      #8b5cf6
+    135deg,
+    #0ea5e9,
+    #3b82f6
   );
 }
 .return-gradient{
   background:linear-gradient(
-      135deg,
-      #f59e0b,
-      #f97316
+    135deg,
+    #0891b2,
+    #06b6d4
   );
 }
 .chart-card{
@@ -210,9 +218,12 @@ td div {
 .dashboard-title{
   font-size:28px;
   font-weight:700;
+  margin-top:10px;
 }
 .dashboard-subtitle{
   color:#64748b;
+  display:block;
+  margin-bottom:25px;
 }
 .chart-card .card-body{
   padding:24px;
