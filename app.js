@@ -26,6 +26,8 @@ const router = require("./src/routes/api");
 // Initialize Express
 const app = express();
 
+app.set("trust proxy", 1);
+
 /* -------------------------------------------------------------------------- */
 /*                          Security & Middleware Setup                       */
 /* -------------------------------------------------------------------------- */
@@ -71,12 +73,9 @@ app.use(
 /*                             Database Connection                            */
 /* -------------------------------------------------------------------------- */
 
-const MONGO_URI =
-  "mongodb+srv://<username>:<password>@cluster0.vidqntm.mongodb.net/inventory_management_system?retryWrites=true&w=majority";
+const MONGO_URI = process.env.MONGO_URI;
 
 const MONGO_OPTIONS = {
-  user: "rmshanto786",
-  pass: "shanto786",
   autoIndex: true,
 };
 

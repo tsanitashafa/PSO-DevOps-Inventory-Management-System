@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GetProfileDetails,
   ProfileUpdateRequest,
 } from "../../APIRequest/UsersAPIRequest";
+import { getUserData, setUserData } from "../../helper/SessionHelper";
 import { useSelector } from "react-redux";
 import {
   ErrorToast,
@@ -12,6 +13,7 @@ import {
   IsMobile,
 } from "../../helper/FormHelper";
 import { useNavigate } from "react-router-dom";
+import logo from "../../assets/images/android-chrome-512x512.png";
 
 const Profile = () => {
   const emailRef = useRef();
@@ -21,6 +23,9 @@ const Profile = () => {
   const passwordRef = useRef();
   const userImgRef = useRef();
   const userImgView = useRef();
+  const [photoPreview, setPhotoPreview] = useState(
+    getUserData()?.photo || ""
+  );
 
   useEffect(() => {
     (async () => {
@@ -30,12 +35,19 @@ const Profile = () => {
 
   const ProfileData = useSelector((state) => state.profile.value);
 
+  useEffect(() => {
+    if (ProfileData?.photo) {
+      setPhotoPreview(ProfileData.photo);
+    }
+  }, [ProfileData]);
+
   let navigate = useNavigate();
 
   const PreviewImage = () => {
-    let ImgFile = userImgRef.files[0];
+    let ImgFile = userImgRef.current.files[0];
+  
     ToBase64(ImgFile).then((base64Img) => {
-      userImgView.src = base64Img;
+      setPhotoPreview(base64Img);
     });
   };
 
@@ -45,8 +57,18 @@ const Profile = () => {
     let lastName = lastNameRef.current.value;
     let mobile = mobileRef.current.value;
     let password = passwordRef.current.value;
-    let photo = userImgView.current.src;
-
+  
+    // 🔹 Taruh currentPhoto di sini
+    let currentPhoto = "";
+    if (photoPreview && photoPreview.startsWith("data:image")) {
+      currentPhoto = photoPreview; // user pilih foto baru
+    } else if (ProfileData?.photo && ProfileData.photo.startsWith("data:image")) {
+      currentPhoto = ProfileData.photo; // backend terakhir
+    } else {
+      currentPhoto = getUserData()?.photo; // fallback localStorage
+    }
+  
+    // validasi form
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required !");
     } else if (IsEmpty(fastName)) {
@@ -58,16 +80,27 @@ const Profile = () => {
     } else if (IsEmpty(password)) {
       ErrorToast("Password Required !");
     } else {
+      // kirim request update
       let result = await ProfileUpdateRequest(
         email,
         fastName,
         lastName,
         mobile,
         password,
-        photo
+        currentPhoto
       );
+  
       if (result === true) {
+        let user = getUserData() || {};
+        user.email = email;
+        user.firstName = fastName;
+        user.lastName = lastName;
+        user.mobile = mobile;
+        user.photo = currentPhoto;
+        setUserData(user);
+  
         navigate("/");
+        window.location.reload();
       }
     }
   };
@@ -82,7 +115,11 @@ const Profile = () => {
                 <img
                   ref={userImgView}
                   className="icon-nav-img-lg"
-                  src={ProfileData["photo"]}
+                  src={
+                    photoPreview && photoPreview !== "none"
+                      ? photoPreview
+                      : logo
+                  }
                   alt=""
                 />
                 <hr />
@@ -100,7 +137,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Email Address</label>
                     <input
-                      defaultValue={ProfileData["email"]}
+                      defaultValue={ProfileData?.email || getUserData()?.email || ""}
                       readOnly={true}
                       ref={emailRef}
                       placeholder="User Email"
@@ -111,7 +148,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>First Name</label>
                     <input
-                      defaultValue={ProfileData["firstName"]}
+                      defaultValue={ProfileData?.firstName || getUserData()?.firstName || ""}
                       ref={firstNameRef}
                       placeholder="First Name"
                       className="form-control animated fadeInUp"
@@ -121,7 +158,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Last Name</label>
                     <input
-                      defaultValue={ProfileData["lastName"]}
+                      defaultValue={ProfileData?.lastName || getUserData()?.lastName || ""}
                       ref={lastNameRef}
                       placeholder="Last Name"
                       className="form-control animated fadeInUp"
@@ -131,7 +168,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Mobile</label>
                     <input
-                      defaultValue={ProfileData["mobile"]}
+                      defaultValue={ProfileData?.mobile || getUserData()?.mobile || ""}
                       ref={mobileRef}
                       placeholder="Mobile"
                       className="form-control animated fadeInUp"
@@ -141,7 +178,7 @@ const Profile = () => {
                   <div className="col-4 p-2">
                     <label>Password</label>
                     <input
-                      defaultValue={ProfileData["password"]}
+                      defaultValue={ProfileData?.password || getUserData()?.password || ""}
                       ref={passwordRef}
                       placeholder="User Password"
                       className="form-control animated fadeInUp"
