@@ -5,10 +5,16 @@
 @import 'modal.css';
 @import 'dropdownmenu.css';
 body {
-  background: var(--bs-gray-100);
+  background: linear-gradient(
+    135deg,
+    #f0fdf4 0%,
+    #ecfdf5 40%,
+    #f8fafc 100%
+  );
+
+  min-height: 100vh;
   font-size: 14px;
   font-family: 'Poppins', sans-serif !important;
-
 }
 h1, h2, h3, h4, h5, h6,p,b,i ,label,button, input, textarea,span {
   font-family: 'Poppins', sans-serif !important;
@@ -17,7 +23,7 @@ h1, h2, h3, h4, h5, h6,p,b,i ,label,button, input, textarea,span {
 a {
   font-family: 'Poppins', sans-serif !important;
   cursor: pointer !important;
-   text-decoration: none !important;
+    text-decoration: none !important;
   
 }
 
@@ -48,4 +54,76 @@ td div {
   white-space: normal;
   word-break: break-all;
   display: block;
+}
+.card {
+  border: none !important;
+
+  border-radius: 18px !important;
+
+  box-shadow:
+    0 8px 30px rgba(0,0,0,0.08);
+
+  transition: 0.3s;
+}
+
+.card:hover {
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 12px 35px rgba(0,0,0,0.12);
+}
+.table {
+
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+.table thead {
+
+  background:
+    linear-gradient(
+      90deg,
+      #059669,
+      #10b981
+    );
+
+  color: white;
+}
+.btn-success {
+
+  background:
+    linear-gradient(
+      90deg,
+      #059669,
+      #10b981
+    ) !important;
+
+  border: none !important;
+}
+
+.btn-primary {
+
+  background:
+    linear-gradient(
+      90deg,
+      #0284c7,
+      #38bdf8
+    ) !important;
+
+  border: none !important;
+}
+.form-control {
+
+  border-radius: 12px !important;
+
+  border: 1px solid #d1fae5 !important;
+}
+.form-control:focus {
+
+  border-color: #10b981 !important;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(16,185,129,0.15) !important;
 }
