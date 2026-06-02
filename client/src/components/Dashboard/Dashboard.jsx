@@ -1,9 +1,14 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaShoppingCart,
   FaMoneyBillWave,
   FaUndo,
   FaReceipt,
+  FaUserFriends,
+  FaTruck,
+  FaChartLine,
+  FaBoxOpen,
 } from "react-icons/fa";
 
 import {
@@ -14,6 +19,9 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
 } from "recharts";
 
 import { useSelector } from "react-redux";
@@ -27,6 +35,7 @@ import {
 } from "../../APIRequest/SummaryAPIRequest";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     (async () => {
       await ExpenseSummary();
@@ -63,12 +72,53 @@ const Dashboard = () => {
   const PurchaseTotal = useSelector(
     (state) => state.dashboard.PurchaseTotal
   );
+  const expenseNumber = Number(ExpenseTotal || 0);
+  const saleNumber = Number(SaleTotal || 0);
 
-  return (
+  const gaugeData = [
+    {
+      name: "Expense",
+      value: expenseNumber > 0 ? expenseNumber : 1,
+    },
+    {
+      name: "Sales",
+      value: saleNumber > 0 ? saleNumber : 1,
+    },
+  ];
+
+  const gaugeColors = ["#fb923c", "#14b8a6"];
+  const dashboardHighlights = [
+    {
+      title: "Top Customer",
+      value: "Tsanita Shafa",
+      description: "Most active customer this month",
+      icon: <FaUserFriends />,
+    },
+    {
+      title: "Top Supplier",
+      value: "PT PSO C",
+      description: "Supplier with highest activity",
+      icon: <FaTruck />,
+    },
+    {
+      title: "Top Expense",
+      value: "Operational Cost",
+      description: "Largest expense category",
+      icon: <FaChartLine />,
+    },
+    {
+      title: "Best Product",
+      value: "Inventory Item",
+      description: "Most frequently sold product",
+      icon: <FaBoxOpen />,
+    },
+  ];
+
+  return(
     <div className="container-fluid">
 
       {/* Header */}
-      <div className="mb-4">
+      <div className="dashboard-header">
         <h2 className="dashboard-title">
           Inventory Dashboard
         </h2>
@@ -82,80 +132,86 @@ const Dashboard = () => {
       <div className="row">
 
         <div className="col-md-3 p-2">
-          <div className="dashboard-stat-card expense-gradient">
+          <div className="dashboard-stat-card expense-gradient dashboard-clickable-card" onClick={() => navigate("/ExpenseListPage")}>
+            <div>
+              <div className="dashboard-stat-title">
+                Total Expense
+              </div>
+
+              <div className="dashboard-stat-value">
+                <CurrencyFormat
+                  value={ExpenseTotal}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"Rp "}
+                />
+              </div>
+            </div>
             <FaMoneyBillWave className="dashboard-stat-icon" />
-
-            <div className="dashboard-stat-value">
-              <CurrencyFormat
-                value={ExpenseTotal}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"Rp "}
-              />
-            </div>
-
-            <div className="dashboard-stat-title">
-              Total Expense
-            </div>
           </div>
         </div>
 
         <div className="col-md-3 p-2">
-          <div className="dashboard-stat-card sales-gradient">
+          <div
+            className="dashboard-stat-card sales-gradient dashboard-clickable-card"
+            onClick={() => navigate("/SalesListPage")}>
+            <div>
+              <div className="dashboard-stat-title">
+                Total Sales
+              </div>
+
+              <div className="dashboard-stat-value">
+                <CurrencyFormat
+                  value={SaleTotal}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"Rp "}
+                />
+              </div>
+            </div>
             <FaShoppingCart className="dashboard-stat-icon" />
-
-            <div className="dashboard-stat-value">
-              <CurrencyFormat
-                value={SaleTotal}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"Rp "}
-              />
-            </div>
-
-            <div className="dashboard-stat-title">
-              Total Sales
-            </div>
           </div>
         </div>
 
         <div className="col-md-3 p-2">
-          <div className="dashboard-stat-card purchase-gradient">
+          <div className="dashboard-stat-card purchase-gradient dashboard-clickable-card" onClick={() => navigate("/PurchaseListPage")}>
+            <div>
+              <div className="dashboard-stat-title">
+                Total Purchase
+              </div>
+
+              <div className="dashboard-stat-value">
+                <CurrencyFormat
+                  value={PurchaseTotal}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"Rp "}
+                />
+              </div>
+            </div>
             <FaReceipt className="dashboard-stat-icon" />
-
-            <div className="dashboard-stat-value">
-              <CurrencyFormat
-                value={PurchaseTotal}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"Rp "}
-              />
-            </div>
-
-            <div className="dashboard-stat-title">
-              Total Purchase
-            </div>
           </div>
         </div>
 
         <div className="col-md-3 p-2">
-          <div className="dashboard-stat-card return-gradient">
+          <div className="dashboard-stat-card return-gradient dashboard-clickable-card" onClick={() => navigate("/ReturnListPage")}>
+            <div>
+              <div className="dashboard-stat-title">
+                Total Return
+              </div>
+
+              <div className="dashboard-stat-value">
+                <CurrencyFormat
+                  value={ReturnTotal}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"Rp "}
+                />
+              </div>
+            </div>
             <FaUndo className="dashboard-stat-icon" />
-
-            <div className="dashboard-stat-value">
-              <CurrencyFormat
-                value={ReturnTotal}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"Rp "}
-              />
-            </div>
-
-            <div className="dashboard-stat-title">
-              Total Return
-            </div>
-          </div>
         </div>
+      </div>
 
       </div>
 
@@ -474,7 +530,105 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {/* Gauge + Highlight Data */}
+<div className="row mt-1">
+
+  <div className="col-lg-5 p-2">
+    <div className="card dashboard-extra-card">
+      <div className="card-body">
+
+        <div className="dashboard-section-title">
+          <h5>Expense vs Sales</h5>
+          <span>Simple comparison based on total summary</span>
+        </div>
+
+        <div className="dashboard-gauge-wrapper">
+          <ResponsiveContainer width="100%" height={230}>
+            <PieChart>
+              <Pie
+                data={gaugeData}
+                cx="50%"
+                cy="82%"
+                startAngle={180}
+                endAngle={0}
+                innerRadius={70}
+                outerRadius={105}
+                paddingAngle={5}
+                dataKey="value"
+              >
+                {gaugeData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={gaugeColors[index]}
+                  />
+                ))}
+              </Pie>
+
+              <Tooltip
+                contentStyle={{
+                  borderRadius: "12px",
+                  border: "none",
+                  boxShadow: "0 8px 20px rgba(0,0,0,.15)",
+                }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+
+          <div className="dashboard-gauge-text">
+            <span>Dominant</span>
+            <h4>
+              {expenseNumber >= saleNumber ? "Expense" : "Sales"}
+            </h4>
+          </div>
+        </div>
+
+        <div className="dashboard-gauge-legend">
+          <div>
+            <span className="legend-dot expense-dot"></span>
+            Expense
+          </div>
+          <div>
+            <span className="legend-dot sales-dot"></span>
+            Sales
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
+
+  <div className="col-lg-7 p-2">
+    <div className="card dashboard-extra-card">
+      <div className="card-body">
+
+        <div className="dashboard-section-title">
+          <h5>Business Highlights</h5>
+          <span>Quick string data for dashboard overview</span>
+        </div>
+
+        <div className="dashboard-highlight-grid">
+          {dashboardHighlights.map((item, index) => (
+            <div
+              className="dashboard-highlight-card"
+              key={index}
+            >
+              <div className="dashboard-highlight-icon">
+                {item.icon}
+              </div>
+
+              <div>
+                <p>{item.title}</p>
+                <h6>{item.value}</h6>
+                <span>{item.description}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
   );
 };
 export default Dashboard;
