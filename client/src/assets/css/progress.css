@@ -22,7 +22,7 @@
     background-color: var(--bs-dark);
 }
 .Line-Progress .indeterminate:before {
-       z-index: -100 !important;
+        z-index: -100 !important;
         height: 3px;
         content: "";
         position: fixed;
@@ -48,7 +48,7 @@
         animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
         -webkit-animation-delay: 1.15s;
         animation-delay: 1.15s;
- }
+}
 @-webkit-keyframes indeterminate {
     0% {
         left: -35%;
