@@ -1,38 +1,38 @@
 class SessionHelper {
   static setToken(token) {
-    localStorage.setItem("token", token);
+    sessionStorage.setItem("token", token);
   }
   static getToken() {
-    return localStorage.getItem("token");
+    return sessionStorage.getItem("token");
   }
   static removeToken() {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
   }
   static setUserData(userData) {
-    localStorage.setItem("userData", JSON.stringify(userData));
+    sessionStorage.setItem("userData", JSON.stringify(userData));
   }
   static getUserData() {
-    const data = localStorage.getItem("userData");
+    const data = sessionStorage.getItem("userData");
   
     return data && data !== "undefined"
       ? JSON.parse(data)
       : {};
   }
   static removeUserData() {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.href = "/login";
   }
   static setEmail(email) {
-    localStorage.setItem("email", email);
+    sessionStorage.setItem("email", email);
   }
   static getEmail() {
-    return localStorage.getItem("email");
+    return sessionStorage.getItem("email");
   }
   static setOTP(OTP) {
-    localStorage.setItem("OTP", OTP);
+    sessionStorage.setItem("OTP", OTP);
   }
   static getOTP() {
-    return localStorage.getItem("OTP");
+    return sessionStorage.getItem("OTP");
   }
 }
 export const {
