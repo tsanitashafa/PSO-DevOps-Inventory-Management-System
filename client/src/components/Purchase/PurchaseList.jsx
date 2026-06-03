@@ -141,7 +141,7 @@ const PurchaseList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.GrandTotal}
+                                      value={item.GrandTotal || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -152,7 +152,7 @@ const PurchaseList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.ShippingCost}
+                                      value={item.ShippingCost || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -163,7 +163,7 @@ const PurchaseList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.VatTax}
+                                      value={item.VatTax || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -174,7 +174,7 @@ const PurchaseList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.OtherCost}
+                                      value={item.OtherCost || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -185,7 +185,7 @@ const PurchaseList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.Discount}
+                                      value={item.Discount || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -228,7 +228,7 @@ const PurchaseList = () => {
                           breakLabel="..."
                           breakClassName="page-item"
                           breakLinkClassName="page-link"
-                          pageCount={(Total / perPage)}
+                          pageCount={Math.max(1, Math.ceil(Total / perPage))}
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={handlePageClick}
