@@ -17,8 +17,12 @@ const SalesList = () => {
     })();
   }, []);
 
-  let DataList = useSelector((state) => state.sale.List);
-  let Total = useSelector((state) => state.sale.ListTotal);
+  const DataList = useSelector((state) => {
+    const list = state.sale.List;
+    return Array.isArray(list) ? list : [];
+  });
+
+  const Total = useSelector((state) => state.sale.ListTotal || 0);
 
   const handlePageClick = async (event) => {
     await SaleListRequest(event.selected + 1, perPage, searchKeyword);
@@ -74,7 +78,7 @@ const SalesList = () => {
                         <option value="30">30 Per Page</option>
                         <option value="50">50 Per Page</option>
                         <option value="100">100 Per Page</option>
-                        <option value="100">200 Per Page</option>
+                        <option value="200">200 Per Page</option>
                       </select>
                     </div>
                     <div className="col-4">
@@ -130,17 +134,17 @@ const SalesList = () => {
                           </thead>
                           <tbody>
                             {DataList.map((item, i) => (
-                              <tr>
+                              <tr key={item._id || i}>
                                 <td>
                                   <p className="text-xs text-start">
-                                    {item.customers[0]["CustomerName"]}
+                                    {item.customers?.[0]?.CustomerName || "Unknown Customer"}
                                   </p>
                                 </td>
 
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.GrandTotal}
+                                      value={item.GrandTotal || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -151,7 +155,7 @@ const SalesList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.ShippingCost}
+                                      value={item.ShippingCost || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -162,7 +166,7 @@ const SalesList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.VatTax}
+                                      value={item.VatTax || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -173,7 +177,7 @@ const SalesList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.OtherCost}
+                                      value={item.OtherCost || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -184,7 +188,7 @@ const SalesList = () => {
                                 <td>
                                   <p className="text-xs text-start">
                                     <CurrencyFormat
-                                      value={item.Discount}
+                                      value={item.Discount || 0}
                                       displayType={"text"}
                                       thousandSeparator={true}
                                       prefix={"Rp"}
@@ -227,7 +231,7 @@ const SalesList = () => {
                           breakLabel="..."
                           breakClassName="page-item"
                           breakLinkClassName="page-link"
-                          pageCount={(Total / perPage).toFixed(0)}
+                          pageCount={Math.max(1, Math.ceil(Total / perPage))}
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={handlePageClick}
