@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { getToken } from "./helper/SessionHelper";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
 import FullscreenLoader from "./components/MasterLayout/FullScreenLoader";
 import LoginPage from "./pages/Users/LoginPage";
@@ -39,7 +39,7 @@ const App = () => {
   if (getToken()) {
     return (
       <Fragment>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route
               exact
@@ -149,14 +149,14 @@ const App = () => {
             <Route exact path="/Profile" element={<ProfilePage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
         <FullscreenLoader />
       </Fragment>
     );
   } else {
     return (
       <Fragment>
-        <BrowserRouter>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Navigate to="/Login" replace />} />
             <Route exact path="/Login" element={<LoginPage />} />
@@ -171,7 +171,7 @@ const App = () => {
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
         <FullscreenLoader />
       </Fragment>
     );
