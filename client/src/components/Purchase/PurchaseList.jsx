@@ -16,7 +16,7 @@ const PurchaseList = () => {
     })();
   }, []);
 
-  const DataList = useSelector((state) => state.purchase.List);
+  const DataList = useSelector((state) => state.purchase.List || []);
   const Total = useSelector((state) => state.purchase.ListTotal);
 
   const handlePageClick = async (event) => {
@@ -133,7 +133,7 @@ const PurchaseList = () => {
                               <tr>
                                 <td>
                                   <p className="text-xs text-start">
-                                    {item.suppliers[0]["Name"]}
+                                    {item.suppliers?.[0]?.Name || "Unknown Supplier"}
                                   </p>
                                 </td>
 
