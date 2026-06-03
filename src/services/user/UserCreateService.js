@@ -4,16 +4,22 @@
 
 const UserCreateService = async (Request, DataModel) => {
   try {
-    // Getting Data from Request
-    const Postbody = Request.body;
-    // Insert Data into User Collection
-    const data = await DataModel.create(Postbody);
-    // Return Success
-    return { status: "success", data: data };
+    let reqBody = Request.body;
+
+    reqBody.photo = "none";
+
+    let data = await DataModel.create(reqBody);
+
+    return {
+      status: "success",
+      data: data,
+    };
   } catch (error) {
-    // Return Error
-    return { status: "fail", data: error.toString() };
+    return {
+      status: "fail",
+      data: error.toString(),
+    };
   }
 };
-// Exporting Module
+
 module.exports = UserCreateService;
