@@ -16,8 +16,9 @@ const PurchaseList = () => {
     })();
   }, []);
 
-  const DataList = useSelector((state) => state.purchase.List || []);
-  const Total = useSelector((state) => state.purchase.ListTotal);
+  const DataList = useSelector((state) => {const list = state.purchase.List;
+  return Array.isArray(list) ? list : []; });
+  const Total = useSelector((state) => state.purchase.ListTotal || 0);
 
   const handlePageClick = async (event) => {
     await PurchaseListRequest(event.selected + 1, perPage, searchKeyword);
@@ -74,7 +75,7 @@ const PurchaseList = () => {
                         <option value="30">30 Per Page</option>
                         <option value="50">50 Per Page</option>
                         <option value="100">100 Per Page</option>
-                        <option value="100">200 Per Page</option>
+                        <option value="200">200 Per Page</option>
                       </select>
                     </div>
                     <div className="col-4">
@@ -129,8 +130,8 @@ const PurchaseList = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {DataList.map((item) => (
-                              <tr>
+                            {DataList.map((item, index) => (
+                              <tr key={item._id || index}>
                                 <td>
                                   <p className="text-xs text-start">
                                     {item.suppliers?.[0]?.Name || "Unknown Supplier"}
@@ -227,7 +228,7 @@ const PurchaseList = () => {
                           breakLabel="..."
                           breakClassName="page-item"
                           breakLinkClassName="page-link"
-                          pageCount={(Total / perPage).toFixed(0)}
+                          pageCount={(Total / perPage)}
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={handlePageClick}
