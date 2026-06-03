@@ -13,7 +13,7 @@ import {
   IsMobile,
 } from "../../helper/FormHelper";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/images/android-chrome-512x512.png";
+import avatar from "../../assets/images/avatar.png";
 
 const Profile = () => {
   const emailRef = useRef();
@@ -53,7 +53,7 @@ const Profile = () => {
 
   const UpdateMyProfile = async () => {
     let email = emailRef.current.value;
-    let fastName = firstNameRef.current.value;
+    let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
     let mobile = mobileRef.current.value;
     let password = passwordRef.current.value;
@@ -71,7 +71,7 @@ const Profile = () => {
     // validasi form
     if (IsEmail(email)) {
       ErrorToast("Valid Email Address Required !");
-    } else if (IsEmpty(fastName)) {
+    } else if (IsEmpty(firstName)) {
       ErrorToast("First Name Required !");
     } else if (IsEmpty(lastName)) {
       ErrorToast("Last Name Required !");
@@ -83,7 +83,7 @@ const Profile = () => {
       // kirim request update
       let result = await ProfileUpdateRequest(
         email,
-        fastName,
+        firstName,
         lastName,
         mobile,
         password,
@@ -93,7 +93,7 @@ const Profile = () => {
       if (result === true) {
         let user = getUserData() || {};
         user.email = email;
-        user.firstName = fastName;
+        user.firstName = firstName;
         user.lastName = lastName;
         user.mobile = mobile;
         user.photo = currentPhoto;
@@ -118,7 +118,7 @@ const Profile = () => {
                   src={
                     photoPreview && photoPreview !== "none"
                       ? photoPreview
-                      : logo
+                      : avatar
                   }
                   alt=""
                 />
