@@ -19,6 +19,7 @@ import { Accordion, Container, Navbar } from "react-bootstrap";
 import { getUserData, removeUserData } from "../../helper/SessionHelper";
 import { RiDashboardLine } from "react-icons/ri";
 import logo from "../../assets/images/android-chrome-512x512.png";
+import avatar from "../../assets/images/avatar.png";
 
 const MasterLayout = (props) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -242,7 +243,7 @@ const MasterLayout = (props) => {
     user.photo !== "none" &&
     user.photo.startsWith("data:image")
       ? user.photo
-      : logo;
+      : avatar;
 
   return (
     <Fragment>
