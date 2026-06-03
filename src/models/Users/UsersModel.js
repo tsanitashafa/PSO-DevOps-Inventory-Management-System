@@ -8,7 +8,10 @@ const DataSchema = mongoose.Schema(
     firstName: { type: String },
     lastName: { type: String },
     mobile: { type: String },
-    photo: { type: String },
+    photo: {
+      type: String,
+      default: "none",
+    },
     password: { type: String },
     createdAt: { type: Date, default: Date.now() },
   },
