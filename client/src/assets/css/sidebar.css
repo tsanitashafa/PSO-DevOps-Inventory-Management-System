@@ -208,20 +208,35 @@
   backdrop-filter: blur(10px);
   transform: none !important;
 }
-.side-bar-item:hover .side-bar-item-icon,
-.side-bar-item:hover .side-bar-item-caption {
+.side-bar-item:not(.side-bar-item-active):hover .side-bar-item-icon,
+.side-bar-item:not(.side-bar-item-active):hover .side-bar-item-caption {
   color: #ffffff !important;
 }
-.side-bar-item-active {
+/* active main tab, contoh Dashboard */
+.side-nav-open .side-bar-item.side-bar-item-active,
+.side-nav-open .side-bar-item-active {
   background: #ffffff !important;
   border-radius: 14px !important;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12) !important;
+  border: none !important;
+  outline: none !important;
   transform: none !important;
+  opacity: 1 !important;
 }
-.side-bar-item-active .side-bar-item-icon,
-.side-bar-item-active .side-bar-item-caption {
+.side-nav-open .side-bar-item.side-bar-item-active .side-bar-item-icon,
+.side-nav-open .side-bar-item.side-bar-item-active .side-bar-item-caption,
+.side-nav-open .side-bar-item-active .side-bar-item-icon,
+.side-nav-open .side-bar-item-active .side-bar-item-caption {
   color: #047857 !important;
-  font-weight: 700 !important;
+  font-weight: 800 !important;
+  opacity: 1 !important;
+}
+/* kalau active item di-hover, tetap hijau di atas background putih */
+.side-nav-open .side-bar-item.side-bar-item-active:hover .side-bar-item-icon,
+.side-nav-open .side-bar-item.side-bar-item-active:hover .side-bar-item-caption,
+.side-nav-open .side-bar-item-active:hover .side-bar-item-icon,
+.side-nav-open .side-bar-item-active:hover .side-bar-item-caption {
+  color: #047857 !important;
 }
 .side-bar-subitem {
   cursor: pointer !important;
