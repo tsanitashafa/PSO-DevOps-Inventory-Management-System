@@ -131,7 +131,7 @@ const Dashboard = () => {
       {/* Statistic Cards */}
       <div className="row">
 
-        <div className="col-md-3 p-2">
+        <div className="col-12 col-sm-6 col-xl-3 p-2">
           <div className="dashboard-stat-card expense-gradient dashboard-clickable-card" onClick={() => navigate("/ExpenseListPage")}>
             <div>
               <div className="dashboard-stat-title">
@@ -151,7 +151,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="col-md-3 p-2">
+        <div className="col-12 col-sm-6 col-xl-3 p-2">
           <div
             className="dashboard-stat-card sales-gradient dashboard-clickable-card"
             onClick={() => navigate("/SalesListPage")}>
@@ -173,7 +173,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="col-md-3 p-2">
+        <div className="col-12 col-sm-6 col-xl-3 p-2">
           <div className="dashboard-stat-card purchase-gradient dashboard-clickable-card" onClick={() => navigate("/PurchaseListPage")}>
             <div>
               <div className="dashboard-stat-title">
@@ -193,7 +193,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div className="col-md-3 p-2">
+        <div className="col-12 col-sm-6 col-xl-3 p-2">
           <div className="dashboard-stat-card return-gradient dashboard-clickable-card" onClick={() => navigate("/ReturnListPage")}>
             <div>
               <div className="dashboard-stat-title">
