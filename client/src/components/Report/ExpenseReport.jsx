@@ -32,7 +32,7 @@ const ExpenseReport = () => {
           Amount: item["Amount"],
           Note: item["Note"],
           Category: item["Type"][0]["Name"],
-          Date: moment(item["CreatedDate"]).format("MMMM Do YYYY"),
+          Date: moment(item["CreatedAt"]).format("MMMM Do YYYY"),
         };
         ReportData.push(listItem);
       });

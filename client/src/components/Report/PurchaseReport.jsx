@@ -36,7 +36,7 @@ const PurchaseReport = () => {
           Category: item["categories"][0]["Name"],
           UnitCost: item["UnitCost"],
           Total: item["Total"],
-          Date: moment(item["CreatedDate"]).format("MMMM Do YYYY"),
+          Date: moment(item["CreatedAt"]).format("MMMM Do YYYY"),
         };
         ReportData.push(listItem);
       });
