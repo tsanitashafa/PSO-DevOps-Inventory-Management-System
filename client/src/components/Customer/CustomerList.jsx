@@ -149,7 +149,7 @@ const CustomerList = () => {
                                 </td>
                                 <td>
                                   <p className="text-xs text-start">
-                                    {item.UserEmail}
+                                    {item.Email}
                                   </p>
                                 </td>
 
