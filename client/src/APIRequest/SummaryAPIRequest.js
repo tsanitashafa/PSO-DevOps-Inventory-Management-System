@@ -14,8 +14,8 @@ import {
   SetReturnChart,
   SetSaleChart,
   SetSaleTotal,
+  SetDashboardSummary,
 } from "../redux/state-slice/dashboard-slice";
-import { SetReturnListTotal } from "../redux/state-slice/return-slice";
 
 const AxiosHeaders = { headers: { token: getToken() } };
 
@@ -52,7 +52,7 @@ export async function ReturnSummary() {
     if (result.status === 200) {
       store.dispatch(SetReturnChart(result.data["data"][0]["Last30Days"]));
       store.dispatch(
-        SetReturnListTotal(result.data["data"][0]["Total"][0]["TotalAmount"])
+        SetReturnTotal(result.data["data"][0]["Total"][0]["TotalAmount"])
       );
     } else {
       ErrorToast("Something Went Wrong");
@@ -104,6 +104,30 @@ export async function PurchaseSummary() {
     }
   } catch (e) {
     store.dispatch(HideLoader());
+    ErrorToast("Something Went Wrong");
+  }
+}
+
+//---------------------- Dashboard Summary Request ------------------//
+export async function DashboardSummary() {
+  try {
+    store.dispatch(ShowLoader());
+
+    const URL = `${BaseURL}DashboardSummary`;
+    const result = await axios.get(URL, AxiosHeaders);
+
+    console.log("DashboardSummary API result:", result.data);
+
+    store.dispatch(HideLoader());
+
+    if (result.status === 200 && result.data["status"] === "Success") {
+      store.dispatch(SetDashboardSummary(result.data["data"]));
+    } else {
+      ErrorToast("Something Went Wrong");
+    }
+  } catch (e) {
+    store.dispatch(HideLoader());
+    console.log("DashboardSummary error:", e);
     ErrorToast("Something Went Wrong");
   }
 }

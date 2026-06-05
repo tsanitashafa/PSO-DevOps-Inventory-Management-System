@@ -195,7 +195,7 @@ const ReturnList = () => {
 
                                 <td>
                                   <p className="text-xs text-start">
-                                    {moment(item.CreatedDate).format(
+                                    {moment(item.CreatedAt).format(
                                       "MMMM Do YYYY"
                                     )}
                                   </p>
