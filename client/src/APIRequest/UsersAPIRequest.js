@@ -163,8 +163,8 @@ export async function RecoverVerifyEmailRequest(email) {
     store.dispatch(ShowLoader());
 
     const cleanEmail = email.trim().toLowerCase();
-    const URL =
-      BaseURL + "/RecoverVerifyEmail/" + encodeURIComponent(cleanEmail);
+    const URL = BaseURL + "RecoverVerifyEmail/" + encodeURIComponent(cleanEmail);
+
     const res = await axios.get(URL);
     store.dispatch(HideLoader());
 
@@ -190,25 +190,30 @@ export async function RecoverVerifyEmailRequest(email) {
   }
 }
 
-export async function RecoverVerifyEmailRequest(email) {
+export async function RecoverVerifyOTPRequest(email, OTP) {
   try {
     store.dispatch(ShowLoader());
 
     const cleanEmail = email.trim().toLowerCase();
-    const URL = BaseURL + "RecoverVerifyEmail/" + encodeURIComponent(cleanEmail);
+    const cleanOTP = OTP.trim();
+
+    const URL =
+      BaseURL +
+      "RecoverVerifyOTP/" +
+      encodeURIComponent(cleanEmail) +
+      "/" +
+      encodeURIComponent(cleanOTP);
 
     const res = await axios.get(URL);
     store.dispatch(HideLoader());
 
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
-        ErrorToast(res.data["data"] || "Failed to send OTP");
+        ErrorToast("Code Verification Fail");
         return false;
       } else {
-        setEmail(cleanEmail);
-        SuccessToast(
-          "A 6 Digit verification code has been sent to your email address."
-        );
+        setOTP(cleanOTP);
+        SuccessToast("Code Verification Success");
         return true;
       }
     } else {
