@@ -32,6 +32,7 @@ import {
   PurchaseSummary,
   ReturnSummary,
   SaleSummary,
+  DashboardSummary,
 } from "../../APIRequest/SummaryAPIRequest";
 
 const Dashboard = () => {
@@ -42,6 +43,7 @@ const Dashboard = () => {
       await SaleSummary();
       await ReturnSummary();
       await PurchaseSummary();
+      await DashboardSummary();
     })();
   }, []);
 
@@ -72,6 +74,9 @@ const Dashboard = () => {
   const PurchaseTotal = useSelector(
     (state) => state.dashboard.PurchaseTotal
   );
+  const DashboardSummaryData = useSelector(
+    (state) => state.dashboard.DashboardSummary
+  );
   const expenseNumber = Number(ExpenseTotal || 0);
   const saleNumber = Number(SaleTotal || 0);
 
@@ -90,25 +95,25 @@ const Dashboard = () => {
   const dashboardHighlights = [
     {
       title: "Top Customer",
-      value: "Tsanita Shafa",
+      value: DashboardSummaryData?.topCustomer?.name || "-",
       description: "Most active customer this month",
       icon: <FaUserFriends />,
     },
     {
       title: "Top Supplier",
-      value: "PT PSO C",
+      value: DashboardSummaryData?.topSupplier?.name || "-",
       description: "Supplier with highest activity",
       icon: <FaTruck />,
     },
     {
       title: "Top Expense",
-      value: "Operational Cost",
+      value: DashboardSummaryData?.topExpense?.name || "-",
       description: "Largest expense category",
       icon: <FaChartLine />,
     },
     {
       title: "Best Product",
-      value: "Inventory Item",
+      value: DashboardSummaryData?.bestProduct?.name || "-",
       description: "Most frequently sold product",
       icon: <FaBoxOpen />,
     },
@@ -618,7 +623,7 @@ const Dashboard = () => {
 
               <div>
                 <p>{item.title}</p>
-                <h6>{item.value}</h6>
+                <h6>{String(item.value || "-")}</h6>
                 <span>{item.description}</span>
               </div>
             </div>

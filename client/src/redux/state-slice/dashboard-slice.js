@@ -11,6 +11,13 @@ export const dashboardSlice = createSlice({
     PurchaseTotal: 0,
     ReturnTotal: 0,
     SaleTotal: 0,
+     // Tambahan untuk Business Highlights
+    DashboardSummary: {
+      topCustomer: null,
+      topSupplier: null,
+      topExpense: null,
+      bestProduct: null,
+    },
   },
   reducers: {
     SetExpenseChart: (state, action) => {
@@ -37,6 +44,10 @@ export const dashboardSlice = createSlice({
     SetReturnTotal: (state, action) => {
       state.ReturnTotal = action.payload;
     },
+    // Tambahan untuk menyimpan hasil API DashboardSummary
+    SetDashboardSummary: (state, action) => {
+      state.DashboardSummary = action.payload;
+    },
   },
 });
 
@@ -48,5 +59,7 @@ export const {
   SetExpenseTotal,
   SetSaleTotal,
   SetPurchaseTotal,
+  SetReturnTotal,
+  SetDashboardSummary,
 } = dashboardSlice.actions;
 export default dashboardSlice.reducer;
