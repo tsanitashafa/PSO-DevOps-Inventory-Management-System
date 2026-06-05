@@ -202,7 +202,7 @@ export async function RecoverVerifyEmailRequest(email) {
 
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
-        ErrorToast("No user found");
+        ErrorToast(res.data["data"] || "Failed to send OTP");
         return false;
       } else {
         setEmail(cleanEmail);
