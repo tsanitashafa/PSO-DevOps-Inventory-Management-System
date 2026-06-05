@@ -1,0 +1,74 @@
+name: CI - Build and Test
+
+on:
+    push:
+        branches:
+        - main
+    pull_request:
+        branches:
+        - main
+
+jobs:
+  stage_1_install_and_test:
+    name: Stage 1 - Install Dependencies and Run Jest Test
+    runs-on: ubuntu-latest
+
+    env:
+      NODE_ENV: test
+      JWT_SECRET: test_secret
+      MONGO_URI: mongodb://localhost:27017/test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Backend Dependencies
+        run: npm ci
+
+      - name: Install Frontend Dependencies
+        run: npm ci --prefix client
+
+      - name: Run Jest Testing
+        run: npm run test:ci
+
+  stage_2_frontend_build:
+    name: Stage 2 - Build Frontend Application
+    runs-on: ubuntu-latest
+    needs: stage_1_install_and_test
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Backend Dependencies
+        run: npm ci
+
+      - name: Install Frontend Dependencies
+        run: npm ci --prefix client
+
+      - name: Build React Frontend
+        run: npm run build --prefix client
+
+  stage_3_docker_build_validation:
+    name: Stage 3 - Docker Build Validation
+    runs-on: ubuntu-latest
+    needs: stage_2_frontend_build
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker Image for Validation
+        run: docker build -t inventory-app:test .
