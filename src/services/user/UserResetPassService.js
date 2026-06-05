@@ -1,37 +1,44 @@
-/* -------------------------------------------------------------------------- */
-/*                            Password Reset Module                           */
-/* -------------------------------------------------------------------------- */
-
-// Required Modules
-const OTPSModel = require("../../models/Users/OTPSModel");
-
-
-// User Password Reset Service
 const UserResetPassService = async (Request, DataModel) => {
-  // Getting Data from Request
-  const email = Request.body["email"];
-  const OTPCode = Request.body["OTP"];
-  const NewPass = Request.body["password"];
-  const statusUpdate = 1; 
   try {
-    // Check User Email and OTP in OTP Collection
-    const OTPUserCount = await OTPSModel.aggregate([
-      { $match: { email: email, otp: OTPCode, status: statusUpdate } },
-      { $count: "total" },
-    ]);
-    // If Exist then Update Password in User Collection
-    if (OTPUserCount.length > 0) {
-      const PassUpdate = await DataModel.updateOne(
-        { email: email },
-        { password: NewPass }
-      );
-      // Return Success
-      return { status: "success", data: PassUpdate };
-    } else {
-      return { status: "fail", data: "Invalid Request" };
+    const email = Request.body.email?.trim().toLowerCase();
+    const password = Request.body.password;
+
+    if (!email || !password) {
+      return {
+        status: "fail",
+        data: "Email and new password are required",
+      };
     }
+
+    const user = await DataModel.findOne({
+      email: { $regex: `^${email}$`, $options: "i" },
+    });
+
+    if (!user) {
+      return {
+        status: "fail",
+        data: "No User Found",
+      };
+    }
+
+    await DataModel.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          password: password,
+        },
+      }
+    );
+
+    return {
+      status: "success",
+      data: "Password reset successfully",
+    };
   } catch (error) {
-    return { status: "fail", data: error.toString() };
+    return {
+      status: "fail",
+      data: error.toString(),
+    };
   }
 };
 

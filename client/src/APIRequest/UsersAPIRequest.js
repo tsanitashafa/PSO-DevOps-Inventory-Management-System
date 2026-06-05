@@ -241,22 +241,21 @@ export async function RecoverVerifyOTPRequest(email, OTP) {
   }
 }
 
-export async function RecoverResetPassRequest(email, OTP, password) {
+export async function RecoverResetPassRequest(email, password) {
   try {
     store.dispatch(ShowLoader());
 
     const cleanEmail = email.trim().toLowerCase();
-    const cleanOTP = OTP.trim();
 
     const URL = BaseURL + "RecoverResetPass";
 
     const PostBody = {
       email: cleanEmail,
-      OTP: cleanOTP,
       password: password,
     };
 
     const res = await axios.post(URL, PostBody);
+
     store.dispatch(HideLoader());
 
     if (res.status === 200) {
@@ -264,8 +263,7 @@ export async function RecoverResetPassRequest(email, OTP, password) {
         ErrorToast(res.data["data"] || "Password reset failed");
         return false;
       } else {
-        setOTP(cleanOTP);
-        SuccessToast("NEW PASSWORD CREATED");
+        SuccessToast("Password reset success");
         return true;
       }
     } else {
@@ -273,8 +271,8 @@ export async function RecoverResetPassRequest(email, OTP, password) {
       return false;
     }
   } catch (e) {
-    ErrorToast("Something Went Wrong");
     store.dispatch(HideLoader());
+    ErrorToast("Something Went Wrong");
     return false;
   }
 }
