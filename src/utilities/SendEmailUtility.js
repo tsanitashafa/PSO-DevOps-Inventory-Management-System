@@ -3,28 +3,24 @@
 /* -------------------------------------------------------------------------- */
 
 const nodemailer = require("nodemailer");
+
 const SendEmailUtility = async (EmailTo, EmailText, EmailSubject) => {
-  // 1. Create a transporter
   const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 587,
+    service: "gmail",
     auth: {
-      user: "dev.alrasels@gmail.com",
-      pass: "mibnafqlfreqannh",
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
   });
 
-  // 2. Define the email options
   const mailOptions = {
-    to: EmailTo, // list of receivers
-    from: "Inventory Management System <rm.shanto786@gmail.com>", // sender address
-    subject: EmailSubject, // Subject line
-    text: EmailText, // plain text body
-    // html: "<b>Hello world?</b>", // html body
+    to: EmailTo,
+    from: `Inventory Management System <${process.env.EMAIL_USER}>`,
+    subject: EmailSubject,
+    text: EmailText,
   };
 
-  // 3. Send the email
   return await transporter.sendMail(mailOptions);
 };
-// Exporting Module
+
 module.exports = SendEmailUtility;
