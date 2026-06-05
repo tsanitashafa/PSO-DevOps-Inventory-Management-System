@@ -95,7 +95,7 @@ export async function GetCustomerRequest(ObjectID) {
         OnChangeCustomerInput({ name: "Phone", value: CustomerData.Phone })
       );
       store.dispatch(
-        OnChangeCustomerInput({ name: "Email", value: CustomerData.UserEmail })
+        OnChangeCustomerInput({ name: "Email", value: CustomerData.Email })
       );
       store.dispatch(
         OnChangeCustomerInput({ name: "Address", value: CustomerData.Address })

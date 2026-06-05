@@ -459,6 +459,13 @@ router.get(
   SalesController.GetSalesSummery
 );
 
+// Dashboard Summary
+router.get(
+  "/DashboardSummary",
+  AuthVerifyMiddleware,
+  SalesController.GetDashboardSummary
+);
+
 /* -------------------------------------------------------------------------- */
 /*                              Exporting Router                              */
 /* -------------------------------------------------------------------------- */
