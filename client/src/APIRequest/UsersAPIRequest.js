@@ -163,8 +163,8 @@ export async function RecoverVerifyEmailRequest(email) {
     store.dispatch(ShowLoader());
 
     const cleanEmail = email.trim().toLowerCase();
-    const URL = BaseURL + "/RecoverVerifyEmail/" + encodeURIComponent(cleanEmail);
-
+    const URL =
+      BaseURL + "/RecoverVerifyEmail/" + encodeURIComponent(cleanEmail);
     const res = await axios.get(URL);
     store.dispatch(HideLoader());
 
@@ -175,7 +175,7 @@ export async function RecoverVerifyEmailRequest(email) {
       } else {
         setEmail(cleanEmail);
         SuccessToast(
-          "A 6 Digit verification code has been sent to your email address. "
+          "A 6 Digit verification code has been sent to your email address."
         );
         return true;
       }
