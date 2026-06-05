@@ -80,24 +80,30 @@ const MONGO_OPTIONS = {
   autoIndex: true,
 };
 
-const dns = require("dns");
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
+if (process.env.NODE_ENV !== "test") {
+  mongoose
+    .connect(MONGO_URI, MONGO_OPTIONS)
+    .then(() => console.log("MongoDB Connected Successfully"))
+    .catch((err) => console.error("MongoDB Connection Error:", err));
+} else {
+  console.log("MongoDB connection skipped in test environment");
+}
 
-mongoose
-  .connect(MONGO_URI, MONGO_OPTIONS)
-  .then(() => console.log("MongoDB Connected Successfully"))
-  .catch((err) => {
-  console.error("MongoDB Connection Error:");
-  console.error("message:", err.message);
-  console.error("name:", err.name);
-  console.error("code:", err.code);
-  console.error(err);
+/* -------------------------------------------------------------------------- */
+/*                              Health Check Route                            */
+/* -------------------------------------------------------------------------- */
+
+app.get("/api/v1/health", (req, res) => {
+  res.status(200).json({
+    status: "success",
+    message: "API is running",
   });
-
+});
 
 /* -------------------------------------------------------------------------- */
-/*                              Mount API Route                                   */
+/*                              Mount API Route                               */
 /* -------------------------------------------------------------------------- */
+
 app.use("/api/v1", router); // Mount API routes at /api/v1
 
 
