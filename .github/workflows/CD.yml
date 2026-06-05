@@ -1,5 +1,7 @@
 name: CD - Deploy to Google Cloud Run
 
+run-name: ${{ github.event_name == 'workflow_dispatch' && 'CD - Manual Deploy' || format('CD - {0}', github.event.workflow_run.display_title) }} by @${{ github.actor }}
+
 on:
   workflow_run:
     workflows:
@@ -10,6 +12,9 @@ on:
       - main
 
   workflow_dispatch:
+
+env:
+  IMAGE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
 
 jobs:
   stage_1_validate_ci_result:
@@ -37,7 +42,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ env.IMAGE_SHA }}
 
       - name: Authenticate to Google Cloud with WIF
         uses: google-github-actions/auth@v2
@@ -54,7 +59,7 @@ jobs:
 
       - name: Build and Push Image
         run: |
-          IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/inventory-app:${{ github.sha }}"
+          IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/inventory-app:${{ env.IMAGE_SHA }}"
           echo "Building image: $IMAGE"
           docker build -t "$IMAGE" .
           docker push "$IMAGE"
@@ -80,7 +85,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |
-          IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/inventory-app:${{ github.sha }}"
+          IMAGE="${{ secrets.GCP_REGION }}-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/${{ secrets.GAR_REPOSITORY }}/inventory-app:${{ env.IMAGE_SHA }}"
           echo "Deploying image: $IMAGE"
           gcloud run deploy inventory-app \
             --image "$IMAGE" \
