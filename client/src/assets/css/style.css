@@ -300,6 +300,8 @@ td div {
   border-radius: 22px !important;
   box-shadow: 0 16px 35px rgba(15, 23, 42, 0.08);
   overflow: hidden;
+  height: 100%;
+  min-height: 340px;
 }
 .chart-card .card-body,
 .dashboard-extra-card .card-body {
@@ -349,6 +351,15 @@ td div {
   color: #475569;
   font-size: 13px;
   font-weight: 600;
+}
+.dashboard-empty-gauge {
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8a94a6;
+  font-size: 16px;
+  font-weight: 500;
 }
 .legend-dot {
   width: 10px;

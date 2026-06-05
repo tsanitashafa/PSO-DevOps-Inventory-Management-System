@@ -81,15 +81,17 @@ const Dashboard = () => {
   const saleNumber = Number(SaleTotal || 0);
 
   const gaugeData = [
-    {
-      name: "Expense",
-      value: expenseNumber > 0 ? expenseNumber : 1,
-    },
-    {
-      name: "Sales",
-      value: saleNumber > 0 ? saleNumber : 1,
-    },
-  ];
+  {
+    name: "Expense",
+    value: expenseNumber,
+  },
+  {
+    name: "Sales",
+    value: saleNumber,
+  },
+];
+
+const hasGaugeData = expenseNumber > 0 || saleNumber > 0;
 
   const gaugeColors = ["#fb923c", "#14b8a6"];
   const dashboardHighlights = [
@@ -536,11 +538,11 @@ const Dashboard = () => {
         </div>
       </div>
       {/* Gauge + Highlight Data */}
-<div className="row mt-1">
+<div className="row mt-1 align-items-stretch">
 
-  <div className="col-lg-5 p-2">
-    <div className="card dashboard-extra-card">
-      <div className="card-body">
+  <div className="col-lg-5 p-2 d-flex">
+    <div className="card dashboard-extra-card h-100 w-100">
+      <div className="card-body d-flex flex-column">
 
         <div className="dashboard-section-title">
           <h5>Expense vs Sales</h5>
@@ -548,43 +550,49 @@ const Dashboard = () => {
         </div>
 
         <div className="dashboard-gauge-wrapper">
-          <ResponsiveContainer width="100%" height={230}>
-            <PieChart>
-              <Pie
-                data={gaugeData}
-                cx="50%"
-                cy="82%"
-                startAngle={180}
-                endAngle={0}
-                innerRadius={70}
-                outerRadius={105}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {gaugeData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={gaugeColors[index]}
+          {hasGaugeData ? (
+            <>
+              <ResponsiveContainer width="100%" height={230}>
+                <PieChart>
+                  <Pie
+                    data={gaugeData}
+                    cx="50%"
+                    cy="82%"
+                    startAngle={180}
+                    endAngle={0}
+                    innerRadius={70}
+                    outerRadius={105}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {gaugeData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={gaugeColors[index]}
+                      />
+                    ))}
+                  </Pie>
+
+                  <Tooltip
+                    contentStyle={{
+                      borderRadius: "12px",
+                      border: "none",
+                      boxShadow: "0 8px 20px rgba(0,0,0,.15)",
+                    }}
                   />
-                ))}
-              </Pie>
+                </PieChart>
+              </ResponsiveContainer>
 
-              <Tooltip
-                contentStyle={{
-                  borderRadius: "12px",
-                  border: "none",
-                  boxShadow: "0 8px 20px rgba(0,0,0,.15)",
-                }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-
-          <div className="dashboard-gauge-text">
-            <span>Dominant</span>
-            <h4>
-              {expenseNumber >= saleNumber ? "Expense" : "Sales"}
-            </h4>
-          </div>
+              <div className="dashboard-gauge-text">
+                <span>Dominant</span>
+                <h4>{expenseNumber >= saleNumber ? "Expense" : "Sales"}</h4>
+              </div>
+            </>
+          ) : (
+            <div className="dashboard-empty-gauge">
+              No expense or sales data yet
+            </div>
+          )}
         </div>
 
         <div className="dashboard-gauge-legend">
@@ -602,9 +610,9 @@ const Dashboard = () => {
     </div>
   </div>
 
-  <div className="col-lg-7 p-2">
-    <div className="card dashboard-extra-card">
-      <div className="card-body">
+  <div className="col-lg-7 p-2 d-flex">
+    <div className="card dashboard-extra-card h-100 w-100">
+      <div className="card-body d-flex flex-column">
 
         <div className="dashboard-section-title">
           <h5>Business Highlights</h5>
