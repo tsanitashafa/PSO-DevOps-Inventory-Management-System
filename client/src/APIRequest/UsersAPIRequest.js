@@ -17,9 +17,16 @@ const AxiosHeader = { headers: { token: getToken() } };
 export async function LoginRequest(email, password) {
   try {
     store.dispatch(ShowLoader());
-    const URL = BaseURL + "/Login";
-    const PostBody = { email: email.trim().toLowerCase(), password: password };
+
+    const URL = BaseURL + "Login";
+
+    const PostBody = {
+      email: email.trim().toLowerCase(),
+      password: password,
+    };
+
     const res = await axios.post(URL, PostBody);
+
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
         ErrorToast("Invalid Email or Password");
@@ -28,10 +35,10 @@ export async function LoginRequest(email, password) {
       } else {
         setToken(res.data["token"]);
 
-        const profileRes = await axios.get(BaseURL + "/ProfileDetails", {
+        await axios.get(BaseURL + "ProfileDetails", {
           headers: { token: res.data["token"] },
         });
-        
+
         setUserData(res.data["data"]);
         store.dispatch(HideLoader());
         return true;
@@ -58,7 +65,9 @@ export async function RegistrationRequest(
 ) {
   try {
     store.dispatch(ShowLoader());
-    const URL = BaseURL + "/Registration";
+
+    const URL = BaseURL + "Registration";
+
     const PostBody = {
       email: email.trim().toLowerCase(),
       firstName: firstName,
@@ -67,11 +76,13 @@ export async function RegistrationRequest(
       password: password,
       photo: photo,
     };
+
     const res = await axios.post(URL, PostBody);
     store.dispatch(HideLoader());
+
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
-        if (res.data["data"]["keyPattern"]["email"] === 1) {
+        if (res.data["data"]?.["keyPattern"]?.["email"] === 1) {
           ErrorToast("Email Already Exist");
           return false;
         } else {
@@ -96,9 +107,12 @@ export async function RegistrationRequest(
 export async function GetProfileDetails() {
   try {
     store.dispatch(ShowLoader());
-    const URL = BaseURL + "/ProfileDetails";
+
+    const URL = BaseURL + "ProfileDetails";
     const res = await axios.get(URL, AxiosHeader);
+
     store.dispatch(HideLoader());
+
     if (res.status === 200) {
       store.dispatch(SetProfile(res.data["data"][0]));
     } else {
@@ -121,7 +135,7 @@ export async function ProfileUpdateRequest(
   try {
     store.dispatch(ShowLoader());
 
-    const URL = BaseURL + "/ProfileUpdate";
+    const URL = BaseURL + "ProfileUpdate";
 
     const PostBody = {
       firstName: firstName,
@@ -209,7 +223,7 @@ export async function RecoverVerifyOTPRequest(email, OTP) {
 
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
-        ErrorToast("Code Verification Fail");
+        ErrorToast(res.data["data"] || "Code Verification Fail");
         return false;
       } else {
         setOTP(cleanOTP);
@@ -230,16 +244,27 @@ export async function RecoverVerifyOTPRequest(email, OTP) {
 export async function RecoverResetPassRequest(email, OTP, password) {
   try {
     store.dispatch(ShowLoader());
-    const URL = BaseURL + "/RecoverResetPass";
-    const PostBody = { email: email, OTP: OTP, password: password };
+
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanOTP = OTP.trim();
+
+    const URL = BaseURL + "RecoverResetPass";
+
+    const PostBody = {
+      email: cleanEmail,
+      OTP: cleanOTP,
+      password: password,
+    };
+
     const res = await axios.post(URL, PostBody);
     store.dispatch(HideLoader());
+
     if (res.status === 200) {
       if (res.data["status"] === "fail") {
-        ErrorToast(res.data["data"]);
+        ErrorToast(res.data["data"] || "Password reset failed");
         return false;
       } else {
-        setOTP(OTP);
+        setOTP(cleanOTP);
         SuccessToast("NEW PASSWORD CREATED");
         return true;
       }

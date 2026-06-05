@@ -4,7 +4,8 @@
   "description": "A full-stack application to manage products, purchases, sales, expenses, returns, and reporting.   It provides automation, security, and scalability with modular APIs and a responsive front-end.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
+    "test:ci": "cross-env NODE_ENV=test jest --runInBand --ci",
     "build": "npm install --prefix client && npm run build --prefix client",
     "dev": "npm run dev --prefix ./client",
     "start": "node index.js"
@@ -31,8 +32,10 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
+    "cross-env": "^10.1.0",
     "eslint": "^9.37.0",
-    "globals": "^16.4.0"
+    "globals": "^16.4.0",
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
   }
 }
-
