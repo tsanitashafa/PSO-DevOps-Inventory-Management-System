@@ -36,7 +36,7 @@ const ExpenseSummeryService = async (Request) => {
                 },
               },
             },
-            { $sort: { _id: -1 } },
+            { $sort: { _id: 1 } },
             { $limit: 30 },
           ],
         },
