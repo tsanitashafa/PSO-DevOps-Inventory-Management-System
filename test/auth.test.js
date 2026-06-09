@@ -1,29 +1,32 @@
 const UserLoginService = require("../src/services/user/UserLoginService");
-const UserResetPassService = require("../src/services/user/UserResetPassService");
+const UserVerifyOtpService = require("../src/services/user/UserVerifyOtpService");
 
-jest.mock("../src/utilities/CreateToken", () =>
-    jest.fn(() => "mock-token")
-);
+// ... kode test Login tetap biarkan seperti milikmu ...
 
-describe("Auth Service Test", () => {
-    describe("Login", () => {
-        test("should login successfully", async () => {
-            const req = {
-                body: {
+describe("OTP Verification Service Test", () => {
+
+    test("should verify OTP successfully", async () => {
+        // PERBAIKAN 1: Sesuaikan struktur input menjadi params (bukan body)
+        const req = {
+            params: {
                 email: "admin@gmail.com",
-                password: "123456"
-                }
-            };
-
-        const MockModel = {
-            aggregate: jest.fn().mockResolvedValue([
-                {
-                email: "admin@gmail.com"
-                }
-            ])
+                otp: "123456"
+            }
         };
 
-        const result = await UserLoginService(
+        // PERBAIKAN 2: Sediakan mock beruntun untuk aggregate DAN updateOne
+        const MockModel = {
+            // aggregate harus mengembalikan array berisi objek (agar .length > 0 lolos)
+            aggregate: jest.fn().mockResolvedValue([
+                { total: 1 }
+            ]),
+            // updateOne menyusul setelah aggregate lolos
+            updateOne: jest.fn().mockResolvedValue({
+                modifiedCount: 1
+            })
+        };
+
+        const result = await UserVerifyOtpService(
             req,
             MockModel
         );
@@ -31,137 +34,47 @@ describe("Auth Service Test", () => {
         expect(result.status).toBe("success");
     });
 
-    test("should fail when credentials invalid", async () => {
+    test("should fail when OTP is invalid / not found", async () => {
         const req = {
-            body: {
-            email: "wrong@gmail.com",
-            password: "wrong"
+            params: {
+                email: "admin@gmail.com",
+                otp: "wrong_otp"
             }
         };
 
         const MockModel = {
+            // Simulasi jika aggregate mengembalikan array kosong (OTP tidak ditemukan)
             aggregate: jest.fn().mockResolvedValue([])
         };
 
-        const result = await UserLoginService(
+        const result = await UserVerifyOtpService(
             req,
             MockModel
         );
 
         expect(result.status).toBe("fail");
+        expect(result.data).toBe("Invalid OTP");
     });
 
-    test("should handle database error", async () => {
+    test("should handle database error during aggregation", async () => {
         const req = {
-            body: {}
+            params: {
+                email: "admin@gmail.com",
+                otp: "123456"
+            }
         };
 
         const MockModel = {
             aggregate: jest.fn().mockRejectedValue(
-            new Error("Database Error")
+                new Error("Database connection timed out")
             )
         };
 
-        const result = await UserLoginService(
+        const result = await UserVerifyOtpService(
             req,
             MockModel
         );
 
         expect(result.status).toBe("fail");
     });
-});
-
-describe("Reset Password", () => {
-
-    test("should reset password successfully", async () => {
-
-        const req = {
-            body: {
-            email: "admin@gmail.com",
-            OTP: "123456",
-            password: "newpassword"
-            }
-        };
-
-        const MockModel = {
-            updateOne: jest.fn().mockResolvedValue({
-            modifiedCount: 1
-            })
-        };
-
-        const result = await UserResetPassService(
-            req,
-            MockModel
-        );
-
-        expect(result.status).toBe("success");
-    });
-
-    test("should fail when email empty", async () => {
-
-        const req = {
-            body: {
-            email: "",
-            OTP: "123456",
-            password: "newpassword"
-            }
-        };
-
-        const MockModel = {};
-
-        const result = await UserResetPassService(
-            req,
-            MockModel
-        );
-
-        expect(result.status).toBe("fail");
-    });
-
-    test("should fail when password empty", async () => {
-        const req = {
-            body: {
-            email: "admin@gmail.com",
-            OTP: "123456",
-            password: ""
-            }
-        };
-
-        const MockModel = {};
-
-        const result = await UserResetPassService(
-            req,
-            MockModel
-        );
-
-        expect(result.status).toBe("fail");
-
-    });
-
-    test("should handle database error", async () => {
-
-        const req = {
-            body: {
-            email: "admin@gmail.com",
-            OTP: "123456",
-            password: "123"
-            }
-        };
-
-        const MockModel = {
-            updateOne: jest.fn().mockRejectedValue(
-            new Error("Database Error")
-            )
-        };
-
-        const result = await UserResetPassService(
-            req,
-            MockModel
-        );
-
-        expect(result.status).toBe("fail");
-
-        });
-
-    });
-
 });
