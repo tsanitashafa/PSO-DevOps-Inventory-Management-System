@@ -103,4 +103,27 @@ describe("PRODUCTS CONTROLLER LAYER TEST", () => {
         
         expect(res.status).toHaveBeenCalledWith(200);
     });
+    
+    test("8. DeleteProduct Controller should reject deletion if product is associated with Purchase Records", async () => {
+        // Simulasi CheckAssociateService mendeteksi produk terikat dengan Purchase
+        CheckAssociateService.mockResolvedValueOnce(false); // Return false
+        CheckAssociateService.mockResolvedValueOnce(true);  // Purchase true
+
+        await ProductsController.DeleteProduct(req, res);
+        
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ data: "This Product is associated with Purchase Product, so it cannot be deleted." }));
+    });
+
+    test("9. DeleteProduct Controller should reject deletion if product is associated with Sales Records", async () => {
+        // Simulasi CheckAssociateService mendeteksi produk terikat dengan Sales
+        CheckAssociateService.mockResolvedValueOnce(false); // Return false
+        CheckAssociateService.mockResolvedValueOnce(false); // Purchase false
+        CheckAssociateService.mockResolvedValueOnce(true);  // Sales true
+
+        await ProductsController.DeleteProduct(req, res);
+        
+        expect(res.status).toHaveBeenCalledWith(200);
+        expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ data: "This Product is associated with Sales Product, so it cannot be deleted." }));
+    });
 });

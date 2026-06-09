@@ -250,6 +250,25 @@ describe("Additional Master Data Table & Utility Services", () => {
         const result = await ListService(Request, DataModel, SearchFields);
         expect(result.status).toBe("success");
     });
+
+    test("should handle database error in ListService catch block", async () => {
+        const Request = { headers: { email: "admin@gmail.com" }, params: { pageNo: "1", rowsPerPage: "10" } };
+        const DataModel = {
+            aggregate: jest.fn().mockRejectedValue(new Error("Database Query Failed"))
+        };
+        const result = await ListService(Request, DataModel, ["Name"]);
+        expect(result.status).toBe("fail");
+    });
+
+    test("should handle database error in ListTwoJoinService catch block", async () => {
+        const ListTwoJoinService = require("../src/services/common/ListTwoJoinService");
+        const Request = { headers: { email: "admin@gmail.com" }, params: { pageNo: "1", rowsPerPage: "10" } };
+        const DataModel = {
+            aggregate: jest.fn().mockRejectedValue(new Error("Join Operation Failed"))
+        };
+        const result = await ListTwoJoinService(Request, DataModel, [], {}, {});
+        expect(result.status).toBe("fail");
+    });
 });
 
 describe("ListOneJoin Service Test", () => {
