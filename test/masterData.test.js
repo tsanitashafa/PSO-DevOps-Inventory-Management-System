@@ -2,6 +2,8 @@ const CreateService = require("../src/services/common/CreateService");
 const DetailsByIDService = require("../src/services/common/DetailsByIDService");
 const UpdateService = require("../src/services/common/UpdateService");
 const DeleteService = require("../src/services/common/DeleteService");
+const DropDownService = require("../src/services/common/DropDownService");
+const ListService = require("../src/services/common/ListService");
 
 describe("Master Data CRUD Service Test (Spreadsheet Test Cases)", () => {
     
@@ -213,5 +215,38 @@ describe("Master Data CRUD Service Test (Spreadsheet Test Cases)", () => {
                 expect(result.status).toBe("fail");
             }
         );
+    });
+});
+
+describe("Additional Master Data Table & Utility Services", () => {
+    
+    test("should successfully fetch dropdown choices", async () => {
+        const Request = { headers: { email: "admin@gmail.com" } };
+        const DataModel = {
+            aggregate: jest.fn().mockResolvedValue([{ _id: "1", Name: "Option A" }])
+        };
+
+        const result = await DropDownService(Request, DataModel);
+        expect(result.status).toBe("success");
+    });
+
+    test("should successfully list data with search keyword and pagination", async () => {
+        const Request = {
+            headers: { email: "admin@gmail.com" },
+            params: { pageNo: "1", rowsPerPage: "10", searchKeyword: "Samsung" }
+        };
+        
+        const DataModel = {
+            aggregate: jest.fn().mockResolvedValue([
+                {
+                    Rows: [{ Name: "Samsung Galaxy" }],
+                    Total: [{ count: 1 }]
+                }
+            ])
+        };
+
+        const SearchFields = ["Name"];
+        const result = await ListService(Request, DataModel, SearchFields);
+        expect(result.status).toBe("success");
     });
 });
