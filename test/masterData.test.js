@@ -4,6 +4,7 @@ const UpdateService = require("../src/services/common/UpdateService");
 const DeleteService = require("../src/services/common/DeleteService");
 const DropDownService = require("../src/services/common/DropDownService");
 const ListService = require("../src/services/common/ListService");
+const ListOneJoinService = require("../src/services/common/ListOneJoinService");
 
 describe("Master Data CRUD Service Test (Spreadsheet Test Cases)", () => {
     
@@ -247,6 +248,30 @@ describe("Additional Master Data Table & Utility Services", () => {
 
         const SearchFields = ["Name"];
         const result = await ListService(Request, DataModel, SearchFields);
+        expect(result.status).toBe("success");
+    });
+});
+
+describe("ListOneJoin Service Test", () => {
+    test("should successfully list data with one join lookup and search query", async () => {
+        const Request = {
+            headers: { email: "admin@gmail.com" },
+            params: { pageNo: "1", rowsPerPage: "10", searchKeyword: "Gadget" }
+        };
+
+        const DataModel = {
+            aggregate: jest.fn().mockResolvedValue([
+                {
+                    Rows: [{ Name: "iPhone", Category: { Name: "Electronics" } }],
+                    Total: [{ count: 1 }]
+                }
+            ])
+        };
+
+        const JoinStage = { $lookup: { from: "categories", localField: "CategoryID", foreignField: "_id", as: "Category" } };
+        const SearchFields = ["Name"];
+
+        const result = await ListOneJoinService(Request, DataModel, SearchFields, JoinStage);
         expect(result.status).toBe("success");
     });
 });
