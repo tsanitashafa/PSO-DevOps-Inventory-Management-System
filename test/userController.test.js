@@ -62,4 +62,16 @@ describe("USERS CONTROLLER LAYER TEST", () => {
         await UsersController.Login(req, res);
         expect(res.status).toHaveBeenCalledWith(200);
     });
+
+    test("should handle fail response during Registration safely", async () => {
+        UserCreateService.mockResolvedValue({ status: "fail", data: "Email already exists" });
+        await UsersController.Registration(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+    });
+
+    test("should handle fail response during Login safely", async () => {
+        UserLoginService.mockResolvedValue({ status: "fail", data: "Wrong Credentials" });
+        await UsersController.Login(req, res);
+        expect(res.status).toHaveBeenCalledWith(200);
+    });
 });
