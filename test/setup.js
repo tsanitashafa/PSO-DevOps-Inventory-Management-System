@@ -1,24 +1,25 @@
 const mongoose = require('mongoose');
 const path = require('path');
 
-require('dotenv').config({ path: path.resolve(__dirname, '../.env.test') });
+// Mengarahkan pembacaan env secara aman
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 beforeAll(async () => {
+    // Memaksa nilai rahasia sinkron secara absolut untuk mematikan error 401
+    process.env.JWT_SECRET = "devops_secret"; 
+    process.env.NODE_ENV = 'test';
+
     const atlasURI = "mongodb+srv://5026231088_db_user:bismillahpsoa@pso.imvmim0.mongodb.net/test?retryWrites=true&w=majority&appName=pso";
     const url = process.env.MONGO_URI || atlasURI;
     
     if (mongoose.connection.readyState === 0) {
-        jest.setTimeout(20000); // Naikkan ke 20 detik jika koneksi Atlas agak lambat
+        jest.setTimeout(30000); 
         await mongoose.connect(url);
-        
-        // ⚠️ PEMBERSIHAN DATA: Hapus user lama agar tidak duplikat saat Registration test
-        const collections = mongoose.connection.collections;
-        if (collections['users']) {
-            await collections['users'].deleteMany({ email: "admin@mail.com" });
-        }
     }
 });
 
 afterAll(async () => {
-    await mongoose.connection.close();
+    if (mongoose.connection.readyState !== 0) {
+        await mongoose.connection.close();
+    }
 });

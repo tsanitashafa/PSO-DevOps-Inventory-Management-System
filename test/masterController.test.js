@@ -9,11 +9,13 @@ const CreateService = require("../src/services/common/CreateService");
 const UpdateService = require("../src/services/common/UpdateService");
 const DetailsByIDService = require("../src/services/common/DetailsByIDService");
 const DeleteService = require("../src/services/common/DeleteService");
+const CheckAssociateService = require("../src/services/common/CheckAssociateService");
 
 jest.mock("../src/services/common/CreateService");
 jest.mock("../src/services/common/UpdateService");
 jest.mock("../src/services/common/DetailsByIDService");
 jest.mock("../src/services/common/DeleteService");
+jest.mock("../src/services/common/CheckAssociateService");
 
 // 3. Import berkas kontroler data master asli kamu
 const BrandsController = require("../src/controllers/Brands/BrandsController");
@@ -152,6 +154,144 @@ describe("MASTER DATA CONTROLLERS LAYER TEST", () => {
             expect(res.status).toHaveBeenCalledWith(200);
         });
     });
+
+    /* ========================================================================== */
+    /* DELETE CONTROLLER BRANCH COVERAGE TEST                                     */
+    /* Menguji cabang associate dan non-associate pada master controller          */
+    /* ========================================================================== */
+
+    describe("Master Delete Controllers Branch Coverage", () => {
+
+        beforeEach(() => {
+            jest.clearAllMocks();
+        });
+
+        /* =============================== BRAND =============================== */
+
+        test("Delete Brand - Associated Product Exists", async () => {
+            CheckAssociateService.mockResolvedValue(true);
+
+            await BrandsController.DeleteBrand(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    status: "associate"
+                })
+            );
+        });
+
+        test("Delete Brand - No Association", async () => {
+            CheckAssociateService.mockResolvedValue(false);
+
+            DeleteService.mockResolvedValue({
+                status: "success",
+                data: "Deleted Successfully"
+            });
+
+            await BrandsController.DeleteBrand(req, res);
+
+            expect(DeleteService).toHaveBeenCalled();
+            expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+        /* ============================= CATEGORY ============================= */
+
+        test("Delete Category - Associated Product Exists", async () => {
+            CheckAssociateService.mockResolvedValue(true);
+
+            await CategoriesController.DeleteCategories(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    status: "associate"
+                })
+            );
+        });
+
+        test("Delete Category - No Association", async () => {
+            CheckAssociateService.mockResolvedValue(false);
+
+            DeleteService.mockResolvedValue({
+                status: "success",
+                data: "Deleted Successfully"
+            });
+
+            await CategoriesController.DeleteCategories(req, res);
+
+            expect(DeleteService).toHaveBeenCalled();
+            expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+        /* ============================= CUSTOMER ============================= */
+
+        test("Delete Customer - Associated Sales Exists", async () => {
+            CheckAssociateService.mockResolvedValue(true);
+
+            await CustomersController.DeleteCustomer(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    status: "associate"
+                })
+            );
+        });
+
+        test("Delete Customer - No Association", async () => {
+            CheckAssociateService.mockResolvedValue(false);
+
+            DeleteService.mockResolvedValue({
+                status: "success",
+                data: "Deleted Successfully"
+            });
+
+            await CustomersController.DeleteCustomer(req, res);
+
+            expect(DeleteService).toHaveBeenCalled();
+            expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+        /* ============================== SUPPLIER ============================== */
+
+        test("Delete Supplier - Associated Purchase Exists", async () => {
+            CheckAssociateService.mockResolvedValue(true);
+
+            const deleteFn =
+                SuppliersController.DeleteSupplier ||
+                SuppliersController.DeleteSuppliers;
+
+            await deleteFn(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    status: "associate"
+                })
+            );
+        });
+
+        test("Delete Supplier - No Association", async () => {
+            CheckAssociateService.mockResolvedValue(false);
+
+            DeleteService.mockResolvedValue({
+                status: "success",
+                data: "Deleted Successfully"
+            });
+
+            const deleteFn =
+                SuppliersController.DeleteSupplier ||
+                SuppliersController.DeleteSuppliers;
+
+            await deleteFn(req, res);
+
+            expect(DeleteService).toHaveBeenCalled();
+            expect(res.status).toHaveBeenCalledWith(200);
+        });
+
+    });
+    
     /* ========================================================================== */
     /* TAMBAHAN OTOMATIS: MENYAPU SISA FUNGSI UPDATE, DETAILS, DELETE, & LIST     */
     /* ========================================================================== */
