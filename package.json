@@ -4,8 +4,8 @@
   "description": "A full-stack application to manage products, purchases, sales, expenses, returns, and reporting.   It provides automation, security, and scalability with modular APIs and a responsive front-end.",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles",
-    "test:ci": "cross-env NODE_ENV=test jest --runInBand --ci",
+    "test": "cross-env NODE_ENV=test jest --runInBand --detectOpenHandles --verbose",
+    "test:ci": "cross-env NODE_ENV=test jest --runInBand --ci --verbose",
     "build": "npm install --prefix client && npm run build --prefix client",
     "dev": "npm run dev --prefix ./client",
     "start": "node index.js"
