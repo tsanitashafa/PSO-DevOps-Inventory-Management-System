@@ -1,17 +1,26 @@
 name: CI - Build and Test
 
 on:
-    push:
-        branches:
-        - main
-    pull_request:
-        branches:
-        - main
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   stage_1_install_and_test:
     name: Stage 1 - Install Dependencies and Run Jest Test
     runs-on: ubuntu-latest
+
+    # --- TAMBAHKAN BAGIAN INI ---
+    # Menyalakan MongoDB container di dalam runner agar localhost:27017 tersedia
+    services:
+      mongodb:
+        image: mongo:latest
+        ports:
+          - 27017:27017
+    # ----------------------------
 
     env:
       NODE_ENV: test
