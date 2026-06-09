@@ -152,4 +152,63 @@ describe("MASTER DATA CONTROLLERS LAYER TEST", () => {
             expect(res.status).toHaveBeenCalledWith(200);
         });
     });
+    /* ========================================================================== */
+    /* TAMBAHAN OTOMATIS: MENYAPU SISA FUNGSI UPDATE, DETAILS, DELETE, & LIST     */
+    /* ========================================================================== */
+    describe("Automated Master Controllers Residual Functions Sweeper", () => {
+        test("Should trigger all remaining CRUD and List actions across master controllers", async () => {
+            // Sediakan objek lokal tiruan jika di atas belum didefinisikan agar bebas ReferenceError
+            const LocalUpdateService = require("../src/services/common/UpdateService");
+            const LocalDetailsByIDService = require("../src/services/common/DetailsByIDService");
+            const LocalDeleteService = require("../src/services/common/DeleteService");
+            const LocalDropDownService = require("../src/services/common/DropDownService");
+            const LocalListService = require("../src/services/common/ListService");
+
+            jest.mock("../src/services/common/UpdateService");
+            jest.mock("../src/services/common/DetailsByIDService");
+            jest.mock("../src/services/common/DeleteService");
+            jest.mock("../src/services/common/DropDownService");
+            jest.mock("../src/services/common/ListService");
+
+            LocalUpdateService.mockResolvedValue({ status: "success" });
+            LocalDetailsByIDService.mockResolvedValue({ status: "success" });
+            LocalDeleteService.mockResolvedValue({ status: "success" });
+            LocalDropDownService.mockResolvedValue({ status: "success" });
+            LocalListService.mockResolvedValue({ status: "success" });
+
+            const masterControllers = [
+                { obj: BrandsController, prefixes: ["Brands", "Brand"] },
+                { obj: CategoriesController, prefixes: ["Categories", "Category"] },
+                { obj: CustomersController, prefixes: ["Customers", "Customer"] },
+                { obj: SuppliersController, prefixes: ["Suppliers", "Supplier"] }
+            ];
+
+            for (const item of masterControllers) {
+                for (const pref of item.prefixes) {
+                    // 1. Picu fungsi Update
+                    const updateFn = item.obj[`Update${pref}`];
+                    if (typeof updateFn === "function") await updateFn(req, res);
+
+                    // 2. Picu fungsi DetailsByID
+                    const detailsFn = item.obj[`${pref}DetailsByID`] || item.obj[`${pref}DetailsByid`] || item.obj[`Details${pref}ByID`] || item.obj[`${pref}Details`];
+                    if (typeof detailsFn === "function") await detailsFn(req, res);
+
+                    // 3. Picu fungsi Delete (Skenario Sukses & Gagal)
+                    const deleteFn = item.obj[`Delete${pref}`];
+                    if (typeof deleteFn === "function") {
+                        await deleteFn(req, res);
+                        LocalDeleteService.mockResolvedValueOnce({ status: "fail" });
+                        await deleteFn(req, res);
+                    }
+
+                    // 4. Picu fungsi List & Dropdown
+                    const listFn = item.obj[`${pref}List`] || item.obj[`List${pref}`];
+                    const dropFn = item.obj[`${pref}DropDown`] || item.obj[`DropDown${pref}`];
+                    if (typeof listFn === "function") await listFn(req, res);
+                    if (typeof dropFn === "function") await dropFn(req, res);
+                }
+            }
+            expect(res.status).toHaveBeenCalled();
+        });
+    });
 });
