@@ -1,16 +1,24 @@
 const mongoose = require('mongoose');
 const path = require('path');
 
-// Mengarahkan pembacaan env secara aman
+// Mengarahkan pembacaan .env secara aman dari folder utama (root)
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 beforeAll(async () => {
-    // Memaksa nilai rahasia sinkron secara absolut untuk mematikan error 401
-    process.env.JWT_SECRET = "devops_secret"; 
+    // Membaca JWT_SECRET dari .env. Jika tidak ada, gunakan default 'devops_secret' khusus untuk testing lokal
+    process.env.JWT_SECRET = process.env.JWT_SECRET || "devops_secret"; 
     process.env.NODE_ENV = 'test';
 
-    const atlasURI = "mongodb+srv://5026231088_db_user:bismillahpsoa@pso.imvmim0.mongodb.net/test?retryWrites=true&w=majority&appName=pso";
-    const url = process.env.MONGO_URI || atlasURI;
+    // Mengambil URL koneksi secara aman dari file .env
+    const url = process.env.MONGO_URI;
+    
+    // Validasi: Jika MONGO_URI lupa diisi di .env, proses test langsung dihentikan dengan error yang jelas
+    if (!url) {
+        throw new Error(
+            "\n❌ ERROR: MONGO_URI tidak ditemukan di file .env Anda!\n" +
+            "Pastikan Anda sudah membuat file .env dan mengisinya dengan benar.\n"
+        );
+    }
     
     if (mongoose.connection.readyState === 0) {
         jest.setTimeout(30000); 
