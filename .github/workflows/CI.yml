@@ -67,8 +67,12 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci --prefix client
 
-      - name: Build React Frontend
-        run: npm run build --prefix client
+      - name: Create .env.test for CI
+        run: |
+          echo "JWT_SECRET=JWT_SECRET_TEST_KEY_123" > .env.test
+
+      - name: Run Jest Testing
+        run: npm run test:ci
 
   stage_3_docker_build_validation:
     name: Stage 3 - Docker Build Validation
