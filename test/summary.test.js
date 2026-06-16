@@ -14,12 +14,20 @@ jest.mock("../src/models/Sales/SaleProductsModel", () => ({
   aggregate: jest.fn(),
 }));
 
+jest.mock("../src/models/Returns/ReturnsModel", () => ({
+  aggregate: jest.fn(),
+}));
 
+jest.mock("../src/models/Returns/ReturnProductsModel", () => ({
+  aggregate: jest.fn(),
+}));
 
 const SalesModel = require("../src/models/Sales/SalesModel");
 const PurchasesModel = require("../src/models/Purchases/PurchasesModel");
 const ExpensesModel = require("../src/models/Expenses/ExpensesModel");
 const SaleProductsModel = require("../src/models/Sales/SaleProductsModel");
+const ReturnsModel = require("../src/models/Returns/ReturnsModel");
+const ReturnProductsModel = require("../src/models/Returns/ReturnProductsModel");
 
 const DashboardSummaryService = require("../src/services/summery/DashboardSummaryService");
 const ExpenseSummeryService = require("../src/services/summery/ExpenseSummeryService");
@@ -37,38 +45,54 @@ describe("DASHBOARD & SUMMARY FEATURE TEST", () => {
 
     SalesModel.aggregate.mockResolvedValue([
         {
-            _id: "customer-1",
-            name: "Customer A",
-            totalAmount: 1000000,
-            totalTransaction: 2
-        }
+        _id: "customer-1",
+        name: "Customer A",
+        totalAmount: 1000000,
+        totalTransaction: 2,
+        },
     ]);
 
     PurchasesModel.aggregate.mockResolvedValue([
         {
-            _id: "supplier-1",
-            name: "Supplier A",
-            totalAmount: 800000,
-            totalTransaction: 1
-        }
+        _id: "supplier-1",
+        name: "Supplier A",
+        totalAmount: 800000,
+        totalTransaction: 1,
+        },
     ]);
 
     ExpensesModel.aggregate.mockResolvedValue([
         {
-            _id: "expense-1",
-            name: "Operasional",
-            totalAmount: 200000,
-            totalTransaction: 1
-        }
+        _id: "expense-1",
+        name: "Operasional",
+        totalAmount: 200000,
+        totalTransaction: 1,
+        },
     ]);
 
     SaleProductsModel.aggregate.mockResolvedValue([
         {
-            _id: "product-1",
-            name: "Product A",
-            totalQty: 5,
-            totalAmount: 500000
-        }
+        _id: "product-1",
+        name: "Product A",
+        totalQty: 5,
+        totalAmount: 500000,
+        },
+    ]);
+
+    ReturnsModel.aggregate.mockResolvedValue([
+        {
+        _id: "return-1",
+        totalAmount: 100000,
+        totalTransaction: 1,
+        },
+    ]);
+
+    ReturnProductsModel.aggregate.mockResolvedValue([
+        {
+        _id: "return-product-1",
+        totalQty: 1,
+        totalAmount: 100000,
+        },
     ]);
   });
 

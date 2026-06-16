@@ -1,21 +1,36 @@
+// Mock database model dulu sebelum service di-import
+jest.mock("../src/models/Expenses/ExpensesModel", () => ({
+    aggregate: jest.fn()
+}));
+
+jest.mock("../src/models/Purchases/PurchaseProductsModel", () => ({
+    aggregate: jest.fn()
+}));
+
+jest.mock("../src/models/Sales/SaleProductsModel", () => ({
+    aggregate: jest.fn()
+}));
+
+jest.mock("../src/models/Returns/ReturnProductsModel", () => ({
+    aggregate: jest.fn()
+}));
+
+// Baru import service
 const ExpenseReportService = require("../src/services/report/ExpenseReportService");
 const PurchaseReportService = require("../src/services/report/PurchaseReportService");
 const SalesReportService = require("../src/services/report/SalesReportService");
 const ReturnReportService = require("../src/services/report/ReturnReportService");
 
-// Import model yang akan di-mock
+// Baru import model mock
 const ExpenseModel = require("../src/models/Expenses/ExpensesModel");
 const PurchaseProductModel = require("../src/models/Purchases/PurchaseProductsModel");
 const SaleProductModel = require("../src/models/Sales/SaleProductsModel");
 const ReturnProductModel = require("../src/models/Returns/ReturnProductsModel");
 
-// Mock database model agar tidak mengakses database asli saat testing
-jest.mock("../src/models/Expenses/ExpensesModel");
-jest.mock("../src/models/Purchases/PurchaseProductsModel");
-jest.mock("../src/models/Sales/SaleProductsModel");
-jest.mock("../src/models/Returns/ReturnProductsModel");
-
 describe("REPORT FEATURE TEST", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
     describe("Expense Report", () => {
         // Test generate laporan pengeluaran berhasil
