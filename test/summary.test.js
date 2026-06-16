@@ -1,3 +1,24 @@
+jest.mock("../src/models/Sales/SalesModel", () => ({
+  aggregate: jest.fn(),
+}));
+
+jest.mock("../src/models/Purchases/PurchasesModel", () => ({
+  aggregate: jest.fn(),
+}));
+
+jest.mock("../src/models/Expenses/ExpensesModel", () => ({
+  aggregate: jest.fn(),
+}));
+
+jest.mock("../src/models/Sales/SaleProductsModel", () => ({
+  aggregate: jest.fn(),
+}));
+
+const SalesModel = require("../src/models/Sales/SalesModel");
+const PurchasesModel = require("../src/models/Purchases/PurchasesModel");
+const ExpensesModel = require("../src/models/Expenses/ExpensesModel");
+const SaleProductsModel = require("../src/models/Sales/SaleProductsModel");
+
 const DashboardSummaryService = require("../src/services/summery/DashboardSummaryService");
 const ExpenseSummeryService = require("../src/services/summery/ExpenseSummeryService");
 const PurchaseSummeryService = require("../src/services/summery/PurchaseSummeryService");
@@ -5,80 +26,116 @@ const ReturnSummeryService = require("../src/services/summery/ReturnSummeryServi
 const SalesSummeryService = require("../src/services/summery/SalesSummeryService");
 
 describe("DASHBOARD & SUMMARY FEATURE TEST", () => {
+  const Request = {
+    headers: { email: "admin@gmail.com" },
+  };
 
-    const Request = {
-        headers: { email: "admin@gmail.com" }
-    };
+  beforeEach(() => {
+    jest.clearAllMocks();
 
-    // Data tiruan hasil kalkulasi total nominal (Mongoose aggregation result)
-    const mockAggregationResult = [
-        { _id: null, totalAmount: 5000000 }
-    ];
+    SalesModel.aggregate.mockResolvedValue([
+      {
+        name: "Customer A",
+        totalAmount: 1000000,
+        totalTransaction: 2,
+      },
+    ]);
 
-    /* ========================================================================== */
-    /* 1. DASHBOARD TOTAL SUMMARY                                                 */
-    /* ========================================================================== */
-    describe("Dashboard Summary Service", () => {
-        test("should successfully generate complete dashboard summary statistics", async () => {
-            const DataModel = {
-                aggregate: jest.fn().mockResolvedValue([
-                    { total: 100 }
-                ])
-            };
+    PurchasesModel.aggregate.mockResolvedValue([
+      {
+        name: "Supplier A",
+        totalAmount: 800000,
+        totalTransaction: 1,
+      },
+    ]);
 
-            const result = await DashboardSummaryService(Request, DataModel);
-            // PERBAIKAN: Ubah menjadi "Success" dengan S besar sesuai kode aslimu
-            expect(result.status).toBe("Success");
-            expect(result.data).toBeDefined();
-        });
+    ExpensesModel.aggregate.mockResolvedValue([
+      {
+        name: "Operasional",
+        totalAmount: 200000,
+        totalTransaction: 1,
+      },
+    ]);
 
-        test("should handle dashboard summary safely", async () => {
-            const DataModel = {
-                aggregate: jest.fn().mockRejectedValue(new Error("Aggregation Failed"))
-            };
+    SaleProductsModel.aggregate.mockResolvedValue([
+      {
+        name: "Product A",
+        totalQty: 5,
+        totalAmount: 500000,
+      },
+    ]);
+  });
 
-            const result = await DashboardSummaryService(Request, DataModel);
-            // PERBAIKAN: Cukup pastikan service merespons balik tanpa crash
-            expect(result).toBeDefined();
-            expect(result.status).toBeDefined();
-        });
+  describe("Dashboard Summary Service", () => {
+    test("should successfully generate complete dashboard summary statistics", async () => {
+      const result = await DashboardSummaryService(Request);
+
+      // Kalau masih fail, buka komentar ini untuk lihat error aslinya
+      // console.log(result);
+
+      expect(result.status).toBe("Success");
+      expect(result.data).toBeDefined();
+      expect(result.data.topCustomer).toBeDefined();
+      expect(result.data.topSupplier).toBeDefined();
+      expect(result.data.topExpense).toBeDefined();
+      expect(result.data.bestProduct).toBeDefined();
     });
 
-    /* ========================================================================== */
-    /* 2. TRANSACTIONS & EXPENSES FINANCIAL SUMMARY                               */
-    /* ========================================================================== */
-    describe("Financial Component Summaries", () => {
-        
-        test("should successfully calculate Expense Summary", async () => {
-            const DataModel = { aggregate: jest.fn().mockResolvedValue(mockAggregationResult) };
-            const result = await ExpenseSummeryService(Request, DataModel);
-            expect(result.status).toBeDefined();
-        });
+    test("should handle dashboard summary safely", async () => {
+      SalesModel.aggregate.mockRejectedValueOnce(new Error("Aggregation Failed"));
 
-        test("should successfully calculate Purchase Summary", async () => {
-            const DataModel = { aggregate: jest.fn().mockResolvedValue(mockAggregationResult) };
-            const result = await PurchaseSummeryService(Request, DataModel);
-            expect(result.status).toBeDefined();
-        });
+      const result = await DashboardSummaryService(Request);
 
-        test("should successfully calculate Return Summary", async () => {
-            const DataModel = { aggregate: jest.fn().mockResolvedValue(mockAggregationResult) };
-            const result = await ReturnSummeryService(Request, DataModel);
-            expect(result.status).toBeDefined();
-        });
-
-        test("should successfully calculate Sales Summary", async () => {
-            const DataModel = { aggregate: jest.fn().mockResolvedValue(mockAggregationResult) };
-            const result = await SalesSummeryService(Request, DataModel);
-            expect(result.status).toBeDefined();
-        });
-
-        test("should handle database response in financial summaries safely", async () => {
-            const DataModel = { aggregate: jest.fn().mockRejectedValue(new Error("DB Error")) };
-            const result = await SalesSummeryService(Request, DataModel);
-            // PERBAIKAN: Gunakan toBeDefined agar toleran terhadap apapun isi kembalian status dari catch block-mu
-            expect(result).toBeDefined();
-            expect(result.status).toBeDefined();
-        });
+      expect(result.status).toBe("fail");
     });
+  });
+
+  describe("Financial Component Summaries", () => {
+    const mockAggregationResult = [{ _id: null, totalAmount: 5000000 }];
+
+    test("should successfully calculate Expense Summary", async () => {
+      const DataModel = {
+        aggregate: jest.fn().mockResolvedValue(mockAggregationResult),
+      };
+
+      const result = await ExpenseSummeryService(Request, DataModel);
+      expect(result.status).toBeDefined();
+    });
+
+    test("should successfully calculate Purchase Summary", async () => {
+      const DataModel = {
+        aggregate: jest.fn().mockResolvedValue(mockAggregationResult),
+      };
+
+      const result = await PurchaseSummeryService(Request, DataModel);
+      expect(result.status).toBeDefined();
+    });
+
+    test("should successfully calculate Return Summary", async () => {
+      const DataModel = {
+        aggregate: jest.fn().mockResolvedValue(mockAggregationResult),
+      };
+
+      const result = await ReturnSummeryService(Request, DataModel);
+      expect(result.status).toBeDefined();
+    });
+
+    test("should successfully calculate Sales Summary", async () => {
+      const DataModel = {
+        aggregate: jest.fn().mockResolvedValue(mockAggregationResult),
+      };
+
+      const result = await SalesSummeryService(Request, DataModel);
+      expect(result.status).toBeDefined();
+    });
+
+    test("should handle database response in financial summaries safely", async () => {
+      const DataModel = {
+        aggregate: jest.fn().mockRejectedValue(new Error("DB Error")),
+      };
+
+      const result = await SalesSummeryService(Request, DataModel);
+      expect(result.status).toBeDefined();
+    });
+  });
 });

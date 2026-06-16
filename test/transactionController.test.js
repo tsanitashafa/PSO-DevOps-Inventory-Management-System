@@ -4,10 +4,12 @@ jest.mock("../src/models/Expenses/ExpensesModel", () => ({}), { virtual: true })
 jest.mock("../src/models/Purchases/PurchasesModel", () => ({}), { virtual: true });
 jest.mock("../src/models/Sales/SalesModel", () => ({}), { virtual: true });
 jest.mock("../src/models/Returns/ReturnsModel", () => ({}), { virtual: true });
+jest.mock("../src/services/common/CheckAssociateService", () => jest.fn());
 
 // 2. Mocking services global yang dipanggil oleh controller-controller transaksi
 const CreateService = require("../src/services/common/CreateService");
 const CreateParentChildService = require("../src/services/common/CreateParentChildService");
+const CheckAssociateService = require("../src/services/common/CheckAssociateService");
 
 jest.mock("../src/services/common/CreateService");
 jest.mock("../src/services/common/CreateParentChildService");

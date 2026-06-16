@@ -1,14 +1,4 @@
-// 1. Mocking Services yang dipanggil di dalam file Controller asli kamu
-const CreateService = require("../src/services/common/CreateService");
-const UpdateService = require("../src/services/common/UpdateService");
-const ListOneJoinService = require("../src/services/common/ListOneJoinService");
-const DeleteService = require("../src/services/common/DeleteService");
-const ExpenseReportService = require("../src/services/report/ExpenseReportService");
-const ExpenseSummeryService = require("../src/services/summery/ExpenseSummeryService");
-const DetailsByIDService = require("../src/services/common/DetailsByIDService");
-const DropDownService = require("../src/services/common/DropDownService");
-const ListService = require("../src/services/common/ListService");
-
+// 1. Mock semua service dulu SEBELUM require controller
 jest.mock("../src/services/common/CreateService");
 jest.mock("../src/services/common/UpdateService");
 jest.mock("../src/services/common/ListOneJoinService");
@@ -18,8 +8,21 @@ jest.mock("../src/services/summery/ExpenseSummeryService");
 jest.mock("../src/services/common/DetailsByIDService");
 jest.mock("../src/services/common/DropDownService");
 jest.mock("../src/services/common/ListService");
+jest.mock("../src/services/common/CheckAssociateService");
 
-// 2. Import Controller Asli yang ingin diuji
+// 2. Baru require service mock
+const CreateService = require("../src/services/common/CreateService");
+const UpdateService = require("../src/services/common/UpdateService");
+const ListOneJoinService = require("../src/services/common/ListOneJoinService");
+const DeleteService = require("../src/services/common/DeleteService");
+const ExpenseReportService = require("../src/services/report/ExpenseReportService");
+const ExpenseSummeryService = require("../src/services/summery/ExpenseSummeryService");
+const DetailsByIDService = require("../src/services/common/DetailsByIDService");
+const DropDownService = require("../src/services/common/DropDownService");
+const ListService = require("../src/services/common/ListService");
+const CheckAssociateService = require("../src/services/common/CheckAssociateService");
+
+// 3. Baru import controller
 const ExpensesController = require("../src/controllers/Expense/ExpensesController");
 const ExpenseTypesController = require("../src/controllers/Expense/ExpenseTypesController");
 
@@ -45,14 +48,15 @@ describe("Expenses & Expense Types Direct Controller Testing Suite", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        
-        // Buat mock object Request dan Response tiruan Express
+
+        CheckAssociateService.mockResolvedValue(false);
+
         req = {
             headers: { email: "admin@gmail.com" },
             body: { ExpenseTypeName: "Operasional Toko", ExpenseAmount: 50000, Note: "Beli ATK" },
             params: { id: "60d5ecb8b4259b1d1f84d333", searchKeyword: "ATK" }
         };
-        
+
         res = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn()
@@ -150,18 +154,15 @@ describe("Expenses & Expense Types Direct Controller Testing Suite", () => {
         });
 
         test("DeleteExpenseType Operation - Success, Fail, & Associate cases", async () => {
-            const CheckAssociateService = require("../src/services/common/CheckAssociateService");
-            jest.mock("../src/services/common/CheckAssociateService");
-            
-            // Kasus 1: Terkunci relasi (Associate true)
-            CheckAssociateService.mockResolvedValue(true);
+            // Kasus 1: masih punya relasi, jadi tidak boleh delete
+            CheckAssociateService.mockResolvedValueOnce(true);
             await ExpenseTypesController.DeleteExpenseType(req, res);
 
-            // Kasus 2: Aman di-delete (Associate false, Delete sukses)
-            CheckAssociateService.mockResolvedValue(false);
+            // Kasus 2: tidak punya relasi, delete sukses
+            CheckAssociateService.mockResolvedValueOnce(false);
             DeleteService.mockResolvedValue({ status: "success" });
             await ExpenseTypesController.DeleteExpenseType(req, res);
-            
+
             expect(res.status).toHaveBeenCalledWith(200);
         });
     });
