@@ -23,15 +23,19 @@ const ReturnList = () => {
   const handlePageClick = async (event) => {
     await ReturnListRequest(event.selected + 1, perPage, searchKeyword);
   };
+
   const searchData = async () => {
     await ReturnListRequest(1, perPage, searchKeyword);
   };
+
   const perPageOnChange = async (e) => {
     setPerPage(parseInt(e.target.value));
     await ReturnListRequest(1, e.target.value, searchKeyword);
   };
+
   const searchKeywordOnChange = async (e) => {
     setSearchKeyword(e.target.value);
+
     if (e.target.value.length === 0) {
       setSearchKeyword("0");
       await ReturnListRequest(1, perPage, "0");
@@ -40,10 +44,16 @@ const ReturnList = () => {
 
   const TextSearch = (e) => {
     const rows = document.querySelectorAll("tbody tr");
+
     rows.forEach((row) => {
-      row.style.display = row.innerText.includes(e.target.value) ? "" : "none";
+      row.style.display = row.innerText
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase())
+        ? ""
+        : "none";
     });
   };
+
   const DetailsPopUp = (item) => {};
 
   return (
@@ -75,9 +85,10 @@ const ReturnList = () => {
                         <option value="30">30 Per Page</option>
                         <option value="50">50 Per Page</option>
                         <option value="100">100 Per Page</option>
-                        <option value="100">200 Per Page</option>
+                        <option value="200">200 Per Page</option>
                       </select>
                     </div>
+
                     <div className="col-4">
                       <div className="input-group mb-3">
                         <input
@@ -88,132 +99,147 @@ const ReturnList = () => {
                           aria-label="Recipient's username"
                           aria-describedby="button-addon2"
                         />
+
                         <button
                           onClick={searchData}
-                          className="btn  btn-success btn-sm mb-0"
+                          className="btn btn-success btn-sm mb-0"
                           type="button">
                           Search
                         </button>
                       </div>
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col-12">
                       <div className="table-responsive table-section">
-                        <table className="table ">
+                        <table className="table">
                           <thead className="sticky-top bg-white">
                             <tr>
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Customer
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Grand Total
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Shipping Cost
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Vat/Tax
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Other Cost
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Discount
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Date
                               </td>
+
                               <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                 Action
                               </td>
                             </tr>
                           </thead>
+
                           <tbody>
-                            {DataList.map((item, i) => (
-                              <tr key={i}>
-                                <td>
-                                  <p className="text-xs text-start">
-                                    {item.customers[0]["CustomerName"]}
-                                  </p>
-                                </td>
+                            {Array.isArray(DataList) &&
+                              DataList.map((item, i) => (
+                                <tr key={item._id || i}>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      {item.customers?.[0]?.CustomerName ||
+                                        "Customer tidak ditemukan"}
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    <CurrencyFormat
-                                      value={item.GrandTotal}
-                                      displayType={"text"}
-                                      thousandSeparator={true}
-                                      prefix={"$"}
-                                    />
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      <CurrencyFormat
+                                        value={item.GrandTotal ?? 0}
+                                        displayType={"text"}
+                                        thousandSeparator={true}
+                                        prefix={"$"}
+                                      />
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    <CurrencyFormat
-                                      value={item.ShippingCost}
-                                      displayType={"text"}
-                                      thousandSeparator={true}
-                                      prefix={"$"}
-                                    />
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      <CurrencyFormat
+                                        value={item.ShippingCost ?? 0}
+                                        displayType={"text"}
+                                        thousandSeparator={true}
+                                        prefix={"$"}
+                                      />
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    <CurrencyFormat
-                                      value={item.VatTax}
-                                      displayType={"text"}
-                                      thousandSeparator={true}
-                                      prefix={"$"}
-                                    />
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      <CurrencyFormat
+                                        value={item.VatTax ?? 0}
+                                        displayType={"text"}
+                                        thousandSeparator={true}
+                                        prefix={"$"}
+                                      />
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    <CurrencyFormat
-                                      value={item.OtherCost}
-                                      displayType={"text"}
-                                      thousandSeparator={true}
-                                      prefix={"$"}
-                                    />
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      <CurrencyFormat
+                                        value={item.OtherCost ?? 0}
+                                        displayType={"text"}
+                                        thousandSeparator={true}
+                                        prefix={"$"}
+                                      />
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    <CurrencyFormat
-                                      value={item.Discount}
-                                      displayType={"text"}
-                                      thousandSeparator={true}
-                                      prefix={"$"}
-                                    />
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      <CurrencyFormat
+                                        value={item.Discount ?? 0}
+                                        displayType={"text"}
+                                        thousandSeparator={true}
+                                        prefix={"$"}
+                                      />
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <p className="text-xs text-start">
-                                    {moment(item.CreatedAt).format(
-                                      "MMMM Do YYYY"
-                                    )}
-                                  </p>
-                                </td>
+                                  <td>
+                                    <p className="text-xs text-start">
+                                      {item.CreatedAt
+                                        ? moment(item.CreatedAt).format(
+                                            "MMMM Do YYYY"
+                                          )
+                                        : "-"}
+                                    </p>
+                                  </td>
 
-                                <td>
-                                  <button
-                                    onClick={DetailsPopUp.bind(this, item)}
-                                    className="btn btn-outline-light text-success p-2 mb-0 btn-sm ms-2">
-                                    <AiOutlineEye size={15} />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
+                                  <td>
+                                    <button
+                                      onClick={DetailsPopUp.bind(this, item)}
+                                      className="btn btn-outline-light text-success p-2 mb-0 btn-sm ms-2">
+                                      <AiOutlineEye size={15} />
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))}
                           </tbody>
                         </table>
                       </div>
                     </div>
+
                     <div className="col-12 mt-5">
                       <nav aria-label="Page navigation example">
                         <ReactPaginate
@@ -228,7 +254,9 @@ const ReturnList = () => {
                           breakLabel="..."
                           breakClassName="page-item"
                           breakLinkClassName="page-link"
-                          pageCount={(Total / perPage).toFixed(0)}
+                          pageCount={Math.ceil(
+                            (Number(Total) || 0) / perPage
+                          )}
                           marginPagesDisplayed={2}
                           pageRangeDisplayed={5}
                           onPageChange={handlePageClick}
