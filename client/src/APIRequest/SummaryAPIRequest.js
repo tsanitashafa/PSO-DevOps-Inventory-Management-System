@@ -12,6 +12,7 @@ import {
   SetPurchaseChart,
   SetPurchaseTotal,
   SetReturnChart,
+  SetReturnTotal,
   SetSaleChart,
   SetSaleTotal,
   SetDashboardSummary,
