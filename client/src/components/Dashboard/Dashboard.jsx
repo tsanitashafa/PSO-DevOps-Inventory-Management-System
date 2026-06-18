@@ -150,7 +150,7 @@ const hasGaugeData = expenseNumber > 0 || saleNumber > 0;
                   value={ExpenseTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"Rp "}
+                  prefix={"$ "}
                 />
               </div>
             </div>
@@ -172,7 +172,7 @@ const hasGaugeData = expenseNumber > 0 || saleNumber > 0;
                   value={SaleTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"Rp "}
+                  prefix={"$ "}
                 />
               </div>
             </div>
@@ -192,7 +192,7 @@ const hasGaugeData = expenseNumber > 0 || saleNumber > 0;
                   value={PurchaseTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"Rp "}
+                  prefix={"$ "}
                 />
               </div>
             </div>
@@ -212,7 +212,7 @@ const hasGaugeData = expenseNumber > 0 || saleNumber > 0;
                   value={ReturnTotal}
                   displayType={"text"}
                   thousandSeparator={true}
-                  prefix={"Rp "}
+                  prefix={"$ "}
                 />
               </div>
             </div>

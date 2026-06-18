@@ -151,7 +151,7 @@ const ExpenseList = () => {
                                       value={item.Amount}
                                       displayType={"text"}
                                       thousandSeparator={true}
-                                      prefix={"Rp"}
+                                      prefix={"$"}
                                     />
                                   </p>
                                 </td>
