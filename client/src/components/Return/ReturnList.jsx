@@ -167,7 +167,7 @@ const ReturnList = () => {
                                         value={item.GrandTotal ?? 0}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"Rp"}
                                       />
                                     </p>
                                   </td>
@@ -178,7 +178,7 @@ const ReturnList = () => {
                                         value={item.ShippingCost ?? 0}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"Rp"}
                                       />
                                     </p>
                                   </td>
@@ -189,7 +189,7 @@ const ReturnList = () => {
                                         value={item.VatTax ?? 0}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"Rp"}
                                       />
                                     </p>
                                   </td>
@@ -200,7 +200,7 @@ const ReturnList = () => {
                                         value={item.OtherCost ?? 0}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"Rp"}
                                       />
                                     </p>
                                   </td>
@@ -211,7 +211,7 @@ const ReturnList = () => {
                                         value={item.Discount ?? 0}
                                         displayType={"text"}
                                         thousandSeparator={true}
-                                        prefix={"$"}
+                                        prefix={"Rp"}
                                       />
                                     </p>
                                   </td>
